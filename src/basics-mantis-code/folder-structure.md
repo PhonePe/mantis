@@ -6,24 +6,27 @@ This is an overview of the Mantis code's folder structure.
 ```console
 .
 ├── configs
-└── mantis
-    ├── config_parsers
-    ├── db
-    ├── models
-    ├── modules
-    │   ├── Route53
-    │   ├── activehostscan
-    │   ├── activerecon
-    │   ├── discovery
-    │   ├── prerecon
-    │   ├── scan
-    │   └── secretscanner
-    │       └── submodules
-    ├── scan_orchestration
-    ├── tool_base_classes
-    ├── utils
-    └── workflows
-    └── DockerFile (file)
+├── mantis
+│   ├── config_parsers
+│   ├── db
+│   ├── models
+│   ├── modules
+│   │   ├── Route53
+│   │   ├── activehostscan
+│   │   ├── activerecon
+│   │   ├── discovery
+│   │   ├── prerecon
+│   │   ├── scan
+│   │   └── secretscanner
+│   │       └── submodules
+│   ├── scan_orchestration
+│   ├── tool_base_classes
+│   ├── utils
+│   └── workflows
+└── setup
+    ├── docker
+    └── ubuntu
+
 ```
 > INFO💡: Before we begin, remember, the entire automation process is referred to as a workflow in Mantis, which is further broken down into modules, and modules are further broken down into tools.
 
