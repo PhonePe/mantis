@@ -187,7 +187,7 @@ If you want to contribute to this project:
 **Recon Tools Design/Launch scripts** - Bharath Kumar  
 **Secret Scanning** - Hitesh Kumar, Saddam Hussain  
 **Dashboard** - Pragya Gupta  
-**Design Suggestions** - Dhruv Shekawat  
+**Design Suggestions** - Dhruv Shekawat, Santanu Sinha  
 **Framework Design** - Praveen Kanniah  
 
 **Special Thanks** - Ankur Bhargava
