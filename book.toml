@@ -1,0 +1,11 @@
+[book]
+authors = ["Praveen Kanniah"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Mantis - Documentation"
+
+[output.html]
+additional-css = ["src/css/custom.css"]
+site-url = "/mantis/"
+
