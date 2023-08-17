@@ -41,5 +41,3 @@
     - [Add scanner to config file](./new-scanner-integrations/command-config-file.md)
     - [Install instructions in DockerFile](./new-scanner-integrations/command-docker-file.md)
     
-- [Contributions](./contributions/contributions.md)
-
