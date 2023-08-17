@@ -13,7 +13,7 @@ Mantis simplifies the efforts of an organisation's product security team by auto
 - **Understand Scan Efficiency**
     - *I really need to understand my scan results for every subdomain succeeded or failed at a granular level*
     - Easily understand your scan efficiency, were there failures in scan, modules, tools etc.
-- **Integrate with your Org's DNS Service**
+- **Integrate with your Org's DNS Service** 
     - *I also want to my DNS service to this tool, right now supports route 53*
     - Just add your AWS Read-only key to the configuration and have your assets synced automatically
 - **Quickly Integrate new tools**
@@ -28,15 +28,15 @@ Mantis simplifies the efforts of an organisation's product security team by auto
 - **Configurable Slack Alerts**
     - *I need to get alerts just when new vulnerabilities are identified, i changed my mind, i need it for phishing domains too*
     - Alerts for new assets (subdomains, IPs, certificates) and findings (vulnerabiltiies, misconfiguration, phishing and secrets) are configurable, no additonal coding required
-- **Configurable Team Notifications in slack**
+- **Configurable Team Notifications in slack** 
     - *I need to tag the right teams for the right findings, example, tag my phising team when new phising domains are identified, tag my Infra team when a new certificate is added*
     - With Mantis, you can tag specific teams/members for asset types (subdomains, IPs, certificates) and finding types (vulnerabiltiies, misconfiguration, phishing and secrets) 
-- **Secrets Scanning** [Experimental] 🔥🔥
+- **Secrets Scanning** 🔥🔥
     - *I need to know if my organisation's secrets or secrets provided by my organisation is leaked in public forums* 
     - An indenpendent secrets module will help you integrate with github, gitlab, GAU, dorks to find secrets in public forums
 
 
-## Modules and Tools 
+## Modules and Tools 🧰
 
 - Discovery
     - Subfinder: Subdomain Discovery
@@ -56,13 +56,13 @@ Mantis simplifies the efforts of an organisation's product security team by auto
     - DNSTwister: Identify Phishing domains
     - Csper: CSP Misconfigurations
 
-## Installation
+## Installation ⚙️
 
 Mantis supports multiple installation types. Installing Mantis via Docker would be a good start to get a hang of the framework.
 
 Considering that Mantis also includes mongoDB and AppSmith, we have provided a shell script that installs all the components.
 
-### Docker
+### Docker 
 
 Clone the Mantis repository 
 
@@ -105,7 +105,7 @@ Run the mac setup file
 $ ./setup-mantis-ubuntu.sh
 ```
 
-## Command Line Options
+## Command Line Options 🖥️
 
 ```
 
@@ -125,7 +125,7 @@ $ ./setup-mantis-ubuntu.sh
 
 ```
 
-## Running scans on Mantis
+## Run a scan 🔍
 
 
 You want to onboard an org with its TLDs/IPs/IP-CIDRs/IP Range for the first time, use the onboard mode. This runs the scan on the default workflow.
@@ -169,8 +169,6 @@ $ mantis -m scan -o org_name -a app_name
 ```
 
 
-
-
 ## How to contribute ?
 
 If you want to contribute to this project:
@@ -178,12 +176,12 @@ If you want to contribute to this project:
 * Submit an issue if you found a bug, or a have a feature request.
 * Make a Pull Request from dev branch if you want to improve the code.
 
-## Need Help ?
+## Need Help ? 🙋‍♂️
     
 * Take a look at the wiki section.
 * Check FAQ for commonly asked questions.
 
-## Credits
+## Credits 🎖
 
 **Development** - Prateek Thakare  
 **Recon Tools Design/Launch scripts** - Bharath Kumar  
@@ -194,7 +192,7 @@ If you want to contribute to this project:
 
 **Special Thanks** - Ankur Bhargava
 
-## Special Thanks
+## Special Thanks 
 
 * [Ray Framework](https://www.ray.io/)
 * [Project Discovery](https://github.com/projectdiscovery)
@@ -204,7 +202,7 @@ If you want to contribute to this project:
 
 Usage of this program for attacking targets without consent is illegal. It is the user's responsibility to obey all applicable laws. The developer assumes no liability and is not responsible for any misuse or damage caused by this program. Please use responsibly.
 
-The material contained in this repository is licensed under MIT.
+The material contained in this repository is licensed under Apache2.
 
 
 
