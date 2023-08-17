@@ -1,0 +1,39 @@
+{
+  "packages": [
+    "python@3.10",
+    "stdenv.cc.cc.lib",
+    "amass@3.22.2",
+    "subfinder@2.6.0",
+    "httpx@1.3.3",
+    "ipinfo@2.10.1",
+    "naabu@2.1.6",
+    "nuclei@2.9.7",
+    "gitleaks@8.17.0",
+    "gau@2.1.2",
+    "python310Packages.pip",
+    "gccStdenv"
+  ],
+  "shell": {
+    "init_hook": [
+      ". $VENV_DIR/bin/activate",
+      "export PS1='🦗 Mantis > '",
+      "echo 'You are launching Mantis Project!'",
+      "alias mantis='python /opt/mantis/launch.py'",
+      "echo 'Mantis project launched successfully!'",
+      "cd /opt/mantis"
+    ],
+    "scripts": {
+      "setup": [
+        ". $VENV_DIR/bin/activate",
+        "which pip",
+        "cd /opt/mantis/setup/ubuntu",
+        "echo `ls`",
+        "cat requirements.txt",
+        "pip install git+https://github.com/cisagov/findcdn.git",
+        "pip install -r ../../requirements.txt",
+        "chmod 777 -R /opt/mantis",
+        "chmod 777 -R /opt/mantis/.devbox"
+      ]
+    }
+  }
+}
