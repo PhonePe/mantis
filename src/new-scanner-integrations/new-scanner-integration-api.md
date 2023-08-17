@@ -1,4 +1,4 @@
-# Single API
+# Add a new API scanner class
 ---
 
 Let's now try adding an API scanner instead of a command line tool, for example, SSLMate to Discovery module.
@@ -100,3 +100,5 @@ The final step is to insert the data into mongoDB
 This is straight forward, call the corresponding util function to insert the data into mongoDB.
 
 > Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described [here](/./basics-mantis-code/important-utils.md)
+
+> Let's now look at adding the new scanner to the config file. 

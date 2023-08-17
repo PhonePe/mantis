@@ -1,7 +1,7 @@
 # Add scanner to config file
 ---
 
-Now that the Amass.py tool class is ready, adding it to config is simple. Add the class name Amass under moduleName **discovery** under **tools**
+Now that the Amass.py and SSLMate.py tool classes are ready, adding it to config is simple. Add the class names Amass, SSLMate under moduleName **discovery** under **tools**
 
 ```yaml
 - workflowName: 'default'

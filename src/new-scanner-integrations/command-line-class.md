@@ -1,4 +1,4 @@
-# Add a new scanner class
+# Add a new tool scanner class
 ---
 
 As a first step to integrate a new scanner, answer the below questions:
@@ -88,7 +88,7 @@ This is straight forward, call the corresponding util function to insert the dat
 
 > Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described [here](/./basics-mantis-code/important-utils.md)
 
- > ⏭️ Let's now add the tool to config
+ > ⏭️ In a similar fashion let's try to add a new API scanner. 
 
 
 

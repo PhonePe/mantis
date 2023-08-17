@@ -36,8 +36,8 @@
     - [DB Models](./basics-mantis-code/db-models.md)
 - [🔗 New Scanner Integrations](./new-scanner-integrations/new-scanner-integration.md)
     - [Command Line Tool](./new-scanner-integrations/new-scanner-integration-command-line.md)
-    - [New scanner class](./new-scanner-integrations/command-line-class.md)
-    - [Single API](./new-scanner-integrations/new-scanner-integration-api.md)
+    - [New Tool scanner class](./new-scanner-integrations/command-line-class.md)
+    - [New API Scanner](./new-scanner-integrations/new-scanner-integration-api.md)
     - [Add scanner to config file](./new-scanner-integrations/command-config-file.md)
     - [Install instructions in DockerFile](./new-scanner-integrations/command-docker-file.md)
     
