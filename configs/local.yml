@@ -1,0 +1,108 @@
+# Do not store sensitive information and check-in code to gitlab
+
+workflow:
+  - workflowName: 'default'
+    schedule: 'daily between 00:00 and 04:00'
+    cmd: []
+    workflowConfig:
+      - moduleName : Route53
+        tools: ['Route53'] 
+        order: 1
+      - moduleName : discovery
+        tools: ['Subfinder', 'SSLMate', 'Amass'] 
+        order: 1
+      - moduleName: prerecon
+        tools: ['FindCDN', 'Naabu', 'IPinfo'] 
+        order: 2
+      - moduleName: activehostscan
+        tools: ['HTTPX_Tech', 'HTTPX']
+        order: 3
+      - moduleName: activerecon
+        tools: ['Wafw00f']
+        order: 4
+      - moduleName: scan
+        tools: [ 'DNSTwister', 'Csper', 'Nuclei', 'NucleiRecon']
+        order: 5
+      - moduleName: secretscanner
+        tools: ['SecretScanner']
+        order: 6
+  # This workflow excludes some tools viz SSLMate, IPinfo, DNSTwister, Csper
+  - workflowName: 'bugbounty'
+    schedule: 'daily between 00:00 and 04:00'
+    cmd: []
+    workflowConfig:
+      - moduleName : discovery
+        tools: ['Subfinder', 'Amass'] 
+        order: 1
+      - moduleName: prerecon
+        tools: ['FindCDN', 'Naabu'] 
+        order: 2
+      - moduleName: activehostscan
+        tools: ['HTTPX_Tech', 'HTTPX']
+        order: 3
+      - moduleName: activerecon
+        tools: ['Wafw00f']
+        order: 4
+      - moduleName: scan
+        tools: [ 'Nuclei', 'NucleiRecon']
+        order: 5
+      - moduleName: secretscanner
+        tools: ['SecretScanner']
+        order: 6
+  - workflowName: 'test'
+    schedule: 'daily between 00:00 and 04:00'
+    cmd: []
+    workflowConfig:
+      - moduleName : discovery
+        tools: ['Subfinder'] 
+        order: 1
+
+nuclei_template_path:
+  whitelist: 
+  blacklist: 
+
+app:
+  default: ["None"]
+  
+notify:
+  - teamName: appsec
+    scanEfficiency: true 
+    channel:
+      slack:
+        - SLACK_WEBHOOK
+    app: []
+    assets:
+      - subdomain
+      - certificate
+    findings: 
+      - vulnerability
+      - secret
+
+
+dbConfig:
+  mongoConnectionString: 'mongodb://mantis.db:27017'
+  
+logging:
+  version: 1
+  disable_existing_loggers: False
+  formatters:
+        simple:
+            format: "[%(asctime)s] --> %(filename)s: %(lineno)d - %(levelname)s: %(message)s"
+
+  handlers:
+    console:
+      class: logging.StreamHandler
+      level: INFO
+      formatter: simple
+      stream: ext://sys.stdout
+
+  loggers:
+    requests.packages.urllib3:
+      level: INFO
+      handlers: [console]
+      propagate: no
+
+  root:
+    level: INFO
+    handlers: [console]
+

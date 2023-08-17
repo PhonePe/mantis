@@ -1,0 +1,39 @@
+version: '3.9'
+name: mantis
+services:
+  mantis:
+    build:
+      dockerfile: Dockerfile
+      context: ../../
+    container_name: mantis
+    restart: on-failure
+    command:  tail -F /dev/random
+    networks:
+      network:
+        ipv4_address: 10.10.0.2
+    extra_hosts:
+      - "mantis.db:10.10.0.3"
+    environment:
+      - "PS1='Mantis > '"
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
+    networks:
+      network:
+        ipv4_address: 10.10.0.3
+    command: mongod --bind_ip 0.0.0.0
+    environment:
+      MONGO_INITDB_ROOT_DATABASE: mantis
+    volumes:
+      - ./configs/mongo-config.js:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+networks:
+  network:
+    name: mantis-network
+    external: true
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.0.0/16
+          gateway: 10.10.0.1
