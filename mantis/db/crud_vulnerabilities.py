@@ -8,7 +8,7 @@ async def add_findings_query(findings_data: list) -> None:
         finding = await findings_collection.insert_many(findings_data, False) # 'ordered': "false"}
         logging.info(f'Findings inserted')
     except BulkWriteError as bwe:
-        logging.error(f'Findings Bulk write error due to duplicate records')
+        logging.warning(f'Findings Bulk write error due to duplicate records')
 
 
 async def read_findings(pipeline):

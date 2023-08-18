@@ -183,12 +183,12 @@ If you want to contribute to this project:
 
 ## Credits 🎖
 
-**Development** - Prateek Thakare  
 **Recon Tools Design/Launch scripts** - Bharath Kumar  
 **Secret Scanning** - Hitesh Kumar, Saddam Hussain  
 **Dashboard** - Pragya Gupta  
 **Design Suggestions** - Dhruv Shekawat, Santanu Sinha  
 **Framework Design** - Praveen Kanniah  
+**Development** - Prateek Thakare  
 
 **Special Thanks** - Ankur Bhargava
 

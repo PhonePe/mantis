@@ -91,6 +91,11 @@ class ArgsParse:
                             action = 'store_true'
                             )
         
+        parser.add_argument('-v', '--verbose', 
+                            dest = 'verbose',
+                            help = 'print debug logs',
+                            action = 'store_true'
+                            )
         
         
         # display help, if no arguments are passed
@@ -147,6 +152,9 @@ class ArgsParse:
         
         if args.delete_logs:
             parsed_args["delete_logs"] = args.delete_logs
+
+        if args.verbose:
+            parsed_args["verbose"] = True
          
 
         args_pydantic_obj = ArgsModel.parse_obj(parsed_args)

@@ -48,6 +48,7 @@ class AppConfig(BaseModel):
     workflow: List[Workflow]
     dbConfig: DBConfig
     logging: dict
+    logging_debug: dict
     notify: List[Notify]
     app: dict
     nuclei_template_path: NucleiTemplate

@@ -106,3 +106,26 @@ logging:
     level: INFO
     handlers: [console]
 
+logging_debug:
+  version: 1
+  disable_existing_loggers: False
+  formatters:
+        simple:
+            format: "[%(asctime)s] --> %(filename)s: %(lineno)d - %(levelname)s: %(message)s"
+
+  handlers:
+    console:
+      class: logging.StreamHandler
+      level: DEBUG
+      formatter: simple
+      stream: ext://sys.stdout
+
+  loggers:
+    requests.packages.urllib3:
+      level: DEBUG
+      handlers: [console]
+      propagate: no
+
+  root:
+    level: DEBUG
+    handlers: [console]

@@ -16,3 +16,4 @@ class ArgsModel(BaseModel):
     use_ray: bool = False
     num_actors: int = 10
     delete_logs: bool = False
+    verbose: bool = False
