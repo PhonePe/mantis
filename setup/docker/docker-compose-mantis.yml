@@ -1,5 +1,4 @@
 version: '3.9'
-name: mantis
 services:
   mantis:
     build:
@@ -30,7 +29,7 @@ services:
 networks:
   network:
     name: mantis-network
-    external: true
+    external: false
     driver: bridge
     ipam:
       driver: default

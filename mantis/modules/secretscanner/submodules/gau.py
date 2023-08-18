@@ -28,7 +28,7 @@ class Gau:
 
     @staticmethod
     def create_secret_folder():
-        report_output = ConfigProvider.get_config().report_output
+        report_output = 'logs/tool_logs/'
         secret_folder = report_output + 'secret'
         if os.path.exists(secret_folder):
             for item in os.listdir(secret_folder):
