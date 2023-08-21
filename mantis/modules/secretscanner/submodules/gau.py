@@ -1,11 +1,12 @@
 import os
+import sys
+import time
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from mantis.utils.tool_utils import get_assets_grouped_by_type
 from mantis.constants import ASSET_TYPE_TLD
 from subprocess import Popen
 from mantis.config_parsers.config_client import ConfigProvider
-import sys
 
 
 
@@ -29,14 +30,14 @@ class Gau:
     @staticmethod
     def create_secret_folder():
         report_output = 'logs/tool_logs/'
-        secret_folder = report_output + 'secret'
-        if os.path.exists(secret_folder):
-            for item in os.listdir(secret_folder):
-                item_path = os.path.join(secret_folder, item)
-                if os.path.isfile(item_path):
-                    os.remove(item_path)
-                elif os.path.isdir(item_path):
-                    Gau.remove_directory(item_path)
+        secret_folder = report_output + 'secret' + str(time.time()).split('.')[0] 
+        # if os.path.exists(secret_folder):
+        #     for item in os.listdir(secret_folder):
+        #         item_path = os.path.join(secret_folder, item)
+        #         if os.path.isfile(item_path):
+        #             os.remove(item_path)
+        #         elif os.path.isdir(item_path):
+        #             Gau.remove_directory(item_path)
         logging.info(f"Creating Secret folder at : {secret_folder}")
         os.makedirs(secret_folder, exist_ok=True)
         return secret_folder
