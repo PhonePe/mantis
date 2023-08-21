@@ -89,14 +89,16 @@ class Workflow:
             logging.debug(f"Tool classes for {module} is {module_classes}")
             try:
                 for _class in module_classes:
-                    logging.debug(f"Calling base function for {_class.__name__}")
-                    class_object = _class()
-                   
-                    logging.debug(f"class object for {_class}: {class_object}")
-                    tool_command_list = await class_object.init(args)
-                    commands_list.extend(tool_command_list)
-                    logging.debug(f"Command list for {_class.__name__} : {tool_command_list}")
-                   
+                    try:
+                        logging.debug(f"Calling base function for {_class.__name__}")
+                        class_object = _class()
+                    
+                        logging.debug(f"class object for {_class}: {class_object}")
+                        tool_command_list = await class_object.init(args)
+                        commands_list.extend(tool_command_list)
+                        logging.debug(f"Command list for {_class.__name__} : {tool_command_list}")
+                    except Exception as e:
+                        logging.error(f"Something went wrong in {_class.__name__} : {e}")
                 if args.use_ray:
                     ExecuteScan = getattr(importlib.import_module('mantis.scan_orchestration.ray_scan'), 'ExecuteRayScan')
                     num_actors = args.num_actors

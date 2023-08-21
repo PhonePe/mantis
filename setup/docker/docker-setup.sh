@@ -60,4 +60,4 @@ docker-compose -f docker-compose-appsmith.yml up -d --build
 docker network connect mantis-network appsmith
 echo "Mantis container is at: docker exec -it mantis bash"
 
-/usr/local/bin/mantis-activate
+docker exec -it mantis bash

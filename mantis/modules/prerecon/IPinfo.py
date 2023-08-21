@@ -24,6 +24,7 @@ class IPinfo(ToolScanner):
         self.token = None
         if self.token is None:
             logging.warning("IPinfo token not provided, IPinfo will not run successfully")
+            raise Exception("IPinfo token not provided!!")
         self.org = args.org
         self.std = "PIPE"
         self.base_command = 'dig +short {input_domain} | ipinfo bulk  --token ' + self.token + '| tee {output_file_path}'
