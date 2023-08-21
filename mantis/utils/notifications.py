@@ -6,6 +6,8 @@ class Notifications:
     
     @staticmethod
     def send_slack_notifications(blocks, webhook):
+        if webhook == 'None':
+            raise Exception("Slack URL not provided")
         webhook = WebhookClient(webhook)
         response = webhook.send(text="Ikaros notification",
             blocks=blocks
