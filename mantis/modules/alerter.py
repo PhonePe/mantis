@@ -11,7 +11,7 @@ from time import sleep
 class Alerter:
     @staticmethod
     async def send_alerts(log_dict, args):
-        # Alerter.get_stats_slack_message(log_dict)
+
         try:
             notify_config = ConfigProvider.get_config().notify
 
@@ -31,7 +31,7 @@ class Alerter:
                         else:
                             logging.error("Slack must provide list of webhooks, check local.yml")
         except Exception as e:
-            logging.error(f"Error sending alerts: {e}")
+            logging.debug(f"Slack alerts not configured")
 
     @staticmethod
     async def get_inventory_slack_message(assets, findings, asset_tag_list, finding_tag_list):

@@ -6,6 +6,7 @@
 import os
 import sys
 import time
+import tqdm
 import json
 import logging
 import asyncio
@@ -154,5 +155,4 @@ class Workflow:
         with open(logfile_name, "w", encoding="utf-8") as outfile:
             outfile.write(str(logs))
 
-        logging.info("Sending alerts...")
         await Alerter.send_alerts(log_dict=scan_stat_validated, args=args)

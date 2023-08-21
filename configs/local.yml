@@ -69,7 +69,7 @@ notify:
     scanEfficiency: true 
     channel:
       slack:
-        - SLACK_WEBHOOK
+        - None
     app: []
     assets:
       - subdomain
@@ -86,14 +86,15 @@ logging:
   version: 1
   disable_existing_loggers: False
   formatters:
-        simple:
-            format: "[%(asctime)s] --> %(filename)s: %(lineno)d - %(levelname)s: %(message)s"
-
+    default:
+        format: "[%(asctime)s] --> %(filename)s: %(lineno)d - %(levelname)s: %(message)s"
+        "()": "mantis.config_parsers.logging_utils.CustomFormatter"
+        
   handlers:
     console:
       class: logging.StreamHandler
       level: INFO
-      formatter: simple
+      formatter: default
       stream: ext://sys.stdout
 
   loggers:

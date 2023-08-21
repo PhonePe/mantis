@@ -17,7 +17,7 @@ class ArgsParse:
         parsed_args = {}
 
         parser = ArgumentParser(
-                                prog='mantis.py',
+                                prog='mantis',
                                 formatter_class=CustomFormatter,
                                 add_help=False
                               )
