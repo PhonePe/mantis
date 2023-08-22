@@ -21,7 +21,7 @@ BPurple='\033[1;35m'      # Purple
 BCyan='\033[1;36m'        # Cyan
 BWhite='\033[1;37m'       # White
 
-echo -e "[*] ${BPurple}Mantis setup will require sudo privileges during installation$NC"
+echo -e "[*] ${BPurple}Mantis setup will require sudo privileges during installation${NC}"
 
 # Create folder structure
 
@@ -44,30 +44,29 @@ fi
 sudo mkdir /opt/mantis
 sudo chmod 777 -R /opt/mantis
 cp -r ../../* /opt/mantis
-echo "[*] Mantis project Directory - /opt/mantis"
+echo -e "[*] ${BGreen}Mantis project Directory - /opt/mantis${NC}"
 cd /opt/mantis
 
 ## Install Devbox
-# curl -fsSL https://get.jetpack.io/devbox | bash
+curl -fsSL https://get.jetpack.io/devbox | bash
 
 ## Install Mongo
-sudo apt-get update
-sudo apt-get install gnupg curl ca-certificates -y
-
+sudo apt-get update -qq
+sudo apt-get install gnupg curl ca-certificates -y -qq
 
 curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \
    sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg \
    --dearmor
 
-sudo echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.lis
-sudo apt-get update
+sudo echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+sudo apt-get update -qq
 
-if systemctl is-active --quiet mongod.service; then
+if pgrep mongo; 
+then
    echo -e "[!] ${Red}Looks like you have MongoDB service running. Either stop the service or remove mongo setup from this script${NC}"
-   #exit -1
+   exit -1
 else
-   echo "Mongo not running!"
-   sudo apt-get install -y mongodb-org
+   sudo apt-get install -y mongodb-org -qq
    sudo systemctl start mongod
    sudo -- sh -c -e "echo '127.0.0.1   mantis.db' >> /etc/hosts";
    sudo sed -i "s,\\(^[[:blank:]]*bindIp:\\) .*,\\1 127.0.0.1\,172.17.0.1," /etc/mongod.conf
@@ -75,17 +74,18 @@ else
    #sed -i "s,\\(^[[:blank:]]*bindIp:\\) .*,\\1 0.0.0.0," /etc/mongod.conf
 fi
 
-## Run devbox
+# Run devbox
+devbox version update
 devbox run -c /opt/mantis/setup/ubuntu setup
 
-## Permissions for the project dir
+# Permissions for the project dir
 
 sudo chmod 777 /usr/local/bin/devbox
 
 #sudo chmod 755 -R /opt/mantis/.devbox
 #sudo chmod 755 -R /opt/mantis/virtenv
 
-## Install docker & docker-compose 
+# Install docker & docker-compose 
 
 if [[ $(which docker) && $(docker --version) ]]; then
     echo "[*] Docker is already installed.."
@@ -94,7 +94,7 @@ else
    set -o nounset
    IFS=$(printf '\n\t')
 
-# Docker
+   # Install Docker
    sudo apt remove --yes docker docker-engine docker.io containerd runc || true
    sudo apt update
    sudo apt --yes --no-install-recommends install apt-transport-https ca-certificates
@@ -108,45 +108,34 @@ else
 
    printf 'Waiting for Docker to start...\n\n'
    sleep 5
-
-   # Docker Compose
-   sudo wget --output-document=/usr/local/bin/docker-compose "https://github.com/docker/compose/releases/download/$(wget --quiet --output-document=- https://api.github.com/repos/docker/compose/releases/latest | grep --perl-regexp --only-matching '"tag_name": "\K.*?(?=")')/run.sh"
-   sudo chmod +x /usr/local/bin/docker-compose
-   sudo wget --output-document=/etc/bash_completion.d/docker-compose "https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/bash/docker-compose"
-   printf '\nDocker Compose installed successfully\n\n'
 fi
 
-# Setup appsmith
+# Install docker compose 
+
+if docker-compose version
+then
+   echo -e "[*] ${Yellow}Docker compose is already installed${NC}"
+else
+   sudo apt install docker-compose
+fi
+
+# Install Appsmith
 
 curl -L https://bit.ly/docker-compose-CE -o $PWD/docker-compose.yml
 docker-compose up -d
 
-## Setup aliases
+## Setup commands
 
 COMMAND_NAME="mantis-activate"
 COMMAND_PATH="/usr/local/bin/mantis-activate"
-COMMAND_CONTENT="cd /opt/mantis/; devbox shell -c /opt/mantis/setup"
+COMMAND_CONTENT="cd /opt/mantis/; devbox shell -c /opt/mantis/setup/ubuntu"
 
-# Check if the command already exists
-if command -v "$COMMAND_NAME" &>/dev/null; then
-    echo "Command '$COMMAND_NAME' already exists."
-    sudo rm -f /usr/local/bin/mantis-activate
-fi
-
+sudo rm -f /usr/local/bin/mantis-activate
 # Create the command script
-#sudo touch /usr/local/bin/mantis-activate
 echo -e "$COMMAND_CONTENT" | sudo tee "$COMMAND_PATH"
-cat "$COMMAND_PATH"
 sudo chmod +x "$COMMAND_PATH"
-
 echo "Command '$COMMAND_NAME' added to system."
 
 ## Drop into devbox shell
-
 cd /opt/mantis
 devbox shell -c /opt/mantis/setup/ubuntu
-
-# sudo chmod 777 /usr/local/bin/devbox
-# sudo chmod 755 -R /opt/mantis
-# sudo chmod 755 -R /opt/mantis/.devbox
-# sudo chmod 755 -R /opt/mantis/virtenv

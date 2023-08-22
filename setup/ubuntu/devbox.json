@@ -25,12 +25,8 @@
     "scripts": {
       "setup": [
         ". $VENV_DIR/bin/activate",
-        "which pip",
-        "cd /opt/mantis/setup/ubuntu",
-        "echo `ls`",
-        "cat requirements.txt",
         "pip install git+https://github.com/cisagov/findcdn.git",
-        "pip install -r ../../requirements.txt",
+        "pip install -r requirements.txt",
         "chmod 777 -R /opt/mantis",
         "chmod 777 -R /opt/mantis/.devbox"
       ]
