@@ -6,9 +6,9 @@ from pymongo.errors import BulkWriteError
 async def add_findings_query(findings_data: list) -> None:
     try:
         finding = await findings_collection.insert_many(findings_data, False) # 'ordered': "false"}
-        logging.info(f'Findings inserted')
+        logging.debug(f'Findings inserted')
     except BulkWriteError as bwe:
-        logging.warning(f'Findings Bulk write error due to duplicate records')
+        logging.debug(f'Findings Bulk write error due to duplicate records')
 
 
 async def read_findings(pipeline):

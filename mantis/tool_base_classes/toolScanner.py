@@ -1,9 +1,10 @@
 from mantis.utils.common_utils import CommonUtils
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, DEVNULL
 from mantis.models.args_model import ArgsModel
 import logging
 import sys
 import time
+import asyncio
 
 class ToolScanner:
     
@@ -47,7 +48,6 @@ class ToolScanner:
     async def execute(self, tool_tuple):
         results = {}
         command, outfile, asset = tool_tuple[1:]
-        logging.debug(f"Command to be executed - {command}")
         logging.debug(f"Executing command - {command}")
         
         if self.std == "PIPE":
@@ -61,10 +61,10 @@ class ToolScanner:
         try:
             start = time.perf_counter()
 
-            subprocess_obj = Popen(
-                command, stderr=stderr, stdout=stdout, shell=True) 
-            code = subprocess_obj.wait()
-            output,errors = subprocess_obj.communicate()
+            subprocess_obj = await asyncio.create_subprocess_shell(
+                command, stderr=DEVNULL, stdout=DEVNULL, shell=True) 
+            code = await subprocess_obj.wait()
+            output,errors = await subprocess_obj.communicate()
 
             finish = time.perf_counter()
 
@@ -82,6 +82,7 @@ class ToolScanner:
             else:
                 results["failure"] += 1
             tool_results_dict = self.parse_report(outfile=outfile)
+            results["tool_time_taken"] = CommonUtils.get_ikaros_std_timestamp()
             if tool_results_dict:
                 await self.db_operations(tool_results_dict, asset=asset)
         except Exception as e:

@@ -22,7 +22,7 @@ class URLDownloader:
     @staticmethod
     def download_file(url, extension, base_path):
         try:
-            logging.info(f"Downloading {url}")
+            logging.debug(f"Downloading {url}")
             response = requests.get(url)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
@@ -31,7 +31,7 @@ class URLDownloader:
             if response.status_code == 200:
                 with open(os.path.join(base_path, extension, os.path.basename(url)), 'wb') as f:
                     f.write(response.content)
-                    logging.info(f"Downloaded: {url}")
+                    logging.debug(f"Downloaded: {url}")
 
 
     @staticmethod
@@ -59,7 +59,7 @@ class URLDownloader:
         for domain in domains:
             domain = domain.strip()
             URLDownloader.file_path = f"{path}/{domain}/{domain}"
-            logging.info(f"{URLDownloader.file_path} File not found!")
+            logging.debug(f"{URLDownloader.file_path} File not found!")
 
         if URLDownloader.extensions:
             base_path = os.path.join(path, domain)
@@ -75,6 +75,6 @@ class URLDownloader:
                                 executor.submit(URLDownloader.download_file, url, extension, base_path)
                                 break
             else:
-                logging.info("No URLs found in the file.")
+                logging.debug("No URLs found in the file.")
         else:
-            logging.info("No extensions found in the config file.")
+            logging.debug("No extensions found in the config file.")

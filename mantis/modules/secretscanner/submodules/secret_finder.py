@@ -73,8 +73,8 @@ class SecretFinder:
                 
                 finding_dict_list.append(finding_dict)
         if len(finding_dict_list):
-            logging.info("Inserting secrets in db.")
+            logging.debug("Inserting secrets in db.")
             await CrudUtils.insert_findings(self, None, finding_dict_list, "host")
         else:
-            logging.info('No secrets found')
-        logging.info("Findings inserted in db") 
+            logging.debug('No secrets found')
+        logging.debug("Findings inserted in db") 
