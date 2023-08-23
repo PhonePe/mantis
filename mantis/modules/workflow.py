@@ -6,7 +6,7 @@
 import os
 import sys
 import time
-import tqdm
+from tqdm import tqdm
 import json
 import logging
 import asyncio
@@ -79,6 +79,8 @@ class Workflow:
         scan_start_time = time.perf_counter()
         scan_stat['scan_modules_logs'] = []
 
+        print()
+
         for module in ordered_modules:
             module_log = {}
             module_log["module_name"] = module.upper()
@@ -100,30 +102,46 @@ class Workflow:
                         logging.debug(f"Command list for {_class.__name__} : {tool_command_list}")
                     except Exception as e:
                         logging.error(f"Something went wrong in {_class.__name__} : {e}")
+
                 if args.use_ray:
-                    ExecuteScan = getattr(importlib.import_module('mantis.scan_orchestration.ray_scan'), 'ExecuteRayScan')
+                    from mantis.scan_orchestration.ray_scan import ExecuteRayScan
+                    import ray
                     num_actors = args.num_actors
                     num_actors = min(num_actors, len(commands_list))
-                    
-                    executeScanActors = [ExecuteScan.remote() for i in range(num_actors)]
+                    futures_res = []
+                    executeScanActors = [ExecuteRayScan.remote() for i in range(num_actors)]
                     futures = [executeScanActors[i%num_actors].execute_and_store.remote(commands_list[i]) for i in range(len(commands_list))]
+                    with tqdm(total=len(commands_list), desc=module.upper()) as pbar:
+                        while futures:
+
+                            ready, futures = ray.wait(futures)
+
+                            for objRef in ready:
+                                futures_res.append(ray.get(objRef))
+                                pbar.update(1)
                     
                     logging.info(f"Awaiting for the results of tool execution")
-                    module_log["module_tool_logs"] = __import__("ray").get(futures)
+                    module_log["module_tool_logs"] = futures_res
                 
                 else:
                     execute_threadpool_obj = ExecuteScanThreadPool()
-                    results = None
-                    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-                        loop = asyncio.get_running_loop()
-                        results = await asyncio.gather(*[loop.create_task(execute_threadpool_obj.execute_and_store(command)) for command in commands_list])
-                    module_log["module_tool_logs"] = results
-
-
+                    def done_callback(future):
+                        pbar.update(1)
+                    loop = asyncio.get_running_loop()
+                    tasks = []
+                    with tqdm(total=len(commands_list)) as pbar:
+                        for tool_tuple in commands_list:
+                            pbar.set_description(module.upper())
+                            task = loop.create_task(execute_threadpool_obj.execute_and_store(tool_tuple))
+                            tasks.append(task)
+                            task.add_done_callback(done_callback)
+                        res = await asyncio.gather(*tasks)
+                    
+                    module_log["module_tool_logs"] = res
 
             except Exception as e:
                 logging.error(f"Error calling core functions on tool classes {e}")
-
+            print()
             module_log["module_end_time"] = time.perf_counter()
             module_log["module_time_taken"] = str(timedelta(seconds=round(module_log["module_end_time"] - module_log["module_start_time"], 0)))
             moduleLog_validated = ModuleLogs(**module_log)
