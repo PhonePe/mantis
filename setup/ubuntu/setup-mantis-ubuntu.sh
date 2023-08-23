@@ -21,6 +21,21 @@ BPurple='\033[1;35m'      # Purple
 BCyan='\033[1;36m'        # Cyan
 BWhite='\033[1;37m'       # White
 
+__intro="
+
+"
+
+__complete="
+
+Next Steps
+
+${BPurple}
+  1. Mantis dashboard is accessible at https://10.10.0.4
+  2. Mantis documentation is available at https://phonepe.github.io/mantis
+  2. Get help and give feedback at https://slack.com
+${NC}
+"
+
 echo -e "[*] ${BPurple}Mantis setup will require sudo privileges during installation${NC}"
 
 # Create folder structure
@@ -38,16 +53,17 @@ then
            exit -1
         fi
 else
-    echo -e "[+] ${Purple}Installing Mantis...${NC}"
+    echo -e "[+] ${Green}Installing Mantis${NC}"
 fi
 
 sudo mkdir /opt/mantis
 sudo chmod 777 -R /opt/mantis
 cp -r ../../* /opt/mantis
-echo -e "[*] ${BGreen}Mantis project Directory - /opt/mantis${NC}"
+echo -e "[*] ${BCyan}Mantis project Directory - /opt/mantis${NC}"
 cd /opt/mantis
 
 ## Install Devbox
+echo -e "[+] ${Green}Installing Devbox${NC}"
 curl -fsSL https://get.jetpack.io/devbox | bash
 
 ## Install Mongo
@@ -66,6 +82,7 @@ then
    echo -e "[!] ${Red}Looks like you have MongoDB service running. Either stop the service or remove mongo setup from this script${NC}"
    exit -1
 else
+   echo -e "[+] ${Green}Installing MongoDB locally${NC}"
    sudo apt-get install -y mongodb-org -qq
    sudo systemctl start mongod
    sudo -- sh -c -e "echo '127.0.0.1   mantis.db' >> /etc/hosts";
@@ -75,11 +92,14 @@ else
 fi
 
 # Run devbox
+
+echo -e "[+] ${Green}Configuring Mantis environment on Devbox${NC}"
 devbox version update
 devbox run -c /opt/mantis/setup/ubuntu setup
 
 # Permissions for the project dir
 
+echo -e "[+] ${Green}Setting up permissions for Mantis${NC}"
 sudo chmod 777 /usr/local/bin/devbox
 
 #sudo chmod 755 -R /opt/mantis/.devbox
@@ -87,27 +107,20 @@ sudo chmod 777 /usr/local/bin/devbox
 
 # Install docker & docker-compose 
 
+echo -e "[+] ${Green}Installing Docker & docker-compose${NC}"
 if [[ $(which docker) && $(docker --version) ]]; then
-    echo "[*] Docker is already installed.."
+    echo "[*] ${Yellow}Docker is already installed${NC}"
 else
    set -o errexit
    set -o nounset
    IFS=$(printf '\n\t')
 
    # Install Docker
-   sudo apt remove --yes docker docker-engine docker.io containerd runc || true
-   sudo apt update
-   sudo apt --yes --no-install-recommends install apt-transport-https ca-certificates
-   wget --quiet --output-document=- https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-   sudo add-apt-repository --yes "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu $(lsb_release --codename --short) stable"
-   sudo apt update
-   sudo apt --yes --no-install-recommends install docker-ce docker-ce-cli containerd.io
-   sudo usermod --append --groups docker "$USER"
-   sudo systemctl enable docker
-   printf '\nDocker installed successfully\n\n'
-
-   printf 'Waiting for Docker to start...\n\n'
-   sleep 5
+   curl -fsSL https://get.docker.com/ | sudo bash
+   sudo groupadd docker
+   sudo usermod -aG docker $USER
+   sudo systemctl restart docker
+   sudo systemctl status docker
 fi
 
 # Install docker compose 
@@ -121,11 +134,13 @@ fi
 
 # Install Appsmith
 
+echo -e "[+] ${Green} Setting up Appsmith on Docker ${NC}"
 curl -L https://bit.ly/docker-compose-CE -o $PWD/docker-compose.yml
 docker-compose up -d
 
 ## Setup commands
 
+echo -e "[+] ${Green} Setting up alias and commands for a seamless experience ${NC}"
 COMMAND_NAME="mantis-activate"
 COMMAND_PATH="/usr/local/bin/mantis-activate"
 COMMAND_CONTENT="cd /opt/mantis/; devbox shell -c /opt/mantis/setup/ubuntu"
@@ -135,6 +150,8 @@ sudo rm -f /usr/local/bin/mantis-activate
 echo -e "$COMMAND_CONTENT" | sudo tee "$COMMAND_PATH"
 sudo chmod +x "$COMMAND_PATH"
 echo "Command '$COMMAND_NAME' added to system."
+
+echo $__complete
 
 ## Drop into devbox shell
 cd /opt/mantis
