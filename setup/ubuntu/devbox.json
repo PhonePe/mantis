@@ -10,23 +10,21 @@
     "nuclei@2.9.7",
     "gitleaks@8.17.0",
     "gau@2.1.2",
-    "python310Packages.pip",
-    "gccStdenv"
+    "python310Packages.pip"
   ],
   "shell": {
     "init_hook": [
       ". $VENV_DIR/bin/activate",
       "export PS1='🦗 Mantis > '",
-      "echo 'You are launching Mantis Project!'",
       "alias mantis='python /opt/mantis/launch.py'",
-      "echo 'Mantis project launched successfully!'",
+      "alias help='python /opt/mantis/launch.py --help'",
       "cd /opt/mantis"
     ],
     "scripts": {
       "setup": [
         ". $VENV_DIR/bin/activate",
-        "pip install git+https://github.com/cisagov/findcdn.git",
-        "pip install -r requirements.txt",
+        "pip install git+https://github.com/cisagov/findcdn.git --quiet",
+        "pip install -r requirements.txt --quiet",
         "chmod 777 -R /opt/mantis",
         "chmod 777 -R /opt/mantis/.devbox"
       ]
