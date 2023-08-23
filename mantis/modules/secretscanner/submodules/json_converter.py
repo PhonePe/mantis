@@ -15,7 +15,7 @@ class JSONConverter:
             input_file = os.path.join(path, domain, domain)
             output_file = os.path.join(path, domain, "output.json")
 
-            logging.info(f"Processing domain: {domain}")
+            logging.debug(f"Processing domain: {domain}")
 
             try:
                 with open(input_file, 'r') as f:
@@ -29,11 +29,11 @@ class JSONConverter:
                 with open(output_file, 'w') as f:
                     json.dump(data, f, indent=2)
 
-                logging.info(f"Domain {domain} processed successfully.")
+                logging.debug(f"Domain {domain} processed successfully.")
 
                 # Delete the {domain} file
                 os.remove(input_file)
-                logging.info(f"{domain} file deleted.")
+                logging.debug(f"{domain} file deleted.")
 
             except FileNotFoundError:
                 logging.error(f"Input file not found for domain: {domain}")

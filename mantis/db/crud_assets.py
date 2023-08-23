@@ -4,12 +4,11 @@ from mantis.db.database import assets_collection
 
 async def add_assets_query(asset_data: list) -> None:
     try:
-        logging.debug(f"Assets in add_assets_query: {asset_data}")
         asset = await assets_collection.insert_many(asset_data, False) # 'ordered': "false"}
-        logging.info(f'Assets inserted')
+        logging.debug(f'Assets inserted')
     except BulkWriteError as bwe:
         #logging.warning(f'Bulk write error due to duplicate records - {bwe.details}')
-        logging.warning(f'Assets Bulk write error due to duplicate records')
+        logging.debug(f'Assets Bulk write error due to duplicate records')
 
 
 async def read_assets(pipeline):

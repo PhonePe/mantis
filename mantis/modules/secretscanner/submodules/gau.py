@@ -31,14 +31,7 @@ class Gau:
     def create_secret_folder():
         report_output = 'logs/tool_logs/'
         secret_folder = report_output + 'secret' + str(time.time()).split('.')[0] 
-        # if os.path.exists(secret_folder):
-        #     for item in os.listdir(secret_folder):
-        #         item_path = os.path.join(secret_folder, item)
-        #         if os.path.isfile(item_path):
-        #             os.remove(item_path)
-        #         elif os.path.isdir(item_path):
-        #             Gau.remove_directory(item_path)
-        logging.info(f"Creating Secret folder at : {secret_folder}")
+        logging.debug(f"Creating Secret folder at : {secret_folder}")
         os.makedirs(secret_folder, exist_ok=True)
         return secret_folder
 
@@ -68,7 +61,7 @@ class Gau:
         for domain in domains:
             Gau.create_domain_folder(path, domain)
         
-        logging.info("Running Gau...")
+        logging.debug("Running Gau...")
         with ThreadPoolExecutor() as executor:
             futures = [executor.submit(Gau.run_command, path, domain, commands) for domain in domains]
 
