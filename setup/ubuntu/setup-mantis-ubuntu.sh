@@ -21,33 +21,98 @@ BPurple='\033[1;35m'      # Purple
 BCyan='\033[1;36m'        # Cyan
 BWhite='\033[1;37m'       # White
 
-__intro="
+# High Intensity
+IBlack='\033[0;90m'       # Black
+IRed='\033[0;91m'         # Red
+IGreen='\033[0;92m'       # Green
+IYellow='\033[0;93m'      # Yellow
+IBlue='\033[0;94m'        # Blue
+IPurple='\033[0;95m'      # Purple
+ICyan='\033[0;96m'        # Cyan
+IWhite='\033[0;97m'       # White
 
-"
+# Bold High Intensity
+BIBlack='\033[1;90m'      # Black
+BIRed='\033[1;91m'        # Red
+BIGreen='\033[1;92m'      # Green
+BIYellow='\033[1;93m'     # Yellow
+BIBlue='\033[1;94m'       # Blue
+BIPurple='\033[1;95m'     # Purple
+BICyan='\033[1;96m'       # Cyan
+BIWhite='\033[1;97m'      # White
 
-__complete="
 
-Next Steps
+echo -e "
+${BIYellow}
+MANDATORY PREREQUISITES 
 
-${BPurple}
-  1. Mantis dashboard is accessible at https://10.10.0.4
-  2. Mantis documentation is available at https://phonepe.github.io/mantis
-  2. Get help and give feedback at https://slack.com
+Please ensure your system meets them before proceeding.
+
+1. Docker >= v19.0.0
+   - Check with 'docker --version'
+2. Docker compose >= v2.0.0
+   - Check with 'docker-compose version'
+3. Sudo access on the machine
 ${NC}
 "
 
-echo -e "[*] ${BPurple}Mantis setup will require sudo privileges during installation${NC}"
+echo -e -n "[?] ${BICyan}Does your system meet the prerequisites(y/n)? ${NC}"
+   read prereq_answer
+
+   if [ "$prereq_answer" != "${prereq_answer#[Yy]}" ] ;then 
+      echo "[-] Proceeding with installation."
+   else
+      echo -e "[-] ${Red}Please setup the prerequisites. Exiting.${NC}"
+      exit -1
+   fi
+
+
+echo -e "
+Mantis setup will install the following major components: 
+
+1. Devbox/Nix to create an isolated environment for Mantis
+   that doesn't conflict with your system packages - https://www.jetpack.io/devbox
+2. MongoDB will be setup locally. You can use your own MongoDB as well.
+3. Appsmith for dashboards will be setup on a Docker container - https://www.appsmith.com/
+"
+
+echo -e "[*] ${BIGreen}Mantis will approximately take NNN minutes to build depending on the Internet connection bandwidth${NC}"
+
+# Variables for services state & setup
+
+setup_appsmith=true
+mongo_exists=true
+
+mantis_status="Newly installed"
+mongodb_status="Not installed"
+appsmith_status="Not installed"
 
 # Create folder structure
 
 if [ -d "/opt/mantis" ] 
 then
     echo -e "[!] ${Yellow}Looks like Mantis Project was installed before${NC}"
-    printf '[?] Would you like to delete old installation and reinstall (y/n)? '
+    echo -e -n "[?]${BICyan} Would you like to delete old installation and reinstall (y/n)? ${NC}"
     read answer
         if [ "$answer" != "${answer#[Yy]}" ] ;then 
            echo -e "[!] ${Red}Deleting older Mantis & reinstalling new Mantis${NC}"
            sudo rm -rf /opt/mantis
+           mantis_status="Reinstalled"
+           appsmith_exists=$(sudo docker ps -q -f status=running -f name=^/${CONTAINER_NAME}$)
+           if [ ! "${appsmith_exists}" ]; then
+               echo -e -n "[?]${BICyan} Do you want to delete the Appsmith dashboard? (y/n)? ${NC}"
+               read appsmith_answer
+               if [ "$appsmith_answer" != "${appsmith_answer#[Yy]}" ] ;then
+                  echo -e "[!] ${Red}Deleting Appsmith containers${NC}"
+                  appsmith_status="Reinstalled"
+                  sudo docker stop appsmith &> /dev/null
+                  sudo docker rm appsmith &> /dev/null
+               else 
+                  setup_appsmith=false
+                  appsmith_status="Preserved old instance"
+               fi
+            fi
+            unset CID
         else
            echo "[-] Exiting..."
            exit -1
@@ -67,28 +132,30 @@ echo -e "[+] ${Green}Installing Devbox${NC}"
 curl -fsSL https://get.jetpack.io/devbox | bash
 
 ## Install Mongo
-sudo apt-get update -qq
-sudo apt-get install gnupg curl ca-certificates -y -qq
+sudo apt-get update
+sudo apt-get install gnupg curl ca-certificates -y
 
-curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \
+if pgrep mongo; then
+
+echo -e "[!] ${Yellow}Looks like you have MongoDB service running. Skipping MongoDB setup${NC}"
+mongo_exists=true
+
+echo -e -n ""
+else
+   mongo_exists=false
+   echo -e "[+] ${Green}No MongoDB service is detected. Installing MongoDB locally${NC}"
+
+   curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \
    sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg \
    --dearmor
 
-sudo echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
-sudo apt-get update -qq
-
-if pgrep mongo; 
-then
-   echo -e "[!] ${Red}Looks like you have MongoDB service running. Either stop the service or remove mongo setup from this script${NC}"
-   exit -1
-else
-   echo -e "[+] ${Green}Installing MongoDB locally${NC}"
-   sudo apt-get install -y mongodb-org -qq
+   sudo echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+   sudo apt-get update 
+   sudo apt-get install -y mongodb-org
    sudo systemctl start mongod
-   sudo -- sh -c -e "echo '127.0.0.1   mantis.db' >> /etc/hosts";
-   sudo sed -i "s,\\(^[[:blank:]]*bindIp:\\) .*,\\1 127.0.0.1\,172.17.0.1," /etc/mongod.conf
+   sudo sed -i 's/^\( *bindIp *: *\).*/127.0.0.1/' /etc/mongod.conf
    sudo systemctl restart mongod
-   #sed -i "s,\\(^[[:blank:]]*bindIp:\\) .*,\\1 0.0.0.0," /etc/mongod.conf
+   mongodb_status="New instance has been setup"
 fi
 
 # Run devbox
@@ -102,41 +169,19 @@ devbox run -c /opt/mantis/setup/ubuntu setup
 echo -e "[+] ${Green}Setting up permissions for Mantis${NC}"
 sudo chmod 777 /usr/local/bin/devbox
 
-#sudo chmod 755 -R /opt/mantis/.devbox
-#sudo chmod 755 -R /opt/mantis/virtenv
-
-# Install docker & docker-compose 
-
-echo -e "[+] ${Green}Installing Docker & docker-compose${NC}"
-if [[ $(which docker) && $(docker --version) ]]; then
-    echo "[*] ${Yellow}Docker is already installed${NC}"
-else
-   set -o errexit
-   set -o nounset
-   IFS=$(printf '\n\t')
-
-   # Install Docker
-   curl -fsSL https://get.docker.com/ | sudo bash
-   sudo groupadd docker
-   sudo usermod -aG docker $USER
-   sudo systemctl restart docker
-   sudo systemctl status docker
+if [ "$setup_appsmith" = true ];then
+   echo -e "[+] ${Green} Setting up Appsmith on Docker ${NC}"
+   curl -L https://bit.ly/docker-compose-CE -o $PWD/docker-compose.yml
+   sudo docker compose up -d
 fi
 
-# Install docker compose 
+appsmith_ip=$(sudo docker inspect \
+   -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' appsmith)
 
-if docker-compose version
-then
-   echo -e "[*] ${Yellow}Docker compose is already installed${NC}"
-else
-   sudo apt install docker-compose
-fi
-
-# Install Appsmith
-
-echo -e "[+] ${Green} Setting up Appsmith on Docker ${NC}"
-curl -L https://bit.ly/docker-compose-CE -o $PWD/docker-compose.yml
-docker-compose up -d
+# Adding user friendly hostnames to /etc/hosts
+sudo  sed -i '/mantis/d' /etc/hosts
+sudo -- sh -c -e "echo '127.0.0.1   mantis.db' >> /etc/hosts";
+sudo -- sh -c -e "echo '$appsmith_ip  mantis.dashboard' >> /etc/hosts";
 
 ## Setup commands
 
@@ -151,7 +196,57 @@ echo -e "$COMMAND_CONTENT" | sudo tee "$COMMAND_PATH"
 sudo chmod +x "$COMMAND_PATH"
 echo "Command '$COMMAND_NAME' added to system."
 
-echo $__complete
+
+# Define the data for each column
+Service=("Mantis" "MongoDB" "Appsmith")
+Status=("$mantis_status" "$mongodb_status" "$appsmith_status")
+Access=("Run mantis-activate command" "Hostname: mantis.db" "Hostname: mantis.dashboard")
+
+# Define the widths of each column
+SERVICE_WIDTH=15
+STATUS_WIDTH=26
+ACCESS_WIDTH=40
+
+echo -e "\n\n"
+
+# Display the table header
+printf "\e[32m%-${SERVICE_WIDTH}s | %-${STATUS_WIDTH}s | %-${ACCESS_WIDTH}s\e[0m\n" "Service" "Status" "Access"
+
+# Display the table data
+for (( i=0; i<${#Service[@]}; i++ ))
+do
+  printf "\e[36m%-${SERVICE_WIDTH}s | %-${STATUS_WIDTH}s | %-${ACCESS_WIDTH}s\e[0m\n" "${Service[$i]}" "${Status[$i]}" "${Access[$i]}"
+done
+
+
+if [ "$mongo_exists" = true ]; then
+   echo -e "
+   ${BYellow}
+   A MongoDB instance was identified running on the system. You have following options to proceed: 
+
+   1. If the existing MongoDB is from previous Mantis installation or 
+      if you ran this script to update Mantis version then existing MongoDB works and no action is required
+   2. If the existing MongoDB is not related to Mantis & if you are okay stopping the service
+      Stop the MongoDB service running and setup Mantis again
+   2. If the existing MongoDB is not related to Mantis & if you are NOT okay stopping the service
+      Add your existing MongoDB's connection string to - /opt/mantis/configs/local.yml file
+   ${NC}
+   "  
+fi
+
+echo -e -n "
+${BIGreen}
+   Mantis has been setup successfully!
+
+   1. Mantis dashboard is accessible at $appsmith_ip
+         - For ease of use, you can access dashboard from your system at http://mantis.dashboard
+         - Configure your dashboard using instructions at https://
+   2. Mantis project Directory - /opt/mantis ${BICyan}
+   3. Command "mantis-activate" is added to your local system. Run this from anywhere to drop into Mantis shell
+   4. Mantis documentation is available at https://phonepe.github.io/mantis
+   5. Get help and give feedback at https://slack.com
+   ${NC}
+"
 
 ## Drop into devbox shell
 cd /opt/mantis
