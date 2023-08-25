@@ -24,7 +24,7 @@
       "setup": [
         ". $VENV_DIR/bin/activate",
         "pip install git+https://github.com/cisagov/findcdn.git --quiet",
-        "pip install -r requirements.txt --quiet",
+        "pip install -r requirements.txt",
         "chmod 777 -R /opt/mantis",
         "chmod 777 -R /opt/mantis/.devbox"
       ]
