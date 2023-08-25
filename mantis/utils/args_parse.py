@@ -135,6 +135,11 @@ class ArgsParse:
                             action = 'store_true'
                             )
         
+        onboard_parser.add_argument('-aws', '--aws_profiles', 
+                            dest = 'aws_profiles',
+                            help = 'List of comma separated aws profiles for Route53',
+                            )
+        
         scan_parser = subparser.add_parser("scan", help="Scan an org", usage=ArgsParse.scan_msg())
 
         scan_parser.add_argument('-w', '--workflow',
@@ -196,7 +201,7 @@ class ArgsParse:
         
         # display help, if no arguments are passed
         args = parser.parse_args(args=None if argv[1:] else ['--help'])
-        logging.info(f"::::::Arguments Passed - {args}")
+        logging.info(f"Arguments Passed - {args}")
         
         if args.subcommand == 'onboard':
             if args.host:
@@ -209,6 +214,12 @@ class ArgsParse:
                 logging.debug(f"File Args passed - {args.file_name}")
                 parsed_args['input_type'] = "file"
                 parsed_args['input'] = str(args.file_name)
+
+            if args.aws_profiles:
+                parsed_args["aws_profiles"] = args.aws_profiles.split(',')
+            else:
+                parsed_args["aws_profiles"] = ['default']
+
 
         if args.workflow:
             parsed_args['workflow'] = args.workflow
