@@ -6,7 +6,7 @@ workflow:
     cmd: []
     workflowConfig:
       - moduleName : discovery
-        tools: ['Subfinder', 'SSLMate', 'Amass'] 
+        tools: ['Subfinder', 'Amass'] 
         order: 1
       - moduleName: prerecon
         tools: ['FindCDN', 'Naabu'] 
@@ -33,7 +33,7 @@ workflow:
         tools: ['Route53'] 
         order: 1
       - moduleName : discovery
-        tools: ['Subfinder'] 
+        tools: ['Subfinder', 'SSLMate', 'Amass'] 
         order: 1
       - moduleName: prerecon
         tools: ['FindCDN', 'Naabu', 'IPinfo'] 
@@ -86,6 +86,10 @@ workflow:
 nuclei_template_path:
   whitelist: 
   blacklist: 
+
+aws:
+  config_path: 
+  credentials_path: 
 
 app:
   default: ["None"]
