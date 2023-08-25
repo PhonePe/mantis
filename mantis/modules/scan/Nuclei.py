@@ -98,7 +98,7 @@ class Nuclei(ToolScanner):
 
             return nuclei_info
         else:
-            logging.warning('Nuclei output file found, but no vulnerabilities were reported')
+            logging.debug('Nuclei output file found, but no vulnerabilities were reported')
     
     async def db_operations(self, output_dict, asset=None):
 

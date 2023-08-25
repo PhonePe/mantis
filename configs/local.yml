@@ -5,11 +5,35 @@ workflow:
     schedule: 'daily between 00:00 and 04:00'
     cmd: []
     workflowConfig:
+      - moduleName : discovery
+        tools: ['Subfinder', 'SSLMate', 'Amass'] 
+        order: 1
+      - moduleName: prerecon
+        tools: ['FindCDN', 'Naabu'] 
+        order: 2
+      - moduleName: activehostscan
+        tools: ['HTTPX_Tech', 'HTTPX']
+        order: 3
+      - moduleName: activerecon
+        tools: ['Wafw00f']
+        order: 4
+      - moduleName: scan
+        tools: [ 'DNSTwister', 'Csper', 'Nuclei', 'NucleiRecon']
+        order: 5
+      - moduleName: secretscanner
+        tools: ['SecretScanner']
+        order: 6
+
+# This workflow is for product security teams. It includes tools like Route53 and Ipinfo. Please provide the key for IPinfo     
+  - workflowName: 'productsecurity'
+    schedule: 'daily between 00:00 and 04:00'
+    cmd: []
+    workflowConfig:
       - moduleName : Route53
         tools: ['Route53'] 
         order: 1
       - moduleName : discovery
-        tools: ['Subfinder', 'SSLMate', 'Amass'] 
+        tools: ['Subfinder'] 
         order: 1
       - moduleName: prerecon
         tools: ['FindCDN', 'Naabu', 'IPinfo'] 
@@ -26,6 +50,7 @@ workflow:
       - moduleName: secretscanner
         tools: ['SecretScanner']
         order: 6
+
   # This workflow excludes some tools viz SSLMate, IPinfo, DNSTwister, Csper
   - workflowName: 'bugbounty'
     schedule: 'daily between 00:00 and 04:00'
@@ -49,6 +74,7 @@ workflow:
       - moduleName: secretscanner
         tools: ['SecretScanner']
         order: 6
+
   - workflowName: 'test'
     schedule: 'daily between 00:00 and 04:00'
     cmd: []
@@ -84,10 +110,10 @@ dbConfig:
   
 logging:
   version: 1
-  disable_existing_loggers: False
+  disable_existing_loggers: True
   formatters:
     default:
-        format: "[%(asctime)s] --> %(filename)s: %(lineno)d - %(levelname)s: %(message)s"
+        format: "[%(asctime)s] --> %(levelname)s: %(message)s"
         "()": "mantis.config_parsers.logging_utils.CustomFormatter"
         
   handlers:
@@ -111,14 +137,15 @@ logging_debug:
   version: 1
   disable_existing_loggers: False
   formatters:
-        simple:
-            format: "[%(asctime)s] --> %(filename)s: %(lineno)d - %(levelname)s: %(message)s"
+    default:
+        format: "[%(asctime)s] --> %(levelname)s: %(message)s"
+        "()": "mantis.config_parsers.logging_utils.CustomFormatter"
 
   handlers:
     console:
       class: logging.StreamHandler
       level: DEBUG
-      formatter: simple
+      formatter: default
       stream: ext://sys.stdout
 
   loggers:
