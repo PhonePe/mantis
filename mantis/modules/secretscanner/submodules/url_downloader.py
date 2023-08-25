@@ -4,6 +4,7 @@ import yaml
 import requests
 import logging
 from concurrent.futures import ThreadPoolExecutor
+from mantis.utils.base_request import BaseRequestExecutor
 from mantis.utils.tool_utils import get_assets_grouped_by_type
 from mantis.constants import ASSET_TYPE_TLD
 
@@ -20,11 +21,12 @@ class URLDownloader:
 
 
     @staticmethod
-    def download_file(url, extension, base_path):
+    async def download_file(url, extension, base_path):
         try:
             logging.debug(f"Downloading {url}")
-            response = requests.get(url)
-            response.raise_for_status()
+            request_tuple = None, url, None, None
+            _, response = BaseRequestExecutor.sendRequest("GET", request_tuple)
+
         except requests.exceptions.RequestException as e:
             logging.error(f"Error downloading {url}: {e}")
         else:
@@ -59,22 +61,22 @@ class URLDownloader:
         for domain in domains:
             domain = domain.strip()
             URLDownloader.file_path = f"{path}/{domain}/{domain}"
-            logging.debug(f"{URLDownloader.file_path} File not found!")
+            logging.debug(f"{URLDownloader.file_path}")
 
-        if URLDownloader.extensions:
-            base_path = os.path.join(path, domain)
-            URLDownloader.create_folders(base_path, URLDownloader.extensions)
+            if URLDownloader.extensions:
+                base_path = os.path.join(path, domain)
+                URLDownloader.create_folders(base_path, URLDownloader.extensions)
 
-            found_urls = URLDownloader.find_links_in_file()
+                found_urls = URLDownloader.find_links_in_file()
 
-            if found_urls:
-                with ThreadPoolExecutor(max_workers=5) as executor:
+                if found_urls:
+                    
                     for url in found_urls:
                         for extension in URLDownloader.extensions:
                             if url.endswith(extension):
-                                executor.submit(URLDownloader.download_file, url, extension, base_path)
-                                break
+                                await URLDownloader.download_file(url, extension, base_path)
+                                
+                else:
+                    logging.debug("No URLs found in the file.")
             else:
-                logging.debug("No URLs found in the file.")
-        else:
-            logging.debug("No extensions found in the config file.")
+                logging.debug("No extensions found in the config file.")

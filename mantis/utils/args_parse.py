@@ -11,6 +11,39 @@ class CustomFormatter(argparse.HelpFormatter):
     
 
 class ArgsParse:
+    @staticmethod
+    def msg(name=None):                                                            
+        return '''
+        \033[1;34mONBOARD: (First time scan, Run this !!)\033[0m
+
+        \033[0;32mmantis onboard -o example_org -t www.example.org\033[0m
+        \033[0;32mmantis onboard -o example_org -f file.txt\033[0m
+
+        \033[1;34mSCAN:\033[0m
+
+        \033[0;32mmantis scan -o example_org\033[0m
+        \033[0;32mmantis scan -o example_org -a example_app\033[0m
+            '''
+    
+    @staticmethod
+    def onboard_msg(name=None):                                                            
+        return '''
+        \033[1;34mONBOARD: (First time scan, Run this !!)\033[0m
+
+        \033[0;32mmantis onboard -o example_org -t www.example.org\033[0m
+        \033[0;32mmantis onboard -o example_org -f file.txt\033[0m
+
+            '''
+
+    @staticmethod
+    def scan_msg(name=None):                                                            
+        return '''
+        \033[1;34mSCAN:\033[0m
+
+        \033[0;32mmantis scan -o example_org\033[0m
+        \033[0;32mmantis scan -o example_org -a example_app\033[0m
+            '''
+    
 
     @staticmethod
     def args_parse() -> ArgsModel:
@@ -19,13 +52,18 @@ class ArgsParse:
         parser = ArgumentParser(
                                 prog='mantis',
                                 formatter_class=CustomFormatter,
-                                add_help=False
+                                add_help=False,
+                                usage=ArgsParse.msg()
                               )
-
-        parser.add_argument('-m','--mode', choices=['onboard', 'scan'], required=True,
-                   help='Select mode of operation')
         
-        onboard_scan_group = parser.add_mutually_exclusive_group()
+        subparser = parser.add_subparsers(title="subparser", dest="subcommand")
+        
+        onboard_parser = subparser.add_parser("onboard", help="Onboard a target", usage=ArgsParse.onboard_msg())
+
+        # parser.add_argument('-m','--mode', choices=['onboard', 'scan'], required=True,
+        #            help='Select mode of operation')
+        
+        onboard_scan_group = onboard_parser.add_mutually_exclusive_group()
             
         parser.add_argument('-h', '--help',
                             dest = 'help',
@@ -41,57 +79,115 @@ class ArgsParse:
                             dest = 'file_name',
                             help = "path to file containing any combination of TLD, subdomain, IP-range, IP-CIDR")
         
-        parser.add_argument('-w', '--workflow',
+        onboard_parser.add_argument('-w', '--workflow',
                             dest = 'workflow',
                             default = "default",
                             help = "workflow to be executed as specified in config file")
         
-        parser.add_argument('-o', '--org',
+        onboard_parser.add_argument('-o', '--org',
                             dest = 'org',
                             required = True,
                             help = "name of the organisation")
         
-        parser.add_argument('-a', '--app',
+        onboard_parser.add_argument('-a', '--app',
                             dest = 'app',
                             help = "scan only subdomains that belong to an app",
                             )
         
-        parser.add_argument('-p', '--passive',
+        onboard_parser.add_argument('-p', '--passive',
                             dest = 'passive',
                             help = 'run passive port scan',
                             action = 'store_true'
                             )
         
-        parser.add_argument('-s', '--stale',
+        onboard_parser.add_argument('-s', '--stale',
                             dest = 'stale',
                             help = 'mark domains as stale (domains purchased but not in use)',
                             action = 'store_true'
                             )
         
-        parser.add_argument('-i', '--ignore_stale', 
+        onboard_parser.add_argument('-i', '--ignore_stale', 
                             dest = 'ignore_stale',
                             help = 'ignore stale domains during scan',
                             action = 'store_true' 
                             )
         
-        parser.add_argument('-r', '--use_ray', 
+        onboard_parser.add_argument('-r', '--use_ray', 
                             dest = 'use_ray',
                             help = 'use ray framework for distributed scans',
                             action = 'store_true' 
                             )
         
-        parser.add_argument('-n', '--num_actors', 
+        onboard_parser.add_argument('-n', '--num_actors', 
                             dest = 'num_actors',
                             help = 'number of ray actors, default 10',
                             )
         
-        parser.add_argument('-d', '--delete_logs', 
+        onboard_parser.add_argument('-d', '--delete_logs', 
                             dest = 'delete_logs',
                             help = 'delete logs of previous scans',
                             action = 'store_true'
                             )
         
-        parser.add_argument('-v', '--verbose', 
+        onboard_parser.add_argument('-v', '--verbose', 
+                            dest = 'verbose',
+                            help = 'print debug logs',
+                            action = 'store_true'
+                            )
+        
+        scan_parser = subparser.add_parser("scan", help="Scan an org", usage=ArgsParse.scan_msg())
+
+        scan_parser.add_argument('-w', '--workflow',
+                            dest = 'workflow',
+                            default = "default",
+                            help = "workflow to be executed as specified in config file")
+        
+        scan_parser.add_argument('-o', '--org',
+                            dest = 'org',
+                            required = True,
+                            help = "name of the organisation")
+        
+        scan_parser.add_argument('-a', '--app',
+                            dest = 'app',
+                            help = "scan only subdomains that belong to an app",
+                            )
+        
+        scan_parser.add_argument('-p', '--passive',
+                            dest = 'passive',
+                            help = 'run passive port scan',
+                            action = 'store_true'
+                            )
+        
+        scan_parser.add_argument('-s', '--stale',
+                            dest = 'stale',
+                            help = 'mark domains as stale (domains purchased but not in use)',
+                            action = 'store_true'
+                            )
+        
+        scan_parser.add_argument('-i', '--ignore_stale', 
+                            dest = 'ignore_stale',
+                            help = 'ignore stale domains during scan',
+                            action = 'store_true' 
+                            )
+        
+        scan_parser.add_argument('-r', '--use_ray', 
+                            dest = 'use_ray',
+                            help = 'use ray framework for distributed scans',
+                            action = 'store_true' 
+                            )
+        
+        scan_parser.add_argument('-n', '--num_actors', 
+                            dest = 'num_actors',
+                            help = 'number of ray actors, default 10',
+                            )
+        
+        scan_parser.add_argument('-d', '--delete_logs', 
+                            dest = 'delete_logs',
+                            help = 'delete logs of previous scans',
+                            action = 'store_true'
+                            )
+        
+        scan_parser.add_argument('-v', '--verbose', 
                             dest = 'verbose',
                             help = 'print debug logs',
                             action = 'store_true'
@@ -100,21 +196,19 @@ class ArgsParse:
         
         # display help, if no arguments are passed
         args = parser.parse_args(args=None if argv[1:] else ['--help'])
-        logging.debug(f"Arguments Passed - {args}")
+        logging.info(f"::::::Arguments Passed - {args}")
         
-        if args.mode == 'onboard':
-            onboard_scan_group.required = True
-        # if '-t' option is chosen
-        if args.host:
-            logging.debug(f"Target Args passed - {args.host}")
-            parsed_args['input_type'] = "host"
-            parsed_args['input'] = str(args.host)
-            
-        # if '-f' option is chosen
-        elif args.file_name:
-            logging.debug(f"File Args passed - {args.file_name}")
-            parsed_args['input_type'] = "file"
-            parsed_args['input'] = str(args.file_name)
+        if args.subcommand == 'onboard':
+            if args.host:
+                logging.debug(f"Target Args passed - {args.host}")
+                parsed_args['input_type'] = "host"
+                parsed_args['input'] = str(args.host)
+                
+            # if '-f' option is chosen
+            elif args.file_name:
+                logging.debug(f"File Args passed - {args.file_name}")
+                parsed_args['input_type'] = "file"
+                parsed_args['input'] = str(args.file_name)
 
         if args.workflow:
             parsed_args['workflow'] = args.workflow

@@ -6,13 +6,13 @@
 import os
 import sys
 import time
-from tqdm import tqdm
 import json
 import logging
 import asyncio
 import importlib
-import concurrent.futures
+from tqdm import tqdm
 from datetime import timedelta
+from mantis.modules.alerter import Alerter
 from mantis.utils.config_utils import ConfigUtils
 from mantis.utils.list_assets import ListAssets
 from mantis.models.args_model import ArgsModel
@@ -23,7 +23,6 @@ from mantis.utils.tool_utils import get_assets_grouped_by_type
 from mantis.constants import ASSET_TYPE_TLD, ASSET_TYPE_SUBDOMAIN, ASSET_TYPE_IP
 from mantis.scan_orchestration.threadpool_scan import ExecuteScanThreadPool
 from mantis.models.tool_logs_model import ModuleLogs, ScanLogs
-from mantis.modules.alerter import Alerter
 
 logging.getLogger().setLevel(logging.INFO)
 class Workflow:
@@ -126,10 +125,11 @@ class Workflow:
                 else:
                     execute_threadpool_obj = ExecuteScanThreadPool()
                     def done_callback(future):
+                        
                         pbar.update(1)
                     loop = asyncio.get_running_loop()
                     tasks = []
-                    with tqdm(total=len(commands_list)) as pbar:
+                    with tqdm(total=len(commands_list), colour="green") as pbar:
                         for tool_tuple in commands_list:
                             pbar.set_description(module.upper())
                             task = loop.create_task(execute_threadpool_obj.execute_and_store(tool_tuple))
@@ -139,9 +139,13 @@ class Workflow:
                     
                     module_log["module_tool_logs"] = res
 
+            except FileNotFoundError as e:
+                logging.debug("No file generated for tool")
             except Exception as e:
                 logging.error(f"Error calling core functions on tool classes {e}")
+
             print()
+
             module_log["module_end_time"] = time.perf_counter()
             module_log["module_time_taken"] = str(timedelta(seconds=round(module_log["module_end_time"] - module_log["module_start_time"], 0)))
             moduleLog_validated = ModuleLogs(**module_log)
@@ -169,8 +173,27 @@ class Workflow:
             os.makedirs('logs/scan_efficiency')
         logfile_name = 'logs/scan_efficiency/'+ args.org + str(time.time()).split('.')[0] + "-logs.json"
 
-        logging.info(f"Writing logs to file: {logfile_name}")
         with open(logfile_name, "w", encoding="utf-8") as outfile:
             outfile.write(str(logs))
 
-        await Alerter.send_alerts(log_dict=scan_stat_validated, args=args)
+        scan_stats, module_scan_stats = await Alerter.send_alerts(log_dict=scan_stat_validated, args=args)
+        module_stats = ""
+        # print(module_scan_stats)
+        for module in module_scan_stats:
+            module_stats += "\033[1;34m"+module["module_name"] + "\033[0m\n"
+            module_stats += f"Time taken: {module['module_time_taken']}\n"
+            module_stats += f"Efficiency: {module['module_efficiency']}\n\n"
+        print(f'''\u001B[32m
+\033[1;32mSCAN STATS:\033[0m
+              
+\033[1;34mTOTAL\033[0m
+Efficiency: {scan_stats['scan_percentage']}
+Time taken: {scan_stats['scan_time_taken']}
+
+{module_stats}
+You can find the detailed stats for each tool/subdomain combination here: {logfile_name}
+
+\033[1;32mScan Completed
+
+\u001B[0m''')
+        

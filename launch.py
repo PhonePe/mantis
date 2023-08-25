@@ -28,4 +28,4 @@ if __name__ == "__main__":
     start = time.perf_counter()
     main()
     finish = time.perf_counter()
-    logging.info(f"Total time taken to run the tool: {round(finish - start, 2)} seconds")
+    # logging.info(f"Total time taken to run the tool: {round(finish - start, 2)} seconds")
