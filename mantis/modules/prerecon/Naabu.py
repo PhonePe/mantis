@@ -34,12 +34,11 @@ class Naabu(ToolScanner):
         naabu_output_dict = []
         tool_output_dict = {}
         hosts = []
-        try:
-            with open(outfile) as json_lines:
-                for line in json_lines:
-                    naabu_output_dict.append(json.loads(line))
-        except Exception as e:
-            logging.error(f"Failed to read Naabu output - {e}")
+        
+        with open(outfile) as json_lines:
+            for line in json_lines:
+                naabu_output_dict.append(json.loads(line))
+    
 
         for every_host in naabu_output_dict:
             hosts.append(every_host['host'])

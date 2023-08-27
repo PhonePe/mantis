@@ -1,6 +1,8 @@
+import os
 import boto3
 import logging
 import jmespath
+from mantis.config_parsers.config_client import ConfigProvider
 from mantis.tool_base_classes.baseScanner import BaseScanner
 from mantis.models.args_model import ArgsModel
 from mantis.utils.asset_type import AssetType
@@ -13,6 +15,16 @@ Output: List of subdomains
 The discovered subdomains are inserted into db.
 Source is marked as internal in this case. 
 '''
+if ConfigProvider.get_config().aws.credentials_path is not None:
+    os.environ['AWS_SHARED_CREDENTIALS_FILE'] = ConfigProvider.get_config().aws.credentials_path
+else:
+    os.environ['AWS_SHARED_CREDENTIALS_FILE'] = '~/.aws/credentials'
+
+if ConfigProvider.get_config().aws.config_path is not None:
+    os.environ['AWS_CONFIG_FILE'] = ConfigProvider.get_config().aws.config_path
+else:
+    os.environ['AWS_CONFIG_FILE'] = '~/.aws/config'
+
 
 class Route53(BaseScanner):
 
@@ -21,6 +33,9 @@ class Route53(BaseScanner):
         return [(self, "Route53")]
     
     async def execute(self, tooltuple):
+        logging.info(f"Using credentials from {os.environ['AWS_SHARED_CREDENTIALS_FILE']}")
+        logging.info(f"Using config from {os.environ['AWS_CONFIG_FILE']}")
+
         return await self.main()
 
     async def main(self):
@@ -64,6 +79,7 @@ class Route53(BaseScanner):
                 output_dict_list.append(domain_dict)
             await CrudUtils.insert_assets(output_dict_list, source='internal')
         except Exception as e:
+            results["failure"] = 1
             results['exception'] = str(e)
 
         return results

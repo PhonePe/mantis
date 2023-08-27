@@ -39,6 +39,9 @@ class Notify(BaseModel):
                 raise ValueError("Invalid channel Name specified. Please only select amongst following options: ", valid_channels)
         return v
 
+class AWSConfig(BaseModel):
+    config_path: str = Field(None)
+    credentials_path: str = Field(None)
 
 class NucleiTemplate(BaseModel):
     whitelist: str = Field(None)
@@ -52,4 +55,5 @@ class AppConfig(BaseModel):
     notify: List[Notify]
     app: dict
     nuclei_template_path: NucleiTemplate
+    aws: AWSConfig
  
