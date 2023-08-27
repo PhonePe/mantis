@@ -11,14 +11,16 @@ class BaseRequestExecutor:
     @staticmethod 
     @retry((ConnectionError, Timeout), delay=5, tries=5)
     def sendRequest(method, api_tuple):
-        self, url, body, asset = api_tuple
+        headers, url, body, asset = api_tuple
         session = requests.session()
         try:
             if method == "POST":
-                response = session.post(url, data=body, headers=self.headers, timeout=BaseRequestExecutor.TIMEOUT,verify=True)
-                logging.debug(response.request.url)
-                logging.debug(response.request.body)
-                logging.debug(response.text)
+                if headers is not None:
+                    response = session.post(url, data=body, headers=headers, timeout=BaseRequestExecutor.TIMEOUT, verify=True)
+                else: 
+                    response = session.post(url, data=body, timeout=BaseRequestExecutor.TIMEOUT, verify=True)
+                    
+                logging.debug(f"Response code for {url} : {response.status_code}, {response.request}")
 
                 if response.status_code not in range(200, 299):
                     logging.warning(requests.exceptions.HTTPError(f"Request failed with status code {response.status_code}"))
@@ -26,8 +28,13 @@ class BaseRequestExecutor:
                 return (asset,response)
             
             elif method == "GET":
-                response = session.get(url, headers=self.headers, verify=True)
+                if headers is not None:
+                    response = session.get(url, headers= headers, verify=True, timeout=BaseRequestExecutor.TIMEOUT,)
+                else:
+                    response = session.get(url, verify=True, timeout=BaseRequestExecutor.TIMEOUT,)
+
                 logging.debug(f"Response code for {url} : {response.status_code}, {response.request}")
+                
                 if response.status_code not in range(200, 299):
                     logging.warning(requests.exceptions.HTTPError(f"Request failed with status code {response.status_code}"))
                 

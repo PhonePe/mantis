@@ -11,10 +11,10 @@ from time import sleep
 class Alerter:
     @staticmethod
     async def send_alerts(log_dict, args):
-
         try:
             notify_config = ConfigProvider.get_config().notify
 
+            scan_efficiency_blocks, scan_stats, module_scan_stats = Alerter.get_stats_slack_message(log_dict)
             for team in notify_config:
                 asset_type_list, asset_tag_list = NotificationsUtils.get_assets_to_notify_list(team.teamName)
                 finding__type_list, finding_tag_list = NotificationsUtils.get_findings_to_notify_list(team.teamName)
@@ -25,13 +25,14 @@ class Alerter:
                         if isinstance(team.channel[channel_type], list):
                             for webhook in team.channel[channel_type]:
                                 if team.scanEfficiency == True:
-                                    Notifications.send_slack_notifications(Alerter.get_stats_slack_message(log_dict), webhook)
+                                    Notifications.send_slack_notifications(scan_efficiency_blocks, webhook)
                                 for block in slack_blocks:
                                     Notifications.send_slack_notifications([block], webhook)
                         else:
                             logging.error("Slack must provide list of webhooks, check local.yml")
         except Exception as e:
             logging.debug(f"Slack alerts not configured")
+        return scan_stats, module_scan_stats
 
     @staticmethod
     async def get_inventory_slack_message(assets, findings, asset_tag_list, finding_tag_list):
@@ -262,4 +263,4 @@ class Alerter:
             #     final_str += f"- {tool}\t Success %: {results_dict[module]['tools_dict'][tool]['success_percentage']}\n"
             # final_str += '\n'   
         blocks.append(divider)
-        return blocks   
+        return blocks, scan_stats, module_scan_stats_list
