@@ -51,11 +51,11 @@ Please ensure your system meets them before proceeding.
 1. Docker >= v19.0.0
    - Check with 'docker --version'
 2. Docker compose >= v2.0.0
-   - Check with 'docker-compose version'
+   - Check with 'docker compose version'
 3. Docker configured to work without sudo 
 4. Homebrew installed
-4. sudo access on the machine
-5. Port 1337 & 13337 available on host machine (for appsmith dashboard)
+5. sudo access on the machine
+6. Port 1337 & 13337 available on host machine (for appsmith dashboard)
     - If these ports can't be freed then modify the port mapping in docker-compose-mantis.yml 
       to any available ports
 ${NC}
@@ -67,7 +67,7 @@ read is_installed_answer
 if [ "$is_installed_answer" != "${is_installed_answer#[Yy]}" ] ;then 
     echo -e "[+] ${Green}Proceeding with mantis installation on docker${NC}"
 else 
-    echo -e "[+] ${Green}Please ensure that the prerequisites are met${NC}"
+    echo -e "[+] ${BYellow}Please ensure that the prerequisites are met${NC}"
     exit -1
 fi
 
@@ -77,8 +77,7 @@ echo -e -n "[?] ${BICyan}Have you tried setting up Mantis using this script prev
 read remove_answer
 if [ "$remove_answer" != "${remove_answer#[Yy]}" ] ;then 
     echo -e "[-] ${Red}Removing the existing containers${NC}"
-    #docker-compose -p mantis-appsmith -f docker-compose-appsmith.yml down
-    docker-compose -p mantis-tool -f docker-compose-mantis.yml down
+    docker-compose down
 fi
 
 ## Setup aliases
@@ -104,15 +103,12 @@ echo -e -n "[?] ${BICyan} Do you have sudo access on the machine? (y/n)? ${NC}"
 
 brew install jq
 
-docker-compose -p mantis-tool -f docker-compose-mantis.yml up --remove-orphans -d --build || true
-#curl -L https://bit.ly/docker-compose-CE -s -o $PWD/docker-compose-appsmith.yml 
-#docker-compose -p mantis-appsmith -f docker-compose-appsmith.yml up --remove-orphans -d
-# rm docker-compose-appsmith.yml
-docker network connect mantis-network appsmith
+docker-compose up --remove-orphans -d --build
+#docker network connect mantis-network appsmith
 
 echo -e "${BIYellow}\n\nSETUP SUMMARY${NC}\n"
 
-docker-compose -p mantis-tool -f docker-compose-mantis.yml  ps --format json | jq -r \
+docker-compose ps --format json | jq -r \
 '["Service","Status"], ["--------","------------"], (.[] | [.Service, .State]) | @tsv' | column -ts $'\t'
 
 sudo  sed -i "" "/mantis/d" /etc/hosts

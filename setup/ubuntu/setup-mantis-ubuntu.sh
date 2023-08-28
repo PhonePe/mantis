@@ -171,7 +171,7 @@ sudo chmod 777 /usr/local/bin/devbox
 
 if [ "$setup_appsmith" = true ];then
    echo -e "[+] ${Green} Setting up Appsmith on Docker ${NC}"
-   curl -L https://bit.ly/docker-compose-CE -o $PWD/docker-compose.yml
+   #curl -L https://bit.ly/docker-compose-CE -o $PWD/docker-compose.yml
    sudo docker compose up -d
 fi
 
@@ -238,11 +238,11 @@ echo -e -n "
 ${BIGreen}
    Mantis has been setup successfully!
 
-   1. Mantis dashboard is accessible at $appsmith_ip
-         - For ease of use, you can access dashboard from your system at http://mantis.dashboard
+   1. Mantis dashboard is accessible at host's localhost (127.0.0.1) port 1337 
+         - For ease of use, you can access dashboard from your system at ${BICyan}http://mantis.dashboard:1337${BIGreen}
          - Configure your dashboard using instructions at https://
-   2. Mantis project Directory - /opt/mantis ${BICyan}
-   3. Command "mantis-activate" is added to your local system. Run this from anywhere to drop into Mantis shell
+   2. Mantis project Directory - ${BICyan}/opt/mantis${BIGreen}
+   3. Command ${BICyan}"mantis-activate"${BIGreen} is added to your local system. Run this from anywhere to drop into Mantis shell
    4. Mantis documentation is available at https://phonepe.github.io/mantis
    5. Get help and give feedback at https://slack.com
    ${NC}

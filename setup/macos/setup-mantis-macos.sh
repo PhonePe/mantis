@@ -235,8 +235,8 @@ echo -e -n "
 ${BIGreen}
    Mantis has been setup successfully!
 
-   1. Appsmith dashboard application is accessible on the host's localhost port 80
-         - For ease of use, you can access dashboard from your system at http://mantis.dashboard
+   1. Appsmith dashboard application is accessible on the host's localhost port 1337
+         - For ease of use, you can access dashboard from your system at http://mantis.dashboard:1337
          - Configure your dashboard using instructions at https://
    2. Mantis project Directory - /usr/local/mantis ${BICyan}
    3. Command "mantis-activate" is added to your local system. Run this from anywhere to drop into Mantis shell

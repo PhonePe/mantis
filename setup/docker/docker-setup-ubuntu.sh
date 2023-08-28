@@ -21,132 +21,72 @@ BPurple='\033[1;35m'      # Purple
 BCyan='\033[1;36m'        # Cyan
 BWhite='\033[1;37m'       # White
 
-# Checking the OS
+# High Intensity
+IBlack='\033[0;90m'       # Black
+IRed='\033[0;91m'         # Red
+IGreen='\033[0;92m'       # Green
+IYellow='\033[0;93m'      # Yellow
+IBlue='\033[0;94m'        # Blue
+IPurple='\033[0;95m'      # Purple
+ICyan='\033[0;96m'        # Cyan
+IWhite='\033[0;97m'       # White
 
-# os_type="$(uname -s)"
-
-# case "${os_type}" in
-#     Linux*)     machine=Linux;;
-#     Darwin*)    machine=Mac;;
-#     CYGWIN*)    machine=Cygwin;;
-#     MINGW*)     machine=MinGw;;
-#     *)          machine="UNKNOWN:${unameOut}"
-# esac
-
-# echo $machine
-
-# # Install docker on linux
-
-# function install_docker_linux {
-#     set -o errexit
-#     set -o nounset
-#     IFS=$(printf '\n\t')
-#     curl -fsSL https://get.docker.com/ | sudo bash
-#     sudo groupadd docker
-#     sudo usermod -aG docker $USER
-#     sudo systemctl restart docker
-#     sudo systemctl status docker
-# }
-
-## Install docker on Mac
-
-# function install_docker_mac {
-#     brew install colima
-#     brew install docker docker-compose
-#     mkdir -p ~/.docker/cli-plugins
-#     ln -sfn $(brew --prefix)/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
-#     export DOCKER_HOST=unix:///$HOME/.colima/docker.sock
-#     colima start
-#     docker ps -a
-# }
-
-function install_docker {
-    if command -v docker &>/dev/null && command -v docker-compose &>/dev/null; then
-        sudo rm $(which docker-compose)
-    fi
+# Bold High Intensity
+BIBlack='\033[1;90m'      # Black
+BIRed='\033[1;91m'        # Red
+BIGreen='\033[1;92m'      # Green
+BIYellow='\033[1;93m'     # Yellow
+BIBlue='\033[1;94m'       # Blue
+BIPurple='\033[1;95m'     # Purple
+BICyan='\033[1;96m'       # Cyan
+BIWhite='\033[1;97m'      # White
 
 
-# https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository
-    sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo apt-key fingerprint 0EBFCD88 | grep docker@docker.com || exit 1
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    sudo apt-get update
-    sudo apt-get install -y docker-ce
-    docker version
-    # curl -fsSL https://get.docker.com/ | sudo bash
-    sudo groupadd docker
-    sudo usermod -aG docker $USER
-    echo "Installing docker compose"
-    mkdir -p ~/.docker/cli-plugins/
-    curl -s -SL https://github.com/docker/compose/releases/download/v2.20.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
-    sudo mv ~/.docker/cli-plugins/docker-compose /usr/bin/docker-compose
-    sudo chmod +x /usr/bin/docker-compose
-    docker-compose version
-}
+echo -e -n "
+${BIYellow}
+MANDATORY PREREQUISITES 
 
-echo -e "\n[*] ${BPurple}Please make sure you have the following installed ${NC}
+Please ensure your system meets them before proceeding.
 
-1. Docker >= v19.0.0 
-    - Check with 'docker --version'
-2. Docker compose >= v2.20.3 
-    - Check with 'docker-compose version'
+1. Docker >= v19.0.0
+   - Check with 'docker --version'
+2. Docker compose >= v2.0.0
+   - Check with 'docker compose version'
+3. Docker configured to work without sudo 
+4. sudo access on the machine
+5. Port 1337 & 13337 available on host machine (for appsmith dashboard)
+    - If these ports can't be freed then modify the port mapping in docker-compose-mantis.yml 
+      to any available ports
+${NC}
 "
 
-echo -e -n "[?] ${Yellow}Do you have the above software installed? (y/n) ${NC}"
+
+echo -e -n "[?] ${BICyan}Does your system meet the above prerequisites? (y/n) ${NC}"
 read is_installed_answer
 
 if [ "$is_installed_answer" != "${is_installed_answer#[Yy]}" ] ;then 
     echo -e "[+] ${Green}Proceeding with mantis installation on docker${NC}"
 else 
-    echo -e -n "[?] ${Yellow}In case docker or docker-compose is not installed or outdated, the setup script can set them up.
-    Would you like to install or update docker & docker-compose (y/n)?${NC}"
-    read should_update_answer
-
-    if [ "$should_update_answer" != "${should_update_answer#[Yy]}" ] ;then 
-    echo -e "[+] ${Green} Installing & updating docker and docker-compose${NC}"
-    install_docker
-    fi
-
-
+    echo -e "[+] ${BYellow}Please ensure that the prerequisites are met${NC}"
+    exit -1
 fi
 
-
-
-
-
-
-
-#docker-compose version
-#sudo rm $(which docker-compose)
-
-# if command -v docker &>/dev/null && command -v docker-compose &>/dev/null; then
-#     echo -e "[*] ${BGreen}Looks like docker & docker-compose are installed${NC}"
-# else     
-#     printf '[?] Looks like docker is not installed on the system \n Do you want the setup to install docker and docker-compose?'
-#     read answer
-
-#     if [ "$answer" != "${answer#[Yy]}" ] ;then 
-#     # Install docker & docker-compose 
-#     echo -e "[+] ${Green}Installing Docker & docker-compose${NC}"
-
-#         if [ "$machine" == "Mac" ]; then
-#             echo "Mac"
-#             install_docker_mac 
-#         elif [ "$machine" == "Mac" ]; then
-#             install_docker_linux
-#         else 
-#             exit -1
-#         fi
-#     else
-#         exit -1
-# fi
-# fi
-
-echo -e "[?] Have you tried setting up Mantis using this script previously?   
-    Selecting yes means, we will remove & recreate all the resources including MongoDB (y/n)?
-    ${Cyan}(It is recommended to backup MongoDB before proceeding)${NC}"
-read answer
+if docker compose ps | grep -q "Up"; then
+    echo -e -n "[?] ${BIYellow}Looks like this script was run previously to setup Mantis.
+    ${BICyan}Do you want the script to remove the resources created previously?
+    Selecting yes means, we will remove & recreate all the resources including MongoDB (y/n)? \n
+    ${BRed}(It is recommended to backup MongoDB before proceeding) ${NC}"
+    read remove_answer
+    
+    if [ "$remove_answer" != "${remove_answer#[Yy]}" ] ;then 
+        echo -e "[-] ${Red}Removing the existing containers${NC}"
+        docker compose down
+    else 
+        echo -e "[-] ${BYellow}Please clean up the resources from previous script manually \n
+                 Run docker compose ps to check which resources are running.${NC}"
+        exit -1 
+    fi
+fi
 
 ## Setup aliases
 
@@ -157,27 +97,49 @@ COMMAND_CONTENT="docker exec -it mantis bash"
 
 # Check if the command already exists
 
-echo -e "${BPurple}Sudo is only required to provide a seamless user experience by adding aliases on host system ${NC}"
-printf '[?] Do you have sudo access? (y/n)?'
+echo -e "[*] ${BPurple}Sudo is only required to provide a seamless user experience by adding aliases on host system ${NC}"
+echo -e -n "[?] ${BICyan}Do you have sudo access on the machine? (y/n)? ${NC}"
     read sudo_answer
     if [ "$sudo_answer" != "${sudo_answer#[Yy]}" ] ;then 
         sudo rm -f /usr/local/bin/mantis-activate
-        echo "$COMMAND_CONTENT" | sudo tee "$COMMAND_PATH"
-        cat "$COMMAND_PATH"
+        echo "$COMMAND_CONTENT" | sudo tee "$COMMAND_PATH"  >/dev/null
         sudo chmod +x "$COMMAND_PATH"
         echo "Command '$COMMAND_NAME' added to system."
     fi
 
-if [ "$answer" != "${answer#[Yy]}" ] ;then 
-    docker-compose -f docker-compose-appsmith.yml down
-    docker-compose -f docker-compose-mantis.yml down
-fi
+# Install packages
 
-docker-compose -f docker-compose-mantis.yml up --build -d 
-curl -L https://bit.ly/docker-compose-CE -s -o $PWD/docker-compose-appsmith.yml 
-docker-compose -f docker-compose-appsmith.yml up -d --build
-# rm docker-compose-appsmith.yml
-docker network connect mantis-network appsmith
-echo -e "${BPurple}Mantis container is at: docker exec -it mantis bash${NC}"
+sudo apt update && sudo apt install jq -y
+
+docker compose up --remove-orphans -d
+
+echo -e "${BIYellow}\n\nSETUP SUMMARY${NC}\n"
+
+docker compose ps --format json | jq -r \
+'["Service","Status"], ["--------","------------"], (.[] | [.Service, .State]) | @tsv' | column -ts $'\t'
+
+sudo  sed -i "/mantis/d" /etc/hosts
+sudo -- sh -c -e "echo '10.10.0.3  mantis.db' >> /etc/hosts";
+sudo -- sh -c -e "echo '127.0.0.1  mantis.dashboard' >> /etc/hosts";
+
+echo -e -n "
+${BIGreen}
+    Mantis has been setup successfully on docker!
+
+    1. You can access Mantis container using: ${BICyan}docker exec -it mantis bash${BIGreen}
+        - For ease of use, run ${BICyan}mantis-activate${BIGreen} command anywhere on the system to exec into Mantis docker
+   
+    2. Appsmith dashboard application is accessible on the host's localhost port 1337
+        - For ease of use, you can access dashboard from your system at ${BICyan}http://mantis.dashboard:1337${BIGreen}
+        - You can access Appsmith container using - ${BICyan}docker exec -it appsmith bash${BIGreen}
+        - Configure your dashboard using instructions at https://
+
+    3. You can access MongoDB container using: ${BICyan}docker exec -it mongodb bash${BIGreen}
+
+    4. Command "mantis-activate" is added to your local system. Run this from anywhere to drop into Mantis shell
+    5. Mantis documentation is available at https://phonepe.github.io/mantis
+    6. Get help and give feedback at https://slack.com
+    ${NC}
+"
 
 docker exec -it mantis bash
