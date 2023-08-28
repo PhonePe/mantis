@@ -27,6 +27,15 @@ services:
       MONGO_INITDB_ROOT_DATABASE: mantis
     volumes:
       - ./configs/mongo-config.js:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+  appsmith:
+    image: index.docker.io/appsmith/appsmith-ce
+    container_name: appsmith
+    ports:
+      - "1337:80"
+      - "13337:443"
+    volumes:
+      - ./stacks:/appsmith-stacks
+    restart: unless-stopped
 networks:
   network:
     name: mantis-network

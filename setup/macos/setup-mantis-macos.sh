@@ -53,12 +53,14 @@ Please ensure your system meets them before proceeding.
 2. Docker compose >= v2.0.0
    - Check with 'docker-compose version'
 3. Homebrew installed 
-4. Port 80 & 443 available on host machine (for appsmith dashboard)
+4. Port 1337 & 13337 available on host machine (for appsmith dashboard)
+   - If these ports cannot be freed. Modify port mappings in docker-compose-appsmith.yml
+     file with available ports
 5. Sudo access on the machine
 ${NC}
 "
 
-echo -e -n "[?] ${BICyan}Does your system meet the prerequisites(y/n)? ${NC}"
+echo -e -n "[?] ${BICyan}Does your system meet the above prerequisites(y/n)? ${NC}"
    read prereq_answer
 
    if [ "$prereq_answer" != "${prereq_answer#[Yy]}" ] ;then 
@@ -166,8 +168,7 @@ sudo chmod 777 /usr/local/bin/devbox
 
 if [ "$setup_appsmith" = true ];then
    echo -e "[+] ${Green} Setting up Appsmith on Docker ${NC}"
-   curl -L https://bit.ly/docker-compose-CE -o $PWD/docker-compose.yml
-   sudo docker compose up -d
+   sudo docker compose up -d --build
 fi
 
 #appsmith_ip=$(sudo docker inspect \
@@ -188,6 +189,7 @@ COMMAND_CONTENT="cd /opt/mantis/; devbox shell -c /usr/local/mantis/setup/macos"
 sudo rm -f /usr/local/bin/mantis-activate
 # Create the command script
 echo -e "$COMMAND_CONTENT" | sudo tee "$COMMAND_PATH"
+echo -e "$COMMAND_CONTENT" | sudo tee "$COMMAND_PATH"
 sudo chmod +x "$COMMAND_PATH"
 echo "Command '$COMMAND_NAME' added to system."
 
@@ -202,11 +204,11 @@ SERVICE_WIDTH=15
 STATUS_WIDTH=26
 ACCESS_WIDTH=40
 
-echo -e "\n\n"
+echo -e "${BIYellow}\n\nINSTALLATION SUMMARY${NC}"
 
 # Display the table header
 printf "\e[32m%-${SERVICE_WIDTH}s | %-${STATUS_WIDTH}s | %-${ACCESS_WIDTH}s\e[0m\n" "Service" "Status" "Access (If installed)"
-
+echo -e "${Green}---------------------------------------------------------------------------------------------${NC}"
 # Display the table data
 for (( i=0; i<${#Service[@]}; i++ ))
 do
