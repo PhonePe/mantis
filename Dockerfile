@@ -80,9 +80,10 @@ RUN unzip awscli-exe-linux-x86_64.zip
 RUN ./aws/install
 
 RUN rm -rf *
-RUN echo 'export PS1="🦗 Mantis > " && alias mantis="python /home/mantis/launch.py"' | tee -a /root/.bash_profile
-RUN echo 'export PS1="🦗 Mantis > " && alias mantis="python /home/mantis/launch.py"' | tee -a ~/.profile
-RUN echo 'export PS1="🦗 Mantis > " && alias mantis="python /home/mantis/launch.py"' | tee -a ~/.bashrc
+
+RUN echo 'export PS1="🦗 Mantis > " && \
+alias mantis="python /home/mantis/launch.py" && \
+alias help="python /home/mantis/launch.py --help"' | tee -a ~/.bashrc
 
 # Copy Code
 COPY ./mantis /home/mantis/mantis
