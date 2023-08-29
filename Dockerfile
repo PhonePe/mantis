@@ -85,6 +85,8 @@ RUN echo 'export PS1="🦗 Mantis > " && \
 alias mantis="python /home/mantis/launch.py" && \
 alias help="python /home/mantis/launch.py --help"' | tee -a ~/.bashrc
 
+RUN echo 'echo -e "\033[1;94mWelcome to Mantis Shell! Enter help for more details\033[0m"' | tee -a ~/.bashrc
+
 # Copy Code
 COPY ./mantis /home/mantis/mantis
 COPY ./configs /home/mantis/configs

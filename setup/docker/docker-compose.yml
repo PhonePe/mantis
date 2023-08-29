@@ -32,7 +32,7 @@ services:
     container_name: appsmith
     ports:
       - "1337:80"
-      - "13337:443"
+      - "1338:443"
     volumes:
       - ./stacks:/appsmith-stacks
     restart: unless-stopped
