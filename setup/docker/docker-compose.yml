@@ -19,6 +19,8 @@ services:
     container_name: mongodb
     image: mongo:latest
     restart: always
+    ports:
+      - "27000:27017"
     networks:
       network:
         ipv4_address: 10.10.0.3
@@ -33,6 +35,11 @@ services:
     ports:
       - "1337:80"
       - "1338:443"
+    networks:
+      network:
+        ipv4_address: 10.10.0.4
+    extra_hosts:
+      - "mantis.db:10.10.0.3"
     volumes:
       - ./stacks:/appsmith-stacks
     restart: unless-stopped
