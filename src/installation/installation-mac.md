@@ -14,11 +14,11 @@ $ git clone https://github.com/PhonePe/mantis.git
 cd into the Mantis directory    
 
 ```shell
-$ cd mantis/setup/mac
+$ cd mantis/setup/macos
 ```
 
 Run the mac setup file
 
 ```shell
-$ ./setup-mantis-mac.sh
+$ ./setup-mantis-macos.sh
 ```

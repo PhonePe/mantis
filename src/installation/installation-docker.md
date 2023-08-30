@@ -4,6 +4,7 @@
 Mantis supports multiple installation types. Installing Mantis via Docker would be a good start to get a hang of the framework.
 
 Considering that Mantis also includes mongoDB and AppSmith, we have provided a shell script that installs all the components.
+
 ## Setup
 
 Clone the Mantis repository 
@@ -18,8 +19,10 @@ cd into the Mantis directory
 $ cd mantis/setup/docker
 ```
 
-Run the docker setup file
+Run the respective docker setup file based on your OS
 
 ```shell
-$ ./docker-setup.sh
+$ ./docker-setup-macos.sh
+
+$ ./docker-setup-ubuntu.sh
 ```

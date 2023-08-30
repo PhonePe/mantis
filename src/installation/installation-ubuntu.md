@@ -1,4 +1,4 @@
-# Ubuntu
+# Ubuntu - Linux
 ---
 
 To install Mantis directly on Ubuntu, follow the below steps. 
@@ -22,4 +22,3 @@ Run the mac setup file
 ```shell
 $ ./setup-mantis-ubuntu.sh
 ```
-

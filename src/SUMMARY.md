@@ -14,7 +14,7 @@
 - [⚙️ Installation and Setup](./installation/installation.md)
     - [Docker](./installation/installation-docker.md)
     - [Mac](./installation/installation-mac.md)
-    - [Ubuntu](./installation/installation-ubunu.md)
+    - [Linux(Ubuntu)](./installation/installation-ubuntu.md)
     - [Windows](./installation/installation-windows.md)
     - [Mutliple Machines](./installation/installation-multiple.md)
         - [Run Ansible Script](./installation/ansible.md)

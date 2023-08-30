@@ -4,8 +4,8 @@ Mantis provides multiple installation methods that includes performing the entir
 
 **Single Machine** 
 - Docker 
-- Linux (Ubuntu, RedHat)
-- Windows
+- Linux (Ubuntu)
+- Windows (Coming Soon)
 
 **Multiple Machine** 
 - Set of VMs
