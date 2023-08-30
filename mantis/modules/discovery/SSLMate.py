@@ -31,7 +31,7 @@ class SSLMate(APIScanner):
         self.assets.extend(await get_assets_grouped_by_type(args, ASSET_TYPE_TLD))
         for every_asset in self.assets:
             endpoint = self.endpoint.format(domain_name=every_asset)
-            self.asset_api_list.append((self, endpoint, None,  every_asset))
+            self.asset_api_list.append((None, endpoint, None,  every_asset))
         return [(self, "GET")]
     
 
