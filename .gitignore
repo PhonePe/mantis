@@ -1,3 +1,7 @@
 *__pycache__
 logs/
 .DS_Store
+book
+src
+stacks
+docker/configs

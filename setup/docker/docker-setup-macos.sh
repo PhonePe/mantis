@@ -75,7 +75,7 @@ fi
 
 if docker compose ps | grep -q "Up"; then
     echo -e "[?] ${BIYellow}Looks like this script was run previously to setup Mantis.${NC}\n"
-    sudo docker compose ps --format json | jq -r \
+    docker compose ps --format json | jq -r \
     '["Service","Status"], ["--------","------------"], (.[] | [.Service, .State]) | @tsv' | column -ts $'\t'
 
 echo -e -n "
@@ -102,22 +102,22 @@ read -p "What would you like to do? (1/2/3/4): " choice
 case $choice in
     1)
         echo -e "[-] ${Red}Removing all the existing containers from Mantis setup${NC}"
-        sudo docker compose down
+        docker compose down
         ;;
     2)
         echo -e "[-] ${Red}Removing Mantis, Appsmith and retaining MongoDB${NC}"
-        sudo docker compose down appsmith
-        sudo docker compose down mantis
+        docker compose down appsmith
+        docker compose down mantis
         ;;
     3)
         echo -e "[-] ${Red}Removing Mantis, MongoDB and retaining Appsmith${NC}"
-        sudo docker compose down mongodb
-        sudo docker compose down mantis
+        docker compose down mongodb
+        docker compose down mantis
         ;;
 
     4)
         echo -e "[-] ${Red}Removing Mantis and retaining MongoDB, Appsmith${NC}"
-        sudo docker compose down mantis
+        docker compose down mantis
         ;;
     *)
         echo -e "\nInvalid choice. Please select a valid option (1/2/3/4)."
@@ -153,12 +153,12 @@ echo -e -n "[?] ${BICyan} Do you have sudo access on the machine? (y/n)? ${NC}"
 
 brew install jq
 
-sudo docker compose up mongodb --remove-orphans -d --build
+docker compose up --remove-orphans -d --build
 #docker network connect mantis-network appsmith
 
 echo -e "${BIYellow}\n\nSETUP SUMMARY${NC}\n"
 
-sudo docker compose ps --format json | jq -r \
+docker compose ps --format json | jq -r \
 '["Service","Status"], ["--------","------------"], (.[] | [.Service, .State]) | @tsv' | column -ts $'\t'
 
 sudo  sed -i "" "/mantis/d" /etc/hosts
