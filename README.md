@@ -76,10 +76,12 @@ cd into the Mantis directory
 $ cd mantis/setup/docker
 ```
 
-Run the docker setup file
+Run the respective docker setup file based on your OS
 
 ```
-$ ./docker-setup.sh
+$ ./docker-setup-macos.sh
+
+$ ./docker-setup-ubuntu.sh
 ```
 
 
@@ -103,6 +105,28 @@ Run the mac setup file
 
 ```
 $ ./setup-mantis-ubuntu.sh
+```
+
+### MacOS
+
+To install Mantis directly on MacOS, follow the below steps. 
+
+Clone the Mantis repository 
+
+```
+$ git clone https://github.com/PhonePe/mantis.git
+```
+
+cd into the Mantis directory    
+
+```
+$ cd mantis/setup/macos
+```
+
+Run the mac setup file
+
+```
+$ ./setup-mantis-macos.sh
 ```
 
 ## Command Line Options 🖥️
@@ -167,7 +191,7 @@ $ mantis onboard -o org_name -t example.in
 #### IP
 
 ```shell
-$ mantis -m onboard -o org_name -t 10.123.123.12
+$ mantis onboard -o org_name -t 10.123.123.12
 ```
 
 #### IP-Range
@@ -216,31 +240,18 @@ If you want to contribute to this project:
 
 ## Credits 🎖
 
+**Development** - Prateek Thakare  
 **Recon Tools Design/Launch scripts** - Bharath Kumar  
 **Secret Scanning** - Hitesh Kumar, Saddam Hussain  
 **Dashboard** - Pragya Gupta  
 **Design Suggestions** - Dhruv Shekawat, Santanu Sinha  
 **Framework Design** - Praveen Kanniah  
-**Development** - Prateek Thakare  
 
 **Special Thanks** - Ankur Bhargava
-
-## Special Thanks 
-
-* [Ray Framework](https://www.ray.io/)
-* [Project Discovery](https://github.com/projectdiscovery)
-
 
 ## Disclaimer
 
 Usage of this program for attacking targets without consent is illegal. It is the user's responsibility to obey all applicable laws. The developer assumes no liability and is not responsible for any misuse or damage caused by this program. Please use responsibly.
 
 The material contained in this repository is licensed under Apache2.
-
-
-
-
-
-
-
 
