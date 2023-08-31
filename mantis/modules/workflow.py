@@ -108,17 +108,23 @@ class Workflow:
                     num_actors = args.num_actors
                     num_actors = min(num_actors, len(commands_list))
                     futures_res = []
-                    executeScanActors = [ExecuteRayScan.remote() for i in range(num_actors)]
-                    futures = [executeScanActors[i%num_actors].execute_and_store.remote(commands_list[i]) for i in range(len(commands_list))]
-                    with tqdm(total=len(commands_list), desc=module.upper()) as pbar:
-                        while futures:
-
-                            ready, futures = ray.wait(futures)
-
-                            for objRef in ready:
-                                futures_res.append(ray.get(objRef))
-                                pbar.update(1)
                     
+                    executeScanActors = [ExecuteRayScan.remote() for i in range(num_actors)]
+                    num_batches = (len(commands_list) + num_actors - 1) // num_actors
+                    batches = [commands_list[i*num_actors:(i+1)*num_actors] for i in range(num_batches)]
+                    with tqdm(total=len(commands_list), desc=module.upper(),  colour="green") as pbar:
+                        for batch in batches:
+                            futures = []
+                            for i in range(len(batch)):
+                                futures.append(executeScanActors[i].execute_and_store.remote(commands_list[i]))
+                                    
+                            while futures:
+                                ready, futures = ray.wait(futures)
+
+                                for objRef in ready:
+                                    futures_res.append(ray.get(objRef))
+                                    pbar.update(1)
+                            
                     logging.info(f"Awaiting for the results of tool execution")
                     module_log["module_tool_logs"] = futures_res
                 
