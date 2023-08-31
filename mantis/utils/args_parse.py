@@ -30,7 +30,7 @@ class ArgsParse:
         return '''
         \033[1;34mONBOARD: (First time scan, Run this !!)\033[0m
 
-        \033[0;32mmantis onboard -o example_org -t www.example.org\033[0m
+        \033[0;32mmantis onboard -o example_org -t org.tld\033[0m
         \033[0;32mmantis onboard -o example_org -f file.txt\033[0m
 
             '''
