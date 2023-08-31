@@ -11,7 +11,7 @@ class BaseRequestExecutor:
     @staticmethod 
     @retry((ConnectionError, Timeout), delay=5, tries=5)
     def sendRequest(method, api_tuple):
-        headers, url, body, asset = api_tuple
+        url, headers, body, asset = api_tuple
         session = requests.session()
         try:
             if method == "POST":

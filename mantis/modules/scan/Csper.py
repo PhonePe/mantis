@@ -23,7 +23,8 @@ class Csper(APIScanner):
         self.assets.extend(await get_assets_grouped_by_type(args, ASSET_TYPE_SUBDOMAIN))
         for every_asset in self.assets:
             body_param = self.body["URL"].format(asset=every_asset)
-            self.asset_api_list.append((self, self.endpoint, body_param, every_asset))
+            # Append tuple with endpoint, headers, body, asset
+            self.asset_api_list.append((self.endpoint, None, body_param, every_asset))
 
         return [(self, "GET")]
     

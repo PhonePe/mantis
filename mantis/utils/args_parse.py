@@ -16,7 +16,7 @@ class ArgsParse:
         return '''
         \033[1;34mONBOARD: (First time scan, Run this !!)\033[0m
 
-        \033[0;32mmantis onboard -o example_org -t tld.org\033[0m
+        \033[0;32mmantis onboard -o example_org -t www.example.org\033[0m
         \033[0;32mmantis onboard -o example_org -f file.txt\033[0m
 
         \033[1;34mSCAN:\033[0m
@@ -198,6 +198,11 @@ class ArgsParse:
                             action = 'store_true'
                             )
         
+        scan_parser.add_argument('-aws', '--aws_profiles', 
+                            dest = 'aws_profiles',
+                            help = 'List of comma separated aws profiles for Route53',
+                            )
+        
         
         # display help, if no arguments are passed
         args = parser.parse_args(args=None if argv[1:] else ['--help'])
@@ -215,11 +220,10 @@ class ArgsParse:
                 parsed_args['input_type'] = "file"
                 parsed_args['input'] = str(args.file_name)
 
-            if args.aws_profiles:
-                parsed_args["aws_profiles"] = args.aws_profiles.split(',')
-            else:
-                parsed_args["aws_profiles"] = ['default']
-
+        if args.aws_profiles:
+            parsed_args["aws_profiles"] = args.aws_profiles.split(',')
+        else:
+            parsed_args["aws_profiles"] = ['default']
 
         if args.workflow:
             parsed_args['workflow'] = args.workflow
@@ -227,11 +231,6 @@ class ArgsParse:
             parsed_args['workflow'] = 'default'
 
         parsed_args['org'] = args.org
-
-        # if args.output:
-        #     parsed_args["output"] = args.output
-        # else:
-        #     parsed_args["output"] = os.getcwd()
         
         if args.app:
             parsed_args["app"] = args.app
@@ -241,10 +240,6 @@ class ArgsParse:
         
         if args.stale:
             parsed_args["stale"] = True
-
-        # if args.aws_profiles:
-        #     parsed_args["aws_profiles"] = args.aws_profiles
-        #     print(parsed_args["aws_profiles"])
 
         if args.ignore_stale:
             parsed_args["ignore_stale"] = True 
@@ -267,9 +262,3 @@ class ArgsParse:
         logging.info(f"Parsing Arguements - Completed")
 
         return args_pydantic_obj
-
-        
-
-    
-    
-   
