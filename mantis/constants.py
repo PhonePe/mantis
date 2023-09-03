@@ -7,6 +7,7 @@ DISCOVERY_MODULE = "discovery"
 RECON_MODULE = "recon"
 SCAN_MODULE = "scan"
 ASSET_TYPE_TLD = 'TLD'
+ASSET_TYPE_THIRD_PARTY = "third_party_integration"
 
 GET_METHOD = "GET"
 POST_METHOD = "POST"

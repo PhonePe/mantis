@@ -10,6 +10,7 @@ import json
 import logging
 import asyncio
 import importlib
+import shutil
 from tqdm import tqdm
 from datetime import timedelta
 from mantis.modules.alerter import Alerter
@@ -108,42 +109,53 @@ class Workflow:
                     num_actors = args.num_actors
                     num_actors = min(num_actors, len(commands_list))
                     futures_res = []
-                    
-                    executeScanActors = [ExecuteRayScan.remote() for i in range(num_actors)]
-                    num_batches = (len(commands_list) + num_actors - 1) // num_actors
-                    batches = [commands_list[i*num_actors:(i+1)*num_actors] for i in range(num_batches)]
                     with tqdm(total=len(commands_list), desc=module.upper(),  colour="green") as pbar:
-                        for batch in batches:
-                            futures = []
-                            for i in range(len(batch)):
-                                futures.append(executeScanActors[i].execute_and_store.remote(commands_list[i]))
-                                    
-                            while futures:
-                                ready, futures = ray.wait(futures)
-
-                                for objRef in ready:
-                                    futures_res.append(ray.get(objRef))
-                                    pbar.update(1)
+                        futures = []
+                        while len(commands_list):
+                            while len(futures) < num_actors+1 and len(commands_list):
+                                executeScanActor = ExecuteRayScan.remote()
+                                futures.append(executeScanActor.execute_and_store.remote(commands_list.pop()))
+                            ready, futures = ray.wait(futures)
                             
+                            for objRef in ready:
+                                futures_res.append(ray.get(objRef))
+                                pbar.update(1)
+                            
+
+                        while futures:
+                            ready, futures = ray.wait(futures)
+                            
+                            for objRef in ready:
+                                futures_res.append(ray.get(objRef))
+                                pbar.update(1)
+                        
                     logging.info(f"Awaiting for the results of tool execution")
                     module_log["module_tool_logs"] = futures_res
                 
                 else:
                     execute_threadpool_obj = ExecuteScanThreadPool()
+
                     def done_callback(future):
-                        
                         pbar.update(1)
+
                     loop = asyncio.get_running_loop()
                     tasks = []
+                    results = []
                     with tqdm(total=len(commands_list), colour="green") as pbar:
+                        semaphore = asyncio.Semaphore(args.thread_count)
+                        async def run_with_semaphore(task):
+                            async with semaphore:
+                                res = await task
+                                results.append(res)
                         for tool_tuple in commands_list:
                             pbar.set_description(module.upper())
-                            task = loop.create_task(execute_threadpool_obj.execute_and_store(tool_tuple))
+                            task = loop.create_task(run_with_semaphore(execute_threadpool_obj.execute_and_store(tool_tuple)))
                             tasks.append(task)
                             task.add_done_callback(done_callback)
-                        res = await asyncio.gather(*tasks)
+                        print(len(tasks))
+                        await asyncio.gather(*tasks)
                     
-                    module_log["module_tool_logs"] = res
+                    module_log["module_tool_logs"] = results
 
             except FileNotFoundError as e:
                 logging.debug("No file generated for tool")
@@ -172,8 +184,7 @@ class Workflow:
                     os.remove(os.path.join(log_dir, log))
             log_dir = 'logs/tool_logs'
             if os.path.exists(log_dir):
-                for log in os.listdir(log_dir):
-                    os.remove(os.path.join(log_dir, log))
+                shutil.rmtree(log_dir)
 
         if not os.path.exists('logs/scan_efficiency'):
             os.makedirs('logs/scan_efficiency')

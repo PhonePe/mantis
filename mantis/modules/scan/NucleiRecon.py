@@ -7,6 +7,7 @@ from mantis.tool_base_classes.toolScanner import ToolScanner
 from mantis.utils.tool_utils import get_assets_with_non_empty_fields
 
 '''
+THIS MODULE IS NOT IN USE AS OF NOW
 NucleiRecon Module is used to run only technologies templates of nuclei on the target
 Output: JSON file
 Information inserted into DB:

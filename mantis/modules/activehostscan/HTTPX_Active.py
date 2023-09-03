@@ -8,7 +8,7 @@ from mantis.utils.crud_utils import CrudUtils
 from mantis.constants import ASSET_TYPE_SUBDOMAIN
 from mantis.utils.common_utils import CommonUtils
 
-class HTTPX_Tech(ToolScanner):
+class HTTPX_Active(ToolScanner):
 
     def __init__(self) -> None:
         super().__init__()
@@ -38,8 +38,10 @@ class HTTPX_Tech(ToolScanner):
                 report_dict.append(json.loads(line))
         # for every_asset in report_dict:
         tool_output_dict["active_hosts"] = []
+        tool_output_dict["technologies"] = []
         for every_asset in report_dict:
             tool_output_dict["active_hosts"].append(every_asset["url"])
+            tool_output_dict["technologies"].extend(every_asset["tech"])
             
         return tool_output_dict
 

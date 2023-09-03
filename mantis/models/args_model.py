@@ -17,3 +17,5 @@ class ArgsModel(BaseModel):
     num_actors: int = 10
     delete_logs: bool = False
     verbose: bool = False
+    thread_count: int = 10
+    
