@@ -12,13 +12,13 @@ workflow:
         tools: ['FindCDN', 'Naabu'] 
         order: 2
       - moduleName: activehostscan
-        tools: ['HTTPX_Tech', 'HTTPX']
+        tools: ['HTTPX_Active', 'HTTPX']
         order: 3
       - moduleName: activerecon
         tools: ['Wafw00f']
         order: 4
       - moduleName: scan
-        tools: [ 'DNSTwister', 'Csper', 'Nuclei', 'NucleiRecon']
+        tools: [ 'DNSTwister', 'Csper', 'Nuclei', 'NucleiInfo', 'Corsy']
         order: 5
       - moduleName: secretscanner
         tools: ['SecretScanner']
@@ -39,13 +39,13 @@ workflow:
         tools: ['FindCDN', 'Naabu', 'IPinfo'] 
         order: 2
       - moduleName: activehostscan
-        tools: ['HTTPX_Tech', 'HTTPX']
+        tools: ['HTTPX_Active', 'HTTPX']
         order: 3
       - moduleName: activerecon
         tools: ['Wafw00f']
         order: 4
       - moduleName: scan
-        tools: [ 'DNSTwister', 'Csper', 'Nuclei', 'NucleiRecon']
+        tools: [ 'DNSTwister', 'Csper', 'Nuclei', 'NucleiInfo', 'Corsy']
         order: 5
       - moduleName: secretscanner
         tools: ['SecretScanner']
@@ -63,13 +63,13 @@ workflow:
         tools: ['FindCDN', 'Naabu'] 
         order: 2
       - moduleName: activehostscan
-        tools: ['HTTPX_Tech', 'HTTPX']
+        tools: ['HTTPX_Active', 'HTTPX']
         order: 3
       - moduleName: activerecon
         tools: ['Wafw00f']
         order: 4
       - moduleName: scan
-        tools: [ 'Nuclei', 'NucleiRecon']
+        tools: [ 'Nuclei', 'NucleiInfo']
         order: 5
       - moduleName: secretscanner
         tools: ['SecretScanner']

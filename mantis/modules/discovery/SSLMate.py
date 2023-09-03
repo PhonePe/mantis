@@ -1,5 +1,5 @@
 from mantis.tool_base_classes.apiScanner import APIScanner
-from mantis.utils.tool_utils import get_assets_grouped_by_type
+from mantis.utils.tool_utils import get_assets_by_field_value
 from mantis.constants import ASSET_TYPE_TLD, ASSET_TYPE_CERT
 from mantis.models.args_model import ArgsModel
 from mantis.utils.crud_utils import CrudUtils
@@ -28,11 +28,10 @@ class SSLMate(APIScanner):
         self.endpoint = "https://api.certspotter.com/v1/issuances?domain={domain_name}&include_subdomains=true&expand=dns_names&expand=issuer&expand=revocation&expand=problem_reporting&expand=cert_der"
         self.body = ""
         self.org = args.org
-        self.assets.extend(await get_assets_grouped_by_type(args, ASSET_TYPE_TLD))
+        self.assets = await get_assets_by_field_value(args, "stale", False, ASSET_TYPE_TLD)
         for every_asset in self.assets:
             endpoint = self.endpoint.format(domain_name=every_asset)
-            # send tuple in the form of endpoint, headers, body, asset
-            self.asset_api_list.append((endpoint,None, None,  every_asset))
+            self.asset_api_list.append((endpoint, None, None,  every_asset))
         return [(self, "GET")]
     
 

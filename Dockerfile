@@ -74,10 +74,12 @@ RUN wget https://github.com/lc/gau/releases/download/v2.1.2/gau_2.1.2_linux_amd6
 RUN tar -xvf gau_2.1.2_linux_amd64.tar.gz
 RUN mv gau /usr/bin
 
-RUN echo "Installing and setting up awscli"
-RUN wget "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
-RUN unzip awscli-exe-linux-x86_64.zip
-RUN ./aws/install
+# Installing Corsy
+RUN echo "Installing Corsy"
+RUN wget https://github.com/s0md3v/Corsy/archive/refs/tags/1.0-rc.zip
+RUN unzip 1.0-rc.zip
+RUN mv Corsy-1.0-rc Corsy
+RUN mv Corsy /usr/bin
 
 RUN rm -rf *
 

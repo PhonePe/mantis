@@ -30,7 +30,7 @@ class ArgsParse:
         return '''
         \033[1;34mONBOARD: (First time scan, Run this !!)\033[0m
 
-        \033[0;32mmantis onboard -o example_org -t org.tld\033[0m
+        \033[0;32mmantis onboard -o example_org -t example.tld\033[0m
         \033[0;32mmantis onboard -o example_org -f file.txt\033[0m
 
             '''
@@ -112,6 +112,11 @@ class ArgsParse:
                             action = 'store_true' 
                             )
         
+        onboard_parser.add_argument('-tc', '--thread_count', 
+                            dest = 'thread_count',
+                            help = 'thread count, default 10',
+                            )
+        
         onboard_parser.add_argument('-r', '--use_ray', 
                             dest = 'use_ray',
                             help = 'use ray framework for distributed scans',
@@ -122,7 +127,7 @@ class ArgsParse:
                             dest = 'num_actors',
                             help = 'number of ray actors, default 10',
                             )
-        
+              
         onboard_parser.add_argument('-d', '--delete_logs', 
                             dest = 'delete_logs',
                             help = 'delete logs of previous scans',
@@ -139,6 +144,8 @@ class ArgsParse:
                             dest = 'aws_profiles',
                             help = 'List of comma separated aws profiles for Route53',
                             )
+        
+        
         
         scan_parser = subparser.add_parser("scan", help="Scan an org", usage=ArgsParse.scan_msg())
 
@@ -173,6 +180,11 @@ class ArgsParse:
                             dest = 'ignore_stale',
                             help = 'ignore stale domains during scan',
                             action = 'store_true' 
+                            )
+        
+        scan_parser.add_argument('-tc', '--thread_count', 
+                            dest = 'thread_count',
+                            help = 'thread count, default 10',
                             )
         
         scan_parser.add_argument('-r', '--use_ray', 
@@ -231,7 +243,7 @@ class ArgsParse:
             parsed_args['workflow'] = 'default'
 
         parsed_args['org'] = args.org
-        
+
         if args.app:
             parsed_args["app"] = args.app
         
@@ -255,6 +267,9 @@ class ArgsParse:
 
         if args.verbose:
             parsed_args["verbose"] = True
+
+        if args.thread_count:
+            parsed_args["thread_count"] = args.thread_count
          
 
         args_pydantic_obj = ArgsModel.parse_obj(parsed_args)
@@ -262,3 +277,5 @@ class ArgsParse:
         logging.info(f"Parsing Arguements - Completed")
 
         return args_pydantic_obj
+
+        
