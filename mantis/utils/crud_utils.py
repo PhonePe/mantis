@@ -13,6 +13,7 @@ class CrudUtils:
 
     @staticmethod
     def validate_assets(assets: list, source):
+        # print("asset_list:::: ", assets)
         assets_list = []
         try:
             # TODO Can we parallelize this. Time complexity is O(N). 
@@ -86,10 +87,10 @@ class CrudUtils:
                 logging.warning(f"{key} does not exist in database model. This key will be ignored")
                 
         if "$set" in mongodb_query:
-            updated_timestamp = {"updated_timestamp" : CommonUtils.get_ikaros_std_timestamp()}
+            updated_timestamp = {"updated_timestamp" : CommonUtils.get_ikaros_std_timestamp(), "app" : CrudUtils.assign_app_context(asset)}
             mongodb_query["$set"].update(updated_timestamp)
         elif "$addToSet" in mongodb_query:
-            updated_timestamp =  {"updated_timestamp" : CommonUtils.get_ikaros_std_timestamp()}
+            updated_timestamp =  {"updated_timestamp" : CommonUtils.get_ikaros_std_timestamp(), "app" : CrudUtils.assign_app_context(asset)}
             mongodb_query["$set"] = updated_timestamp
 
         logging.debug(f"Updated tool dict  {mongodb_query}")   

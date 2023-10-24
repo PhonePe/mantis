@@ -19,8 +19,8 @@ class Csper(APIScanner):
         self.endpoint = 'https://csper.io/api/evaluations'
         self.body = {"URL":"https://{asset}"}
         self.org = args.org
-        self.assets.extend(await get_assets_grouped_by_type(args, ASSET_TYPE_TLD))
-        self.assets.extend(await get_assets_grouped_by_type(args, ASSET_TYPE_SUBDOMAIN))
+        self.assets.extend(await get_assets_grouped_by_type(self, args, ASSET_TYPE_TLD))
+        self.assets.extend(await get_assets_grouped_by_type(self, args, ASSET_TYPE_SUBDOMAIN))
         for every_asset in self.assets:
             body_param = self.body["URL"].format(asset=every_asset)
             # Append tuple with endpoint, headers, body, asset

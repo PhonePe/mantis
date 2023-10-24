@@ -38,7 +38,7 @@ class Nuclei(ToolScanner):
             self.base_command += blacklist_command
 
         self.outfile_extension = ".json"
-        self.assets = await get_assets_with_non_empty_fields(args, "active_hosts")
+        self.assets = await get_assets_with_non_empty_fields(self, args, "active_hosts")
         for every_asset in self.assets:
             if "_id" in every_asset:
                 domain = every_asset["_id"]

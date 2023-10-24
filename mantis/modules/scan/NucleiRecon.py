@@ -23,7 +23,7 @@ class NucleiRecon(ToolScanner):
         self.org = args.org
         self.base_command = 'nuclei -u {input_domain} -jle {output_file_path} -t http/technologies/  -hm -v'
         self.outfile_extension = ".json"
-        self.assets = await get_assets_with_non_empty_fields(args, "active_hosts")
+        self.assets = await get_assets_with_non_empty_fields(self, args, "active_hosts")
         self.commands_list = []
         for every_asset in self.assets:
             if "_id" in every_asset:

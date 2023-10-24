@@ -29,9 +29,9 @@ class IPinfo(ToolScanner):
         self.std = "PIPE"
         self.base_command = 'dig +short {input_domain} | ipinfo bulk  --token ' + self.token + '| tee {output_file_path}'
         self.outfile_extension = ".json"
-        self.assets = await get_assets_grouped_by_type(args, ASSET_TYPE_TLD)
-        self.assets.extend(await get_assets_grouped_by_type(args, ASSET_TYPE_SUBDOMAIN))
-        self.assets.extend(await get_assets_grouped_by_type(args, ASSET_TYPE_IP))
+        self.assets = await get_assets_grouped_by_type(self, args, ASSET_TYPE_TLD)
+        self.assets.extend(await get_assets_grouped_by_type(self, args, ASSET_TYPE_SUBDOMAIN))
+        self.assets.extend(await get_assets_grouped_by_type(self, args, ASSET_TYPE_IP))
 
         return super().base_get_commands(self.assets)
     

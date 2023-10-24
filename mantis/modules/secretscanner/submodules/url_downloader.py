@@ -57,7 +57,7 @@ class URLDownloader:
 
     @staticmethod
     async def process_urls(args, path):
-        domains = await get_assets_grouped_by_type(args, ASSET_TYPE_TLD)
+        domains = await get_assets_grouped_by_type("SecretScanner", args, ASSET_TYPE_TLD)
         for domain in domains:
             domain = domain.strip()
             URLDownloader.file_path = f"{path}/{domain}/{domain}"

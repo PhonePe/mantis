@@ -8,7 +8,7 @@ from mantis.utils.tool_utils import get_assets_by_field_value, get_assets_with_n
 
 '''
 Corsy is used to find CORS misconfiguration for a provided subdomain
-Note: Please make sure that the tool files is present at /usr/bin/Corsy
+Note: Only the domains resolving to an IP are taken into account
 Output: JSON file
 '''
 
@@ -22,7 +22,7 @@ class Corsy(ToolScanner):
         self.base_command = 'python3 /usr/bin/Corsy/corsy.py -u {input_domain} -o {output_file_path} -d 1'
         self.outfile_extension = ".json"
         self.commands_list = []
-        self.assets = await get_assets_with_non_empty_fields(args, "active_hosts")
+        self.assets = await get_assets_with_non_empty_fields(self, args, "active_hosts")
         for every_asset in self.assets:
             if "_id" in every_asset:
                 domain = every_asset["_id"]

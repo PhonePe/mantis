@@ -25,7 +25,6 @@ from mantis.constants import ASSET_TYPE_TLD, ASSET_TYPE_SUBDOMAIN, ASSET_TYPE_IP
 from mantis.scan_orchestration.threadpool_scan import ExecuteScanThreadPool
 from mantis.models.tool_logs_model import ModuleLogs, ScanLogs
 
-logging.getLogger().setLevel(logging.INFO)
 class Workflow:
 
     
@@ -62,9 +61,9 @@ class Workflow:
             logging.info("Inserting user input into database")
             await CrudUtils.insert_assets(assets=asset_dict_list, source='internal')
         
-        tld_assets = await get_assets_grouped_by_type(args, ASSET_TYPE_TLD)
-        subdomain_assets = await get_assets_grouped_by_type(args, ASSET_TYPE_SUBDOMAIN)
-        ip_assets = await get_assets_grouped_by_type(args, ASSET_TYPE_IP)
+        tld_assets = await get_assets_grouped_by_type(None, args, ASSET_TYPE_TLD)
+        subdomain_assets = await get_assets_grouped_by_type(None, args, ASSET_TYPE_SUBDOMAIN)
+        ip_assets = await get_assets_grouped_by_type(None,args, ASSET_TYPE_IP)
 
        
         if len(tld_assets) == 0 and len(subdomain_assets) == 0 and len(ip_assets) == 0:
@@ -152,7 +151,6 @@ class Workflow:
                             task = loop.create_task(run_with_semaphore(execute_threadpool_obj.execute_and_store(tool_tuple)))
                             tasks.append(task)
                             task.add_done_callback(done_callback)
-                        print(len(tasks))
                         await asyncio.gather(*tasks)
                     
                     module_log["module_tool_logs"] = results

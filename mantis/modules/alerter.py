@@ -2,7 +2,7 @@ from mantis.config_parsers.config_client import ConfigProvider
 from mantis.utils.notifications import NotificationsUtils, Notifications
 from mantis.db.crud_assets import read_assets
 from mantis.db.crud_vulnerabilities import read_findings
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 import copy
 import sys
@@ -13,8 +13,9 @@ class Alerter:
     async def send_alerts(log_dict, args):
         try:
             notify_config = ConfigProvider.get_config().notify
-
-            scan_efficiency_blocks, scan_stats, module_scan_stats = Alerter.get_stats_slack_message(log_dict)
+            if log_dict is not None:
+                scan_efficiency_blocks, scan_stats, module_scan_stats = Alerter.get_stats_slack_message(log_dict)
+            
             for team in notify_config:
                 asset_type_list, asset_tag_list = NotificationsUtils.get_assets_to_notify_list(team.teamName)
                 finding__type_list, finding_tag_list = NotificationsUtils.get_findings_to_notify_list(team.teamName)
@@ -26,12 +27,13 @@ class Alerter:
                             for webhook in team.channel[channel_type]:
                                 if team.scanEfficiency == True:
                                     Notifications.send_slack_notifications(scan_efficiency_blocks, webhook)
-                                for block in slack_blocks:
-                                    Notifications.send_slack_notifications([block], webhook)
+                                # for block in slack_blocks:
+                                
+                                Notifications.send_slack_notifications(slack_blocks, webhook)
                         else:
                             logging.error("Slack must provide list of webhooks, check local.yml")
         except Exception as e:
-            logging.debug(f"Slack alerts not configured")
+            logging.debug(f"Slack alerts not configured: {e}")
         return scan_stats, module_scan_stats
 
     @staticmethod
@@ -76,11 +78,11 @@ class Alerter:
             total_new_assets_count = copy.deepcopy(section)
             total_new_assets_count["text"]["text"] = f"Total New Assets Discovered: {total_new_assets}"
             blocks.append(total_new_assets_count)
-        else:
-            assets_section = copy.deepcopy(section)
-            assets_section["text"]["text"] = "*No new assets found*"
-            blocks.append(assets_section)
-        blocks.append(divider)
+        # else:
+        #     assets_section = copy.deepcopy(section)
+        #     assets_section["text"]["text"] = "*No new assets found*"
+        #     blocks.append(assets_section)
+            blocks.append(divider)
 
         total_new_findings = 0
         if len(findings):
@@ -107,14 +109,15 @@ class Alerter:
                         if "host" in info and info["host"] is not None:
                             finding_section["text"]["text"] += f"{info['host']}\t"
                         finding_section["text"]["text"] += '\n'
+                    ## elif add status code. 
                 blocks.append(finding_section)
             total_new_findings_count = copy.deepcopy(section)
             total_new_findings_count["text"]["text"] = f"Total New Findings Discovered: {total_new_findings}"
             blocks.append(total_new_findings_count)
-        else:
-            findings_section = copy.deepcopy(section)
-            findings_section["text"]["text"] = "*No new findings found*"
-            blocks.append(findings_section)
+        # else:
+        #     findings_section = copy.deepcopy(section)
+        #     findings_section["text"]["text"] = "*No new findings found*"
+        #     blocks.append(findings_section)
 
         
         return blocks
@@ -133,15 +136,20 @@ class Alerter:
                 "app" : { "$in" : app}
             }}
             )
+        if args is not None:
+            pipeline_type_discovered.append({"$match" : {
+               "org" : args.org
+            }}
+            )
         pipeline_type_discovered.extend([
-            {"$match" : {
-                "org" : args.org
-            }},
+            # {"$match" : {
+            #     "org" : args.org
+            # }},
             
             {"$match" : {
                 "asset_type": { "$in": asset_types}
             }},
-            {"$match" : {"created_timestamp":{"$gte" : datetime.today().strftime('%Y-%m-%d')}}},
+            {"$match" : {"created_timestamp":{"$gte" : (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')}}},
             {"$group":  {
                 "_id": "$asset_type",
                 "asset_info":{"$push":{
@@ -168,10 +176,13 @@ class Alerter:
                 "app" : { "$in" : app}
             }}
             )
+        if args is not None:
+            pipeline_type_discovered.append({"$match" : {
+               "org" : args.org
+            }}
+            )
         pipeline_type_discovered.extend([
-            {"$match" : {
-                "org": args.org
-            }},
+            
             {"$match" : {
                 "type": { "$in": finding_types }
             }},

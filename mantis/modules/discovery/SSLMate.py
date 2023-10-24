@@ -28,7 +28,7 @@ class SSLMate(APIScanner):
         self.endpoint = "https://api.certspotter.com/v1/issuances?domain={domain_name}&include_subdomains=true&expand=dns_names&expand=issuer&expand=revocation&expand=problem_reporting&expand=cert_der"
         self.body = ""
         self.org = args.org
-        self.assets = await get_assets_by_field_value(args, "stale", False, ASSET_TYPE_TLD)
+        self.assets = await get_assets_by_field_value(self, args, "stale", False, ASSET_TYPE_TLD)
         for every_asset in self.assets:
             endpoint = self.endpoint.format(domain_name=every_asset)
             self.asset_api_list.append((endpoint, None, None,  every_asset))

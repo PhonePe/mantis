@@ -22,8 +22,8 @@ class FindCDN(ToolScanner):
         self.org = args.org
         self.base_command = 'findcdn list {input_domain} -o {output_file_path} -v'
         self.outfile_extension = ".json"
-        self.assets = await get_assets_grouped_by_type(args, ASSET_TYPE_TLD)
-        self.assets.extend(await get_assets_grouped_by_type(args, ASSET_TYPE_SUBDOMAIN))
+        self.assets = await get_assets_grouped_by_type(self, args, ASSET_TYPE_TLD)
+        self.assets.extend(await get_assets_grouped_by_type(self, args, ASSET_TYPE_SUBDOMAIN))
         return super().base_get_commands(self.assets)
     
     

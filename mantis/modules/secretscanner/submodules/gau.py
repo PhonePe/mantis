@@ -56,7 +56,7 @@ class Gau:
         
         path = Gau.create_secret_folder()
 
-        domains = await get_assets_grouped_by_type(args, ASSET_TYPE_TLD)
+        domains = await get_assets_grouped_by_type("SecretScanner", args, ASSET_TYPE_TLD)
         commands = "gau {DOMAIN} --threads 50 --subs --json --o {path}/{DOMAIN}/{DOMAIN}"
         for domain in domains:
             Gau.create_domain_folder(path, domain)
