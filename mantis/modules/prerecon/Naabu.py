@@ -25,8 +25,8 @@ class Naabu(ToolScanner):
         else:
             self.base_command = 'naabu -scan-all-ips -scan-type s -Pn -rev-ptr -warm-up-time 0 -host {input_domain} -json -o {output_file_path}'
         self.outfile_extension = ".json"
-        self.assets = await get_assets_grouped_by_type(args, ASSET_TYPE_SUBDOMAIN)
-        self.assets.extend(await get_assets_grouped_by_type(args, ASSET_TYPE_IP))
+        self.assets = await get_assets_grouped_by_type(self, args, ASSET_TYPE_SUBDOMAIN)
+        self.assets.extend(await get_assets_grouped_by_type(self, args, ASSET_TYPE_IP))
         
         return super().base_get_commands(self.assets)
     

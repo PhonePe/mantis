@@ -16,7 +16,7 @@ class GitleaksRunner:
     @staticmethod
     async def process_domains(args, path):
 
-        domains = await get_assets_grouped_by_type(args, ASSET_TYPE_TLD)
+        domains = await get_assets_grouped_by_type("SecretScanner", args, ASSET_TYPE_TLD)
         commands = "gitleaks detect --source {path}/{DOMAIN}/ --no-git -f json -r {path}/{DOMAIN}/report.json -l trace -v"
         logging.debug("Running GitLeaks...")
         with ThreadPoolExecutor() as executor:

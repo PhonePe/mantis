@@ -23,3 +23,14 @@ class ConfigUtils:
         for module in workflow.workflowConfig:
             if module.moduleName == module_name: 
                 return module
+            
+    @staticmethod
+    def is_scanNewOnly_tool(tool_name, args):
+        workflow = ConfigUtils.get_module_dict(args.workflow)
+        if workflow.scanNewOnly:
+            ## Check tool in module
+            module = ConfigUtils.get_module("discovery", workflow)
+            if tool_name in module.tools:
+                return False
+            else:
+                return True

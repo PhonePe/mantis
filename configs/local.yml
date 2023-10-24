@@ -28,6 +28,7 @@ workflow:
   - workflowName: 'productsecurity'
     schedule: 'daily between 00:00 and 04:00'
     cmd: []
+    scanNewOnly: true
     workflowConfig:
       - moduleName : Route53
         tools: ['Route53'] 

@@ -19,6 +19,7 @@ class Workflow(BaseModel):
     workflowName: str = Field(regex='[a-zA-Z0-9_-]*$')
     schedule: str
     cmd: List[str]
+    scanNewOnly: bool = False
     workflowConfig : List[Module]
 
 

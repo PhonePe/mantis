@@ -20,7 +20,7 @@ class Subfinder(ToolScanner):
         self.org = args.org
         self.base_command = 'subfinder -d {input_domain} -o {output_file_path}'
         self.outfile_extension = ".txt"
-        self.assets = await get_assets_grouped_by_type(args, ASSET_TYPE_TLD)
+        self.assets = await get_assets_grouped_by_type(self, args, ASSET_TYPE_TLD)
         return super().base_get_commands(self.assets)
     
     def parse_report(self,outfile):

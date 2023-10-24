@@ -17,7 +17,7 @@ class Wafw00f(ToolScanner):
         self.org = args.org
         self.base_command = 'wafw00f -a {input_domain} -o {output_file_path} -f json'
         self.outfile_extension = ".json"
-        self.assets = await get_assets_grouped_by_type(args, ASSET_TYPE_SUBDOMAIN)
+        self.assets = await get_assets_grouped_by_type(self, args, ASSET_TYPE_SUBDOMAIN)
         return super().base_get_commands(self.assets)
     
     

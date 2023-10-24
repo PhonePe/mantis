@@ -1,4 +1,6 @@
 from mantis.db.crud_assets import read_assets
+from mantis.utils.config_utils import ConfigUtils
+from datetime import datetime
 
 async def get_active_hosts(org):
     pipeline_hosts_with_ports = [
@@ -25,16 +27,10 @@ async def get_org_assets(org):
     else:
         return []
 
-async def get_assets_grouped_by_type(args, asset_type):
+async def get_assets_grouped_by_type(self, args, asset_type):
     pipeline_type_assets = []
-    if args.app:
-        pipeline_type_assets.append(
-            {"$match" : {"app" : args.app}}
-        )
-    if args.ignore_stale:
-        pipeline_type_assets.append(
-            {"$match" : {"stale" : { "$eq": False }}}
-        )
+    
+    pipeline_type_assets.extend(get_pipeline(self=self,args=args))
     
     pipeline_type_assets.extend([
         {"$match" : {"org" : args.org}},
@@ -45,7 +41,6 @@ async def get_assets_grouped_by_type(args, asset_type):
         }}        
     ])
     
-
     assets = await read_assets(pipeline_type_assets)
     if assets:
         return assets[0]["assets"]
@@ -53,17 +48,10 @@ async def get_assets_grouped_by_type(args, asset_type):
         return []
     
 
-async def get_assets_with_empty_fields(args, field_name):
+async def get_assets_with_empty_fields(self, args, field_name):
     pipeline_empty_fields = []
-    if args.app:
-        pipeline_empty_fields.append(
-            {"$match" : {"org" : args.app}}
-            )
-        
-    if args.ignore_stale:
-        pipeline_empty_fields.append(
-            {"$match" : {"stale" : { "$eq": False }}}
-        )
+    
+    pipeline_empty_fields.extend(get_pipeline(self=self,args=args))
 
     pipeline_empty_fields.extend([
         {"$match" : {"org" : args.org}},
@@ -83,18 +71,11 @@ async def get_assets_with_empty_fields(args, field_name):
     else:
         return []
     
-async def get_assets_with_non_empty_fields(args, field_name):
+async def get_assets_with_non_empty_fields(self, args, field_name):
     pipeline_non_empty_fields = []
-    if args.app:
-        pipeline_non_empty_fields.append(
-            {"$match" : {"org" : args.app}}
-            )
-        
-    if args.ignore_stale:
-        pipeline_non_empty_fields.append(
-            {"$match" : {"stale" : { "$eq": False }}}
-        )
     
+    pipeline_non_empty_fields.extend(get_pipeline(self=self,args=args))
+
     pipeline_non_empty_fields.extend([
         {"$match" : {"org" : args.org}},
         {"$match" : {
@@ -113,12 +94,10 @@ async def get_assets_with_non_empty_fields(args, field_name):
         return []
     
 
-async def get_assets_by_field_value(args, field_name, value, asset_type):
+async def get_assets_by_field_value(self, args, field_name, value, asset_type):
     pipeline_assets_by_field_value = []
-    if args.app:
-        pipeline_assets_by_field_value.append(
-            {"$match" : {"org" : args.app}}
-            )
+    
+    pipeline_assets_by_field_value.extend(get_pipeline(self=self,args=args))
         
     pipeline_assets_by_field_value.extend([
         {"$match" : {"org" : args.org}},
@@ -137,3 +116,25 @@ async def get_assets_by_field_value(args, field_name, value, asset_type):
         return assets[0]["assets"]
     else:
         return []
+    
+
+def get_pipeline(self, args):
+    pipeline = []
+    if args.app:
+        pipeline.append(
+            {"$match" : {"org" : args.app}}
+            )
+        
+    if args.ignore_stale:
+        pipeline.append(
+            {"$match" : {"stale" : { "$eq": False }}}
+        )
+    if self is not None:
+        if ConfigUtils.is_scanNewOnly_tool(type(self).__name__, args):
+            pipeline.append(
+                {"$match" : {"created_timestamp":{"$gte" : datetime.today().strftime('%Y-%m-%d')}}}
+                
+            )
+
+    return pipeline
+
