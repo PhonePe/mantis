@@ -44,7 +44,7 @@ BIWhite='\033[1;97m'      # White
 
 echo -e "
 ${BIYellow}
-MANDATORY PREREQUISITES 
+MANDATORY PREREQUISITES
 
 Please ensure your system meets them before proceeding.
 
@@ -148,15 +148,20 @@ else
    curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \
    sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg \
    --dearmor
-
-   sudo echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+   release_name=`lsb_release -sc`
+   sudo echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu "$release_name"/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
    sudo apt-get update 
    sudo apt-get install -y mongodb-org
    sudo systemctl start mongod
-   sudo sed -i 's/^\( *bindIp *: *\).*/127.0.0.1/' /etc/mongod.conf
+   #sudo sed -i 's/^\( *bindIp *: *\).*/127.0.0.1/' /etc/mongod.conf
    sudo systemctl restart mongod
    mongodb_status="New instance has been setup"
 fi
+
+# Permissions for the project dir
+
+echo -e "[+] ${Green}Setting up permissions for Mantis${NC}"
+sudo chmod 777 /usr/local/bin/devbox
 
 # Run devbox
 
@@ -164,15 +169,13 @@ echo -e "[+] ${Green}Configuring Mantis environment on Devbox${NC}"
 devbox version update
 devbox run -c /opt/mantis/setup/ubuntu setup
 
-# Permissions for the project dir
-
-echo -e "[+] ${Green}Setting up permissions for Mantis${NC}"
-sudo chmod 777 /usr/local/bin/devbox
+# Setup Appsmith over Docker
 
 if [ "$setup_appsmith" = true ];then
    echo -e "[+] ${Green} Setting up Appsmith on Docker ${NC}"
    #curl -L https://bit.ly/docker-compose-CE -o $PWD/docker-compose.yml
-   sudo docker compose up -d
+   #echo `pwd`
+   sudo docker compose -f /opt/mantis/setup/ubuntu/docker-compose.yml up -d
 fi
 
 appsmith_ip=$(sudo docker inspect \
@@ -200,7 +203,7 @@ echo "Command '$COMMAND_NAME' added to system."
 # Define the data for each column
 Service=("Mantis" "MongoDB" "Appsmith")
 Status=("$mantis_status" "$mongodb_status" "$appsmith_status")
-Access=("Run mantis-activate command" "Hostname: mantis.db" "Hostname: mantis.dashboard")
+Access=("Run mantis-activate command" "Hostname: mantis.db" "Hostname: mantis.dashboard (or public IP)")
 
 # Define the widths of each column
 SERVICE_WIDTH=15
@@ -221,7 +224,7 @@ done
 
 if [ "$mongo_exists" = true ]; then
    echo -e "
-   ${BYellow}
+   ${BRed}
    A MongoDB instance was identified running on the system. You have following options to proceed: 
 
    1. If the existing MongoDB is from previous Mantis installation or 
@@ -231,7 +234,7 @@ if [ "$mongo_exists" = true ]; then
    2. If the existing MongoDB is not related to Mantis & if you are NOT okay stopping the service
       Add your existing MongoDB's connection string to - /opt/mantis/configs/local.yml file
    ${NC}
-   "  
+   "
 fi
 
 echo -e -n "
