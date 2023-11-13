@@ -73,8 +73,8 @@ fi
 
 if docker compose ps | grep -q "Up"; then
     echo -e "[?] ${BIYellow}Looks like this script was run previously to setup Mantis.${NC}\n"
-    sudo docker compose ps --format json | jq -r \
-    '["Service","Status"], ["--------","------------"], (.[] | [.Service, .State]) | @tsv' | column -ts $'\t'
+
+sudo docker compose ps --format json | jq -r '(. | [.Service, .State]) | @tsv' | column -ts $'\t'
 
 echo -e -n "
 [!] ${Yellow}Previously created resources need to be cleaned up before proceeding with installation \n
@@ -93,6 +93,7 @@ echo -e "${BICyan}
     - ${BYellow}Recommended to backup the database before deleting MongoDB 
       https://www.mongodb.com/docs/manual/tutorial/backup-and-restore-tools/${BICyan}
 4. Delete Mantis and don't delete Appsmith, MongoDB
+${NC}
 "
 
 read -p "What would you like to do? (1/2/3/4): " choice
@@ -151,8 +152,7 @@ sudo docker compose up --remove-orphans -d --build
 
 echo -e "${BIYellow}\n\nSETUP SUMMARY${NC}\n"
 
-sudo docker compose ps --format json | jq -r \
-'["Service","Status"], ["--------","------------"], (.[] | [.Service, .State]) | @tsv' | column -ts $'\t'
+sudo docker compose ps --format json | jq -r '(. | [.Service, .State]) | @tsv' | column -ts $'\t'
 
 sudo  sed -i "/mantis/d" /etc/hosts
 sudo -- sh -c -e "echo '10.10.0.3  mantis.db' >> /etc/hosts";
@@ -170,7 +170,7 @@ ${BIGreen}
     1. You can find the Mantis shell below where you can run mantis commands. Run help for further instructions.
         - You can always access Mantis container again using: ${BICyan}docker exec -it mantis bash${BIGreen}
         - For ease of use, run ${BICyan}mantis-activate${BIGreen} command anywhere on the system to exec into Mantis docker
-   
+
     2. Mantis dashboard (appsmith) is accessible on the host's localhost port 1337
         - For ease of use, you can access dashboard from your system at ${BICyan}http://mantis.dashboard:1337${BIGreen}
         - You can access appsmith container using - ${BICyan}docker exec -it appsmith bash${BIGreen}
@@ -188,7 +188,8 @@ ${BIRed}
 Mantis has NOT setup successfully on docker!
 
 Please check the container/service status above and check for any errors to resolve this issue.
+${NC}
 "
 fi
 
-docker exec -it mantis bash
+mantis-activate
