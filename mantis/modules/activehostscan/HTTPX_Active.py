@@ -40,8 +40,10 @@ class HTTPX_Active(ToolScanner):
         tool_output_dict["active_hosts"] = []
         tool_output_dict["technologies"] = []
         for every_asset in report_dict:
-            tool_output_dict["active_hosts"].append(every_asset["url"])
-            tool_output_dict["technologies"].extend(every_asset["tech"])
+            if "url" in every_asset:
+                tool_output_dict["active_hosts"].append(every_asset["url"])
+            if "tech" in every_asset:
+                tool_output_dict["technologies"].extend(every_asset["tech"])
             
         return tool_output_dict
 

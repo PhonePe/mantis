@@ -63,7 +63,7 @@ class Nuclei(ToolScanner):
         if report_dict:
             for every_vuln in report_dict:
                 nuclei = {}
-                logging.info(f'Every vulnerability - {every_vuln}')
+                # logging.debug(f'Every vulnerability - {every_vuln}')
                 nuclei["type"] = "vulnerability"
                 nuclei["org"] = self.org
                 nuclei['title'] = every_vuln['template-id']
