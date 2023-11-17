@@ -19,7 +19,7 @@ class Gau:
     @staticmethod
     def run_command(path, domain, command):
         command = command.format(path=path, DOMAIN=domain)
-        print(f"Running command '{command}'")
+        logging.info(f"Running command '{command}'")
         subprocess_obj = Popen(
                 command, stderr=sys.stderr, stdout=sys.stdout, shell=True) 
         code = subprocess_obj.wait()

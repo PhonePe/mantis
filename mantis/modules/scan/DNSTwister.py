@@ -97,6 +97,6 @@ class DNSTwister(ToolScanner):
             else:
                 logging.warning('DNSTwister output file found, but no vulnerabilities were reported')
         except Exception as e:
-            print(e)
+            logging.error(f"Exception in DNSTwister: {e}")
     async def db_operations(self, output_dict, asset):
         await CrudUtils.insert_findings(self, asset, output_dict)
