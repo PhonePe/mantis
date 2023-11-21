@@ -35,6 +35,7 @@ class Corsy(ToolScanner):
     def parse_report(self, outfile):
         report_dict = []
         report_list = []
+        self.finding_type = "vulnerability"
         # Convert json file to dict
         # Give try catch block here, since file will not be present if no vulnerability is found
         with open(outfile) as report_out:
@@ -60,4 +61,4 @@ class Corsy(ToolScanner):
             return report_list
         
     async def db_operations(self, output_dict, asset):
-        await CrudUtils.insert_findings(self, asset, output_dict)
+        await CrudUtils.insert_findings(self, asset, output_dict, self.finding_type)

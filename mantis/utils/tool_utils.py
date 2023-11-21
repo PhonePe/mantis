@@ -1,4 +1,5 @@
 from mantis.db.crud_assets import read_assets
+from mantis.db.crud_vulnerabilities import read_findings
 from mantis.utils.config_utils import ConfigUtils
 from datetime import datetime
 
@@ -60,14 +61,14 @@ async def get_assets_with_empty_fields(self, args, field_name):
         }},
         {"$group":  {
             "_id" : None,
-            "assets" : { "$push" : "$asset"}
+            "asset" : { "$push" : "$asset"}
             
         }}   
     ])
 
     assets = await read_assets(pipeline_empty_fields)
     if assets:
-        return assets[0]["assets"]
+        return assets[0]["asset"]
     else:
         return []
     
@@ -138,3 +139,23 @@ def get_pipeline(self, args):
 
     return pipeline
 
+async def get_findings_by_asset(asset, finding_type):
+    pipeline = []
+
+    pipeline.extend([
+        {"$match" : {"host" : asset}},
+        {"$match" : {"type" : finding_type}},
+        
+        {"$group":  {
+            "_id" : "$_id", 
+            "title" : { "$push" : "$title"}
+        }}   
+    ])
+    findings = await read_findings(pipeline)
+    
+    if findings:
+
+        return findings
+    else:
+        return []
+    

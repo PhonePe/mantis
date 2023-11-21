@@ -19,7 +19,7 @@ class Gau:
     @staticmethod
     def run_command(path, domain, command):
         command = command.format(path=path, DOMAIN=domain)
-        logging.info(f"Running command '{command}'")
+        logging.debug(f"Running command '{command}'")
         subprocess_obj = Popen(
                 command, stderr=sys.stderr, stdout=sys.stdout, shell=True) 
         code = subprocess_obj.wait()
@@ -56,7 +56,7 @@ class Gau:
         
         path = Gau.create_secret_folder()
 
-        domains = await get_assets_grouped_by_type("SecretScanner", args, ASSET_TYPE_TLD)
+        domains = await get_assets_grouped_by_type(None, args, ASSET_TYPE_TLD)
         commands = "gau {DOMAIN} --threads 50 --subs --json --o {path}/{DOMAIN}/{DOMAIN}"
         for domain in domains:
             Gau.create_domain_folder(path, domain)

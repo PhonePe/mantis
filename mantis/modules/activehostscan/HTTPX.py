@@ -15,7 +15,7 @@ class HTTPX(ToolScanner):
 
     async def get_commands(self, args: ArgsModel):
         self.org = args.org
-        self.base_command = 'httpx -u {input_domain} -asn -json -o {output_file_path} -cname'
+        self.base_command = 'httpx -u {input_domain} -asn -json -o {output_file_path} -cname -td'
         self.outfile_extension = ".txt"
         self.assets = await get_assets_grouped_by_type(self, args, ASSET_TYPE_SUBDOMAIN)
         self.assets.extend(await get_assets_grouped_by_type(self, args, ASSET_TYPE_IP))
@@ -43,7 +43,7 @@ class HTTPX(ToolScanner):
                 tool_output_dict['as_range'] = report_dict['asn']['as_range']
 
         if 'tech' in report_dict:
-            tool_output_dict['technologies'] = report_dict['technologies']
+            tool_output_dict['technologies'] = report_dict['tech']
         
         if 'cname' in report_dict:
             tool_output_dict['dns'] = {}

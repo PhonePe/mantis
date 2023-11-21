@@ -38,9 +38,10 @@ class APIScanner:
         results["success"] = 0
         results["failure"] = 0
         method = tool_tuple[1]
+        logging.debug(f"API tool tuple: {tool_tuple}")
         try:
             with futures.ThreadPoolExecutor(max_workers=1) as executor:  
-                responses = [executor.submit(BaseRequestExecutor.sendRequest, method,api_call_tuple) for api_call_tuple in self.asset_api_list]
+                responses = [executor.submit(BaseRequestExecutor.sendRequest, method, api_call_tuple) for api_call_tuple in self.asset_api_list]
 
                 for response in futures.as_completed(responses):
 
@@ -50,8 +51,8 @@ class APIScanner:
                         results["failure"] += 1
                         
                     asset_update_dict = self.parse_reponse(response.result()[1])
-                    if len(response.result()[0]):
-                        await self.db_operations(asset_update_dict, asset=response.result()[0]) 
+                    
+                    await self.db_operations(asset_update_dict, asset=response.result()[0]) 
         except Exception as e:
             results["exception"] = str(e)
             logging.error(f"Error in API: {e} : {type(self).__name__}")        
