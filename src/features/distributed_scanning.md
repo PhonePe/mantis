@@ -1,4 +1,4 @@
-# Make your scans 2x faster
+# Distributed Scanning
 ---
 
 <product-team>product security teams</product-team>

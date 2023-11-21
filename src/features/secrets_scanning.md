@@ -14,8 +14,8 @@
 
 The basic responsibility of secrets scanning is to **identify secrets on the public internet**. Currently, it searches for:
 
-- Secrets in **WaybackURLs** 
-- Secrets in **JS Files**
+- Secrets in **Wayback URLs** 
+- Secrets in **Wayback JS Files**
 - Secrets in **Github** for an Organistaion [Coming Soon]
 - Secrets in **Swagger** [Coming Soon]
 - Secrets in **Postman Collections** [Coming Soon]

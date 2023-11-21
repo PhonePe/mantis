@@ -3,7 +3,7 @@
 
 ## 🥱 I'm lazy and i just want to get started
 
-> You can jump in directly to the [**Quick Start Guide**](/./installation/installation-single.md)
+> You can jump in directly to the [**Quick Start Guide**](/./installation/installation-docker.md)
 
 ## 🤔 What is Mantis ?
 

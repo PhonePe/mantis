@@ -22,6 +22,7 @@ table {
 | Scan |  [Nuclei](https://github.com/projectdiscovery/nuclei)   | Vulnerability Scan  |
 | Scan  |  [DNS Twister](https://dnstwister.report/)   | Determine Phishing domains  |
 | Scan  |  [Csper](https://csper.io/)   | Identify CSP misconfigurations  |
+| Scan  |  [Corsy](https://github.com/s0md3v/Corsy)   | Identify CORS misconfigurations  |
 | Secrets  |  [GAU](https://github.com/lc/gau)   | Determine wayback URLs |
 | Secrets  |  [Gitleaks](https://github.com/gitleaks/gitleaks)   | Identify Secrets  |
 
