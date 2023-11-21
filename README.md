@@ -2,59 +2,38 @@
 
 ## Summary
 
-Mantis simplifies the efforts of an organisation's product security team by automating asset discovery, recon and scan. If you are already thinking why another recon framework, well, if you are a product security engineer you are in for a surprise! The framework gives you the power to distribute a single scan across multiple machines making your scan time 2x faster or even more depending on the resources you have. Recon frameworks combine a lot of open source tools that are seldom not in our control, hence we designed the framework to provide you with scan stats,scan timings and tool failures at a module, tool and subdomain level. Not done yet, there are a few bonus - deciding on the modules or tools to be run is config driven, criteria for alerts is config driven, even notifiying specific teams for specific alerts is config driven. Oh yea, new tool additions have never been simpler.
+Mantis is a command-line framework designed to automate the workflow of asset discovery, reconnaissance, and scanning. It takes the top-level domains as input, then seamlessly progresses to discovering corresponding assets, including subdomains and certificates. The tool performs reconnaissance on active assets and concludes with a comprehensive scan for vulnerabilities, secrets, misconfigurations and phishing domains - all powered by a blend of open-source and custom tools.
 
 
 ## Features :rocket:
 
-- **Make yours scans 2x faster**
-    - *I am fed up with my scan times, I can bump up my infrastructure, but will the framework utilize it efficiently*
-    - Mantis can distribute a single scan across multiple machines (baremetal, AWS, Azure)
-- **Understand Scan Efficiency**
-    - *I really need to understand my scan results for every subdomain succeeded or failed at a granular level*
-    - Easily understand your scan efficiency, were there failures in scan, modules, tools etc.
-- **Integrate with your Org's DNS Service** 
-    - *I want to integrate my DNS service to this tool, right now Mantis supports Route53*
-    - Just add your AWS Route53 Read-only ceredentials to the configuration and have your assets synced automatically
-- **Quickly Integrate new tools**
-    - *I need to add a new tool for a specific vulnerability or for subdomain discovery, it's a command line tool/API*
-    - Integrating tool in Mantis takes only a few minutes
-- **Dashboard Support**
-    - *I need a dashboard to visualize my organisation's assets* 
-    - We store almost every detail in MongoDB, you are free to integrate with any dashboard that supports MongoDB integration. Appsmith, Metabase and chartbrew are some excellent out-of-the-box dashboards you can integrate with our framework
-- **Choose what modules/tools you need to run**
-    - *I just need to run my discovery module weekly, recon once a month and scan module everyday*
-    - Just comment/uncomment the configurations you need to skip/run
-- **Configurable Slack Alerts**
-    - *I need to get alerts immediately when new vulnerabilities are identified, I changed my mind, I need it for phishing domains too*
-    - Alerts for new assets (subdomains, IPs, certificates) and findings (vulnerabiltiies, misconfiguration, phishing and secrets) are configurable, no additonal coding required
-- **Configurable Team Notifications in slack** 
-    - *I need to tag the right teams for the right findings, example, tag my phising team when new phising domains are identified, tag my Infra team when a new certificate is added*
-    - With Mantis, you can tag specific teams/members for asset types (subdomains, IPs, certificates) and finding types (vulnerabiltiies, misconfiguration, phishing and secrets) 
-- **Secrets Scanning** 🔥🔥
-    - *I need to know if my organisation's secrets or secrets provided by my organisation is leaked in public forums* 
-    - An independent secrets scanning module will help you integrate with Github, Gitlab, GAU tool, dorks to find secrets in public forums
+- Automated Discovery, Recon & Scan
+- Distributed Scanning (split a single scan across multiple machines)
+- Super-Easy Scan Customisation
+- Dashboard Support
+- Advanced Alerting
+- DNS Service Integration
+- Integrate new tool (existing and custom) in minutes
 
 
-## Modules and Tools 🧰
+## Modules 🧰
 
 - Discovery
-    - Subfinder: Subdomain Discovery
-    - AMASS:  Subdomain Discovery
-    - SSLMate: Find Certificates
-- PreRecon
-    - FindCDN: Identify CDNs
-    - Naabu: Active/Passive Ports
-    - IPInfo: Identify where your assets are located
-- ActiveHostScan
-    - HTTPX: Find Active Assets 
-- ActiveRecon
-    - wafw00f: Identifty WAF
+    - Subdomains
+    - Certificateds
+- Recon
+    - Open Ports
+    - Technologies
+    - CDN
+    - WAF
+    - Web Server
+    - IP
+    - ASN Information
+    - Location
 - Scan
-    - Nuclei: Technology Recon
-    - Nuclei: Identify vulnerabilities 
-    - DNSTwister: Identify Phishing domains
-    - Csper: CSP Misconfigurations
+    - Domain Level Vulnerabilities and Misconfigurations
+    - Secrets Scanning
+    - Phishing Domains
 
 ## Installation ⚙️
 
