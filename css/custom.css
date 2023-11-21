@@ -1,0 +1,44 @@
+.img-rounded {
+    border-radius: 10px;
+    object-fit: contain;
+  }
+b, strong {
+  color: #35A29F ;
+}
+
+body, header {
+  color: white;
+}
+
+hr {
+  border-style: dashed;
+  border-color: gray;
+}
+
+.left-aligned-table {
+    margin-left: 0;
+}
+
+bug-bounty {
+  background-color: #E76161;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: smaller;
+  border-radius: 7px;
+  padding: 3px 10px;
+}
+
+product-team {
+  background-color: #617A55;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: smaller;
+  border-radius: 7px;
+  padding: 3px 10px;
+}
+
+.highlight-source-shell {
+  color: #9cdcfe; /* Set the text color of the shell commands */
+  background-color: #282c34; /* Set the background color of the shell commands */
+  border-radius: 4px; /* Make the corners of the highlight block rounded */
+  display: inline-block; /* Make the highlight block an inline element */
+  padding: 0.5em; /* Add some padding to the highlight block */
+}

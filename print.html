@@ -1,0 +1,1564 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Mantis - Documentation</title>
+                <meta name="robots" content="noindex" />
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="favicon.svg">
+                        <link rel="shortcut icon" href="favicon.png">
+                <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+                <link rel="stylesheet" href="css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+                <link rel="stylesheet" href="src/css/custom.css">
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction/introduction.html"><strong aria-hidden="true">1.</strong> 👋 Introduction</a></li><li class="chapter-item expanded "><a href="features/features.html"><strong aria-hidden="true">2.</strong> 🎉 Features</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="features/recon_automation.html"><strong aria-hidden="true">2.1.</strong> Recon Automation</a></li><li class="chapter-item expanded "><a href="features/distributed_scanning.html"><strong aria-hidden="true">2.2.</strong> Distributed Scanning</a></li><li class="chapter-item expanded "><a href="features/dashboard_support.html"><strong aria-hidden="true">2.3.</strong> Dashboard Support</a></li><li class="chapter-item expanded "><a href="features/workflow_customisation.html"><strong aria-hidden="true">2.4.</strong> Super Easy Scan Customisation</a></li><li class="chapter-item expanded "><a href="features/advanced_alerting.html"><strong aria-hidden="true">2.5.</strong> Advanced Alerting</a></li><li class="chapter-item expanded "><a href="features/scan_efficiency.html"><strong aria-hidden="true">2.6.</strong> Understanding Scan Efficiency</a></li><li class="chapter-item expanded "><a href="features/dns_services.html"><strong aria-hidden="true">2.7.</strong> Integrate DNS Services</a></li><li class="chapter-item expanded "><a href="features/secrets_scanning.html"><strong aria-hidden="true">2.8.</strong> Secrets Scanning</a></li><li class="chapter-item expanded "><a href="features/new_scanner.html"><strong aria-hidden="true">2.9.</strong> Integrate new scanner in minutes</a></li></ol></li><li class="chapter-item expanded "><a href="installation/installation.html"><strong aria-hidden="true">3.</strong> ⚙️ Installation and Setup</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation/installation-docker.html"><strong aria-hidden="true">3.1.</strong> Docker</a></li><li class="chapter-item expanded "><a href="installation/installation-mac.html"><strong aria-hidden="true">3.2.</strong> Mac</a></li><li class="chapter-item expanded "><a href="installation/installation-ubuntu.html"><strong aria-hidden="true">3.3.</strong> Linux(Ubuntu)</a></li><li class="chapter-item expanded "><a href="installation/installation-windows.html"><strong aria-hidden="true">3.4.</strong> Windows</a></li><li class="chapter-item expanded "><a href="installation/installation-multiple.html"><strong aria-hidden="true">3.5.</strong> Mutliple Machines</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation/ansible.html"><strong aria-hidden="true">3.5.1.</strong> Run Ansible Script</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="configuration/configuration.html"><strong aria-hidden="true">4.</strong> 🛠️ Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="configuration/config-file.html"><strong aria-hidden="true">4.1.</strong> 📋 Config File</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="configuration/workflow-config.html"><strong aria-hidden="true">4.1.1.</strong> Workflow Configuration</a></li><li class="chapter-item expanded "><a href="configuration/scheduler-config.html"><strong aria-hidden="true">4.1.2.</strong> Scheduler Configuration</a></li><li class="chapter-item expanded "><a href="configuration/app-context-config.html"><strong aria-hidden="true">4.1.3.</strong> Setting App Context</a></li><li class="chapter-item expanded "><a href="configuration/slack-config.html"><strong aria-hidden="true">4.1.4.</strong> Slack Notification</a></li></ol></li><li class="chapter-item expanded "><a href="configuration/command-line.html"><strong aria-hidden="true">4.2.</strong> 🖥️ Command Line</a></li></ol></li><li class="chapter-item expanded "><a href="scan/scan.html"><strong aria-hidden="true">5.</strong> 🔍 Run a Scan</a></li><li class="chapter-item expanded "><a href="notifications/notifications.html"><strong aria-hidden="true">6.</strong> 📨 Notifications</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="notifications/notifications-slack.html"><strong aria-hidden="true">6.1.</strong> Slack</a></li></ol></li><li class="chapter-item expanded "><a href="tools/tools.html"><strong aria-hidden="true">7.</strong> 🧰 Tools</a></li><li class="chapter-item expanded "><a href="basics-mantis-code/basics.html"><strong aria-hidden="true">8.</strong> 📖 Mantis Code - Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="basics-mantis-code/folder-structure.html"><strong aria-hidden="true">8.1.</strong> Folder Structure</a></li><li class="chapter-item expanded "><a href="basics-mantis-code/scanner-base-class.html"><strong aria-hidden="true">8.2.</strong> Scanner Base Class</a></li><li class="chapter-item expanded "><a href="basics-mantis-code/important-utils.html"><strong aria-hidden="true">8.3.</strong> Important Utils Function</a></li><li class="chapter-item expanded "><a href="basics-mantis-code/db-models.html"><strong aria-hidden="true">8.4.</strong> DB Models</a></li></ol></li><li class="chapter-item expanded "><a href="new-scanner-integrations/new-scanner-integration.html"><strong aria-hidden="true">9.</strong> 🔗 New Scanner Integrations</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="new-scanner-integrations/new-scanner-integration-command-line.html"><strong aria-hidden="true">9.1.</strong> Command Line Tool</a></li><li class="chapter-item expanded "><a href="new-scanner-integrations/command-line-class.html"><strong aria-hidden="true">9.2.</strong> New Tool scanner class</a></li><li class="chapter-item expanded "><a href="new-scanner-integrations/new-scanner-integration-api.html"><strong aria-hidden="true">9.3.</strong> New API Scanner</a></li><li class="chapter-item expanded "><a href="new-scanner-integrations/command-config-file.html"><strong aria-hidden="true">9.4.</strong> Add scanner to config file</a></li><li class="chapter-item expanded "><a href="new-scanner-integrations/command-docker-file.html"><strong aria-hidden="true">9.5.</strong> Install instructions in DockerFile</a></li></ol></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">Mantis - Documentation</h1>
+
+                    <div class="right-buttons">
+                                                <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="-introduction"><a class="header" href="#-introduction">👋 Introduction</a></h1>
+<hr />
+<h2 id="-im-lazy-and-i-just-want-to-get-started"><a class="header" href="#-im-lazy-and-i-just-want-to-get-started">🥱 I'm lazy and i just want to get started</a></h2>
+<blockquote>
+<p>You can jump in directly to the <a href="introduction//./installation/installation-docker.html"><strong>Quick Start Guide</strong></a></p>
+</blockquote>
+<h2 id="-what-is-mantis-"><a class="header" href="#-what-is-mantis-">🤔 What is Mantis ?</a></h2>
+<p><a href="https://github.com/rust-lang/mdBook"><strong>Mantis</strong></a> is an advanced open-source framework that:</p>
+<ul>
+<li>Enables <strong>automated asset discovery, reconnaissance, and vulnerability scanning processes</strong></li>
+<li>The results of these comprehensive scans are stored in a robust <strong>MongoDB database</strong></li>
+<li>and can be seamlessly integrated with any <strong>dashboard</strong> supporting MongoDB integration</li>
+</ul>
+<img src="introduction/intro.jpg" class="img-rounded" alt="Mantis">
+<h2 id="-why-another-recon-automation-framework-"><a class="header" href="#-why-another-recon-automation-framework-">🤨 Why another RECON automation framework ?</a></h2>
+<p>Mantis is a security framework engineered to provide exceptional value and convenience to both product security teams and bug bounty hunters alike. </p>
+<ul>
+<li>Our innovative framework offers unparalleled <strong>ease-of-use and customizable automation</strong> for all your recon needs </li>
+<li>With Mantis, you can take advantage of our <strong>advanced alerting capabilities</strong> and <strong>faster scanning times</strong> to fortify your defenses and stay ahead of the game</li>
+</ul>
+<h2 id="-disclaimer"><a class="header" href="#-disclaimer">🚨 Disclaimer</a></h2>
+<p>Usage of this program for attacking targets without consent is illegal. It is the user's responsibility to obey all applicable laws. The developer assumes no liability and is not responsible for any misuse or damage caused by this program. Please use responsibly.</p>
+<p>The material contained in this repository is licensed under apache2.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-features"><a class="header" href="#-features">🎉 Features</a></h1>
+<hr />
+<p>With Mantis, you benefit from an array of exceptional features designed to enhance your workflows. These include but are not limited to:</p>
+<ul>
+<li><a href="features//./features/recon_automation.html"><strong>Recon Automation</strong></a></li>
+<li><a href="features//./features/workflow_customisation.html"><strong>Super Easy Workflow Customisation</strong></a> </li>
+<li><a href="features//./features/dashboard_support.html"><strong>Dashboard Support</strong></a> </li>
+<li><a href="features//./features/new_scanner.html"><strong>Integrate a new tool within minutes</strong></a> </li>
+<li><a href="features//./features/2x_faster.html"><strong>Distribute your scan and make it 2x Faster</strong></a> </li>
+<li><a href="features//./features/scan_efficiency.html"><strong>Understanding Scan Efficiency</strong></a> </li>
+<li><a href="features//./features/dns_services.html"><strong>Integrate with your Org's DNS Service</strong></a> </li>
+<li><a href="features//./features/advanced_alerting.html"><strong>Advanced Alerting</strong></a></li>
+<li><a href="features//./features/secrets_scanning.html"><strong>Secrets Scanning</strong></a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="recon-automation"><a class="header" href="#recon-automation">Recon Automation</a></h1>
+<hr />
+<p><product-team>product security teams</product-team> <bug-bounty>bug bounty hunters </bug-bounty></p>
+<h2 id="-use-case"><a class="header" href="#-use-case">🤔 Use-Case</a></h2>
+<p><strong>I want to:</strong></p>
+<ul>
+<li><em>automate the entire process of asset discovery, reconnaissance, and vulnerability scanning</em></li>
+<li><em>store relevant details with contextual information in a database and retrieve them at any time</em></li>
+<li><em>schedule scans and set up alerts</em></li>
+</ul>
+<h2 id="-feature"><a class="header" href="#-feature">😃 Feature</a></h2>
+<p>Mantis <strong>automates the entire process from discovery to scan</strong> and stores organization and application-based context in a MongoDB database. </p>
+<p>The framework also provides easily <strong>customizable alerting capabilities</strong> with no code changes required.</p>
+<h2 id="automation-overview"><a class="header" href="#automation-overview">Automation Overview</a></h2>
+<img src="features/recon-automation.png" class="img-rounded" alt="Mantis">
+<p>Mantis is capable of understanding top-level domain, IP, IP-CIDR, IP Range or even subdomains as user input</p>
+<ul>
+<li><strong>Discovery module</strong> efficiently enumerates top-level domains provided as user input to identify subdomains</li>
+<li><strong>Reconnaissance module</strong> fetches crucial and relevant information about assets required for vulnerability scanning</li>
+<li><strong>Scan module</strong> is designed to identify misconfigurations and vulnerabilities </li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="distributed-scanning"><a class="header" href="#distributed-scanning">Distributed Scanning</a></h1>
+<hr />
+<p><product-team>product security teams</product-team></p>
+<h2 id="-use-case-1"><a class="header" href="#-use-case-1">🤔 Use-Case</a></h2>
+<p><strong>I want to:</strong></p>
+<ul>
+<li><em>scale my single scan across multiple machines. The number of assets owned by my organization is too large to scan on a single machine within a reasonable timeframe, making it either impossible or excessively time-consuming</em></li>
+</ul>
+<h2 id="-feature-1"><a class="header" href="#-feature-1">😃 Feature</a></h2>
+<p>Mantis is one of the first recon automation framework that that allows you to <strong>distribute your single scan across multiple machines</strong>, including bare metals or instances in AWS or Azure.. </p>
+<h2 id="how-does-mantis-distribute-your-scan-"><a class="header" href="#how-does-mantis-distribute-your-scan-">How does Mantis distribute your scan ?</a></h2>
+<p>Mantis uses <a href="https://www.ray.io">Ray</a> framework to scale. <a href="https://docs.ray.io/en/latest/ray-core/walkthrough.html">Ray Core</a> provides a small number of core primitives (i.e., tasks, actors, objects) for building and scaling distributed applications.</p>
+<blockquote>
+<p>Please Note - A short infrastructure setup is required before utilising this feature as <a href="features//./installation/installation-multiple.html">described here</a></p>
+</blockquote>
+<img src="features/ray.png" class="img-rounded" alt="Mantis">
+<p>The Mantis framework is designed to use Ray Core in the most efficient way, breaking down a single scan into the most granular level. To put it simply:</p>
+<ul>
+<li>Each module has a specific assigned order number that indicates the sequence in which it should be executed. For example, Discovery needs to run before Recon, with Discovery's order number being 1 and Recon's being 2</li>
+<li>Scans required for each module are run in parallel while other modules wait for the previous module's completion</li>
+<li>The <strong>Workflow Class</strong> retrieves the module name and order from the <strong>config.yml</strong> file and generates commands for all the tools in each module for every asset. This list of commands is then passed to the Ray function</li>
+<li>The Ray function distributes these commands across VMs and allocates <strong>a single CPU for every command</strong></li>
+<li>Ray's self-managed scheduling system ensures efficient allocation of resources, and <strong>configurable retries against potential failures</strong> provide added reliability</li>
+</ul>
+<blockquote>
+<p>INFO💡: All of the internal implementation described above is for your information only. Once you have your infrastructure set up, all you need to do is add the IP addresses of your VMs to the configuration file, and everything else remains the same</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dashboard-support"><a class="header" href="#dashboard-support">Dashboard Support</a></h1>
+<hr />
+<p><product-team>product security teams</product-team> <bug-bounty>bug bounty hunters </bug-bounty></p>
+<h2 id="-use-case-2"><a class="header" href="#-use-case-2">🤔 Use-Case</a></h2>
+<p><strong>I want to:</strong></p>
+<ul>
+<li><em>create a dashboard that provides an overview of my organization, its assets, and its findings</em></li>
+</ul>
+<h2 id="-feature-2"><a class="header" href="#-feature-2">😃 Feature</a></h2>
+<p>Mantis does not come with a dashboard as creating a user interface can be highly opinionated. </p>
+<p>Instead, Mantis provides details of assets and findings in a structured format in MongoDB. Any dashboard that supports MongoDB integration should work with Mantis's output</p>
+<p>Mantis's integration works well with the following dashboard:</p>
+<ul>
+<li><a href="https://www.appsmith.com/">AppSmith - Default Support</a></li>
+<li><a href="https://chartbrew.com/">Chartbrew</a></li>
+<li><a href="https://www.metabase.com/start/oss">Metabse</a></li>
+</ul>
+<h2 id="-how-does-mantis-look-with-appsmith--"><a class="header" href="#-how-does-mantis-look-with-appsmith--">😮 How does Mantis look with AppSmith  ?</a></h2>
+<h3 id="assets"><a class="header" href="#assets">Assets</a></h3>
+<img src="features/Assets.png" class="img-rounded" alt="Assets">
+<h3 id="vulnerabilities"><a class="header" href="#vulnerabilities">Vulnerabilities</a></h3>
+<img src="features/Vulnerabilities.png" class="img-rounded" alt="Vulnerabilities">
+<h3 id="certificates"><a class="header" href="#certificates">Certificates</a></h3>
+<img src="features/Certificates.png" class="img-rounded" alt="Certificates"><div style="break-before: page; page-break-before: always;"></div><h1 id="workflow-customisation"><a class="header" href="#workflow-customisation">Workflow Customisation</a></h1>
+<hr />
+<p><product-team>product security teams</product-team> <bug-bounty>bug bounty hunters </bug-bounty></p>
+<h2 id="-use-case-3"><a class="header" href="#-use-case-3">🤔 Use-Case</a></h2>
+<p><strong>I want to:</strong></p>
+<ul>
+<li><em>customize scans with ease to best suit my organization's or bug bounty requirements</em></li>
+<li><em>ability to choose from various modules, including discovery and vulnerability scanning, to create a tailored scan that meets my specific needs</em></li>
+<li><em>granular options to specify tools within each module, allowing me to optimize my security operations for maximum efficiency</em></li>
+</ul>
+<h2 id="-feature-3"><a class="header" href="#-feature-3">😃 Feature</a></h2>
+<p>In Mantis:</p>
+<ul>
+<li>we refer to the entire automation process as a <strong>Workflow</strong></li>
+<li>Worflow is further divided into individual blocks called as a <strong>Module</strong> </li>
+<li>Modules are further divided as <strong>Tools</strong></li>
+</ul>
+<p>All the above are easily customisable via a <strong>config file</strong></p>
+<h2 id="-workflow-customisation"><a class="header" href="#-workflow-customisation">🎛️ Workflow Customisation</a></h2>
+<p>This is the workflow snippet from <strong>config.yml</strong>, you can just add/remove the module or tool you want to customise:</p>
+<pre><code class="language-yml">workflow:
+  - workflowName: 'default'
+    schedule: 'daily between 00:00 and 04:00'
+    cmd: ['python3 launch.py -o org_name -f org-tlds.txt --ignore_stale --stale']
+    workflowConfig:
+      - moduleName : Route53
+        tools: ['Route53'] 
+        order: 1
+      - moduleName : discovery
+        tools: ['Subfinder', 'SSLMate'] 
+        order: 1
+      - moduleName: prerecon
+        tools: ['FindCDN', 'Naabu', 'IPinfo'] 
+        order: 2
+      - moduleName: activehostscan
+        tools: ['HTTPX_Tech', 'HTTPX']
+        order: 3
+      - moduleName: activerecon
+        tools: ['Wafw00f']
+        order: 4
+      - moduleName: scan
+        tools: [ 'DNSTwister', 'Csper', 'Nuclei', 'NucleiRecon']
+        order: 5
+      - moduleName: secretscanner
+        tools: ['SecretScanner']
+        order: 6
+
+</code></pre>
+<ul>
+<li><strong>moduleName</strong> - Pre-packaged or custom modules </li>
+<li><strong>tools</strong> - Tools included as part of the module </li>
+<li><strong>order</strong> - The order in which the module needs to be executed, e.g., discovery needs to be run before recon</li>
+</ul>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<h3 id="example-1"><a class="header" href="#example-1">Example 1</a></h3>
+<p>Run a single module, say just 'Discovery', this is how your config is going to look, simply comment or remove the rest of the modules</p>
+<pre><code class="language-yml">workflow: 
+  - moduleName : discovery
+    tools: ['Subfinder', 'SSLMate', 'Amass'] 
+    order: 1
+</code></pre>
+<h3 id="example-2"><a class="header" href="#example-2">Example 2</a></h3>
+<p>Remove a tool, say you just want to run subdomain discovery and not identify 'certificates', so just remove 'SSLMate' from tools section under Discovery moduleName</p>
+<pre><code class="language-yml">workflow: 
+  - moduleName : discovery
+    tools: ['Subfinder', 'Amass'] 
+    order: 1
+</code></pre>
+<h2 id="understanding-configyml"><a class="header" href="#understanding-configyml">Understanding config.yml</a></h2>
+<blockquote>
+<p>INFO💡: For more details on config.yml and how to edit it, <a href="features//./configuration/configuration.html">Click here</a></p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="advanced-alerting"><a class="header" href="#advanced-alerting">Advanced Alerting</a></h1>
+<hr />
+<p><product-team>product security teams</product-team> <bug-bounty>bug bounty hunters </bug-bounty></p>
+<h2 id="-use-case-4"><a class="header" href="#-use-case-4">🤔 Use-Case</a></h2>
+<p><strong>I want to:</strong></p>
+<ul>
+<li><em>customise my alerts, say, today i recieve alerts only for vulnerabilities, tomorrow i need to start receiving alerts for my phishing domains as well, there shouldnt be any code change</em></li>
+<li><em>tag specific teams for specific alerts</em></li>
+</ul>
+<h2 id="-feature-4"><a class="header" href="#-feature-4">😃 Feature</a></h2>
+<p>Alerting is <strong>layered and config driven</strong> with no code change required in Mantis. There are two <strong>types of alerting</strong> that Mantis supports:</p>
+<ul>
+<li>Assets and Findings</li>
+<li>Scan Stats</li>
+</ul>
+<p>Currently, we support notifications via <strong>slack</strong></p>
+<h2 id="slack-alerts-example"><a class="header" href="#slack-alerts-example">Slack Alerts Example</a></h2>
+<h3 id="scan-efficiency-alert"><a class="header" href="#scan-efficiency-alert">Scan Efficiency Alert</a></h3>
+<img src="features/slack-alerts.png" class="img-rounded" alt="Scan Efficiency">
+<h3 id="new-assets-alert"><a class="header" href="#new-assets-alert">New Assets Alert</a></h3>
+<img src="features/slack-tag.png" class="img-rounded" alt="Slack Tag">
+<h3 id="understanding-configyml-1"><a class="header" href="#understanding-configyml-1">Understanding config.yml</a></h3>
+<blockquote>
+<p>INFO💡: For more details on config.yml and how to edit it, <a href="features//./configuration/configuration.html">Click here</a></p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="understanding-scan-efficiency"><a class="header" href="#understanding-scan-efficiency">Understanding Scan Efficiency</a></h1>
+<hr />
+<p><product-team>product security teams</product-team> <bug-bounty>bug bounty hunters </bug-bounty></p>
+<h2 id="-use-case-5"><a class="header" href="#-use-case-5">🤔 Use-Case</a></h2>
+<p><strong>I want to:</strong></p>
+<ul>
+<li><em>understand whether my scans succeeded or failed</em></li>
+<li><em>determine the time taken for the scans</em></li>
+</ul>
+<h2 id="-feature-5"><a class="header" href="#-feature-5">😃 Feature</a></h2>
+<p>Mantis provides you with efficient scan statistics at a granular level, including the following:</p>
+<ul>
+<li>Total scan time and efficiency</li>
+<li>Module level scan time and efficiency</li>
+<li>Success or Failure status for each asset</li>
+</ul>
+<p>The <strong>Efficiency</strong> is calcuated based on the success/failure rates</p>
+<h2 id="scan-efficiency"><a class="header" href="#scan-efficiency">Scan Efficiency</a></h2>
+<p>Post scan, Mantis outputs a file which is present in <code>{mantis_dir}/logs/scan_efficiency/</code>, which provides you with the scan metadata.</p>
+<h3 id="success-scenario"><a class="header" href="#success-scenario">Success Scenario</a></h3>
+<pre><code class="language-json">{
+    &quot;module_name&quot;: &quot;PRERECON&quot;,
+    &quot;module_start_time&quot;: &quot;524109.441001708&quot;,
+    &quot;module_end_time&quot;: &quot;524288.824489208&quot;,
+    &quot;module_time_taken&quot;: &quot;0:02:59&quot;,
+    &quot;module_tool_logs&quot;: [
+        {
+            &quot;tool_name&quot;: &quot;FindCDN&quot;,
+            &quot;success&quot;: 1,
+            &quot;failure&quot;: 0,
+            &quot;code&quot;: 0,
+            &quot;command&quot;: &quot;findcdn list example.in -o /tmp/7917f79d-8b06-4727-8953-dcf5c84efde6.json -v&quot;,
+            &quot;errors&quot;: null,
+            &quot;exception&quot;: null,
+            &quot;tool_time_taken&quot;: &quot;0:02:59&quot;
+        }
+    ]
+}
+</code></pre>
+<p>The above stats clearly states:</p>
+<ul>
+<li>the <strong>python subprocess</strong> exit code was 0, indicating success (warning - this depends on how efficiently the tool handles exit codes as well)</li>
+<li>the scan for a particular asset example.com was <strong>successful</strong></li>
+<li>the <strong>total time taken</strong> to run subfinder on that asset</li>
+</ul>
+<h3 id="failure-scenario"><a class="header" href="#failure-scenario">Failure Scenario</a></h3>
+<pre><code class="language-json">{
+    &quot;module_name&quot;: &quot;DISCOVERY&quot;,
+    &quot;module_start_time&quot;: &quot;525058.566098541&quot;,
+    &quot;module_end_time&quot;: &quot;525059.556518666&quot;,
+    &quot;module_time_taken&quot;: &quot;0:00:01&quot;,
+    &quot;module_tool_logs&quot;: [
+        {
+            &quot;tool_name&quot;: &quot;Subfinder&quot;,
+            &quot;success&quot;: 0,
+            &quot;failure&quot;: 1,
+            &quot;code&quot;: 2,
+            &quot;command&quot;: &quot;subfinder -te -d example.com -o /tmp/de4c5987-d4fe-46f9-89ef-f19af67cd1d0.txt&quot;,
+            &quot;errors&quot;: null,
+            &quot;exception&quot;: &quot;[Errno 2] No such file or directory: '/tmp/de4c5987-d4fe-46f9-89ef-f19af67cd1d0.txt'&quot;,
+            &quot;tool_time_taken&quot;: &quot;0:00:00&quot;
+        }
+    ]
+}
+
+</code></pre>
+<p>The above stats clearly states:</p>
+<ul>
+<li>the <strong>python subprocess</strong> exit code with a non-zero exit code (2), indicating failure </li>
+<li>the scan for a particular asset example.com was a <strong>failure</strong>, this is because a wrong subfinder command was passed</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="integrate-dns-services"><a class="header" href="#integrate-dns-services">Integrate DNS Services</a></h1>
+<hr />
+<p><product-team>product security teams</product-team></p>
+<h2 id="-use-case-6"><a class="header" href="#-use-case-6">🤔 Use-Case</a></h2>
+<p><strong>I want to:</strong></p>
+<ul>
+<li><em>feed my known assets to the framework because I know that they belong to my organization</em></li>
+<li><em>have the capability to feed subdomains, IP, IP-CIDRs or IP Range</em></li>
+<li><em>integrate my organisation's DNS Service</em></li>
+</ul>
+<h2 id="-feature-6"><a class="header" href="#-feature-6">😃 Feature</a></h2>
+<p>We are aware that <strong>no recon automation framework can be perfect</strong> in identifying all assets and findings. To some extent, this also depends on the tools used. Therefore, we designed Mantis to not only provide an external attacker's perspective but also <strong>add internal context</strong> to an organization.</p>
+<p>There are two ways in which you can add internal context to Mantis:</p>
+<ul>
+<li>Integrate your DNS Service (Route 53)</li>
+<li>Upload a file (use the '-f' flag)</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="secrets-scanning"><a class="header" href="#secrets-scanning">Secrets Scanning</a></h1>
+<hr />
+<p><product-team>product security teams</product-team> <bug-bounty>bug bounty hunters </bug-bounty></p>
+<h2 id="-use-case-7"><a class="header" href="#-use-case-7">🤔 Use-Case</a></h2>
+<p><strong>I want to:</strong></p>
+<ul>
+<li><em>identify any secrets belonging to my organization that have been leaked on the public internet</em></li>
+<li><em>identify any secrets that have been provided by my organization to our partners or vendors that have been leaked on the public internet</em></li>
+</ul>
+<h2 id="-feature-7"><a class="header" href="#-feature-7">😃 Feature</a></h2>
+<blockquote>
+<p>INFO💡: Secrets scanning is currently an experimental feature due to a number of limitations, such as rate limiting that are applied on the search engines where we search for information.</p>
+</blockquote>
+<p>The basic responsibility of secrets scanning is to <strong>identify secrets on the public internet</strong>. Currently, it searches for:</p>
+<ul>
+<li>Secrets in <strong>Wayback URLs</strong> </li>
+<li>Secrets in <strong>Wayback JS Files</strong></li>
+<li>Secrets in <strong>Github</strong> for an Organistaion [Coming Soon]</li>
+<li>Secrets in <strong>Swagger</strong> [Coming Soon]</li>
+<li>Secrets in <strong>Postman Collections</strong> [Coming Soon]</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="integrate-new-scanner-in-minutes"><a class="header" href="#integrate-new-scanner-in-minutes">Integrate new scanner in minutes</a></h1>
+<hr />
+<p><product-team>product security teams</product-team> <bug-bounty>bug bounty hunters </bug-bounty></p>
+<h2 id="-use-case-8"><a class="header" href="#-use-case-8">🤔 Use-Case</a></h2>
+<p><strong>I want to:</strong></p>
+<ul>
+<li><em>integrate new tools with a recon automation framework that the framework does not support by default</em> </li>
+<li><em>add scanners that are either a command-line tool or an API</em></li>
+<li><em>integrate scanners quickly and easily</em></li>
+</ul>
+<h2 id="-feature-8"><a class="header" href="#-feature-8">😃 Feature</a></h2>
+<p>Mantis is designed with the goal of minimizing the time it takes to integrate new scanners, whether for Mantis developers or external teams.</p>
+<p>Mantis includes several functions that make integrating new scanners easy.</p>
+<p>To add a new tool, this is what you need to do:</p>
+<ul>
+<li>Create a Python class for the scanner
+<ul>
+<li>Extend <strong>ToolScanner</strong> if you are integrating a new command line scanner</li>
+<li>Extend <strong>APIScanner</strong> if you are integrating a new API scanner</li>
+</ul>
+</li>
+<li>Implement three functions in the class
+<ul>
+<li><strong>get_commands() or get_api_calls()</strong>, depends on whether you choose Tool or API, this basically gets your scan command or API HTTP request ready</li>
+<li><strong>parse_report() or parse_response()</strong>, again depends on whether you choose Tool or API, this is to parse the response</li>
+<li><strong>db_operations()</strong>, insert the information to database and this is where its simple, we have built-in functions that takes care of everything</li>
+</ul>
+</li>
+<li>Add the install instructions in <strong>DockerFile</strong></li>
+</ul>
+<blockquote>
+<p>INFO💡: For a more detailed understanding on how to integrate a new scanner, <a href="features//./new-scanner-integrations/new-scanner-integration.html">Click here</a></p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-installation"><a class="header" href="#-installation">⚙️ Installation</a></h1>
+<p>Mantis provides multiple installation methods that includes performing the entire scan in a single system or multiple machines</p>
+<p><strong>Single Machine</strong> </p>
+<ul>
+<li>Docker </li>
+<li>Linux (Ubuntu)</li>
+<li>Windows (Coming Soon)</li>
+</ul>
+<p><strong>Multiple Machine</strong> </p>
+<ul>
+<li>Set of VMs</li>
+<li>AWS (Ansible script)</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="docker"><a class="header" href="#docker">Docker</a></h1>
+<hr />
+<p>Mantis supports multiple installation types. Installing Mantis via Docker would be a good start to get a hang of the framework.</p>
+<p>Considering that Mantis also includes mongoDB and AppSmith, we have provided a shell script that installs all the components.</p>
+<h2 id="setup"><a class="header" href="#setup">Setup</a></h2>
+<p>Clone the Mantis repository </p>
+<pre><code class="language-shell">$ git clone https://github.com/PhonePe/mantis.git
+</code></pre>
+<p>cd into the Mantis directory</p>
+<pre><code class="language-shell">$ cd mantis/setup/docker
+</code></pre>
+<p>Run the respective docker setup file based on your OS</p>
+<pre><code class="language-shell">$ ./docker-setup-macos.sh
+
+$ ./docker-setup-ubuntu.sh
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mac"><a class="header" href="#mac">Mac</a></h1>
+<hr />
+<p>To install Mantis directly on Mac, follow the below steps. We have simplified the installation as much as possible</p>
+<h2 id="setup-1"><a class="header" href="#setup-1">Setup</a></h2>
+<p>Clone the Mantis repository </p>
+<pre><code class="language-shell">$ git clone https://github.com/PhonePe/mantis.git
+</code></pre>
+<p>cd into the Mantis directory</p>
+<pre><code class="language-shell">$ cd mantis/setup/macos
+</code></pre>
+<p>Run the mac setup file</p>
+<pre><code class="language-shell">$ ./setup-mantis-macos.sh
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ubuntu---linux"><a class="header" href="#ubuntu---linux">Ubuntu - Linux</a></h1>
+<hr />
+<p>To install Mantis directly on Ubuntu, follow the below steps. </p>
+<h2 id="setup-2"><a class="header" href="#setup-2">Setup</a></h2>
+<p>Clone the Mantis repository </p>
+<pre><code class="language-shell">$ git clone https://github.com/PhonePe/mantis.git
+</code></pre>
+<p>cd into the Mantis directory</p>
+<pre><code class="language-shell">$ cd mantis/setup/ubuntu
+</code></pre>
+<p>Run the mac setup file</p>
+<pre><code class="language-shell">$ ./setup-mantis-ubuntu.sh
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="windows"><a class="header" href="#windows">Windows</a></h1>
+<hr />
+<p>[Coming soon]</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mutliple-machines"><a class="header" href="#mutliple-machines">Mutliple Machines</a></h1>
+<hr />
+<p>[Coming soon]</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="run-ansible-script"><a class="header" href="#run-ansible-script">Run Ansible Script</a></h1>
+<hr />
+<p>[Coming soon]</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-configuration"><a class="header" href="#-configuration">🛠️ Configuration</a></h1>
+<p>Once you have setup Mantis, you can now look at customising your scan requirements. Scan customisations are available via:</p>
+<ul>
+<li><a href="configuration//./configuration/config-file.html">Config File</a> - contains customisations related to scan workflow, scheduling, notifications etc.</li>
+<li><a href="configuration//./configuration/command-line.html">Command Line</a> - contains basic options to onboard your assets and scan</li>
+</ul>
+<blockquote>
+<p>INFO💡- Config File Path: /mantis/config/local.yml</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-config-file"><a class="header" href="#-config-file">📋 Config File</a></h1>
+<hr />
+<p>Mantis Config file provides multiple customisations including:</p>
+<ul>
+<li><a href="configuration//./configuration/workflow-config.html"><strong>Workflow Customisation</strong></a></li>
+<li><a href="configuration//./configuration/scheduler-config.html"><strong>Scheduler Customisation</strong></a></li>
+<li><a href="configuration//./configuration/app-context-config.html"><strong>Setting App Context</strong></a></li>
+<li><a href="configuration//./configuration/slack-config.html"><strong>Slack Alerting</strong></a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-workflow-configuration"><a class="header" href="#-workflow-configuration">🎛️ Workflow Configuration</a></h1>
+<hr />
+<blockquote>
+<p>Warning 🚨 - In onboard mode, you should run scans only with the 'default' workflow</p>
+</blockquote>
+<p>This is the workflow snippet from <strong>config.yml</strong>, you can just add/remove the module or tool you want to customise:</p>
+<pre><code class="language-yml">workflow:
+  - workflowName: 'default'
+    schedule: 'daily between 00:00 and 04:00'
+    cmd: ['python3 launch.py -o org_name -f org-tlds.txt --ignore_stale --stale']
+    workflowConfig:
+      - moduleName : Route53
+        tools: ['Route53'] 
+        order: 1
+      - moduleName : discovery
+        tools: ['Subfinder', 'SSLMate'] 
+        order: 1
+      - moduleName: prerecon
+        tools: ['FindCDN', 'Naabu', 'IPinfo'] 
+        order: 2
+      - moduleName: activehostscan
+        tools: ['HTTPX_Tech', 'HTTPX']
+        order: 3
+      - moduleName: activerecon
+        tools: ['Wafw00f']
+        order: 4
+      - moduleName: scan
+        tools: [ 'DNSTwister', 'Csper', 'Nuclei', 'NucleiRecon']
+        order: 5
+      - moduleName: secretscanner
+        tools: ['SecretScanner']
+        order: 6
+
+</code></pre>
+<ul>
+<li><strong>moduleName</strong> - Pre-packaged or custom modules </li>
+<li><strong>tools</strong> - Tools included as part of the module </li>
+<li><strong>order</strong> - The order in which the module needs to be executed, e.g., discovery needs to be run before recon</li>
+</ul>
+<h2 id="examples-1"><a class="header" href="#examples-1">Examples</a></h2>
+<blockquote>
+<p>Warning 🚨 - Do not modify the default workflow config, always create a new workflow before modifying it as shown in example 3</p>
+</blockquote>
+<h3 id="example-1-1"><a class="header" href="#example-1-1">Example 1</a></h3>
+<p>Run a single module, say just 'Discovery', this is how your config is going to look, simply remove the rest of the modules</p>
+<pre><code class="language-yml">workflow: 
+  - moduleName : discovery
+    tools: ['Subfinder', 'SSLMate', 'Amass'] 
+    order: 1
+</code></pre>
+<h3 id="example-2-1"><a class="header" href="#example-2-1">Example 2</a></h3>
+<p>Remove a tool, say you just want to run subdomain discovery and not identify 'certificates', so just remove 'SSLMate' from tools section under Discovery moduleName</p>
+<pre><code class="language-yml">workflow: 
+  - moduleName : discovery
+    tools: ['Subfinder', 'Amass'] 
+    order: 1
+</code></pre>
+<h3 id="example-3"><a class="header" href="#example-3">Example 3</a></h3>
+<p>Now say you want to go one step ahead and create you own workflow, you can do that by simply copy, pasting the default workflow, make the corresponding changes and rename it according your requirement.</p>
+<pre><code class="language-yml">workflow:
+  - workflowName: 'custom_workflow'
+    schedule: 'daily between 00:00 and 04:00'
+    cmd: ['python3 launch.py -o org_name -f org-tlds.txt --ignore_stale --stale']
+    workflowConfig:
+      - moduleName : discovery
+        tools: ['Subfinder', 'Amass'] 
+        order: 1
+      - moduleName: prerecon
+        tools: ['FindCDN', 'Naabu'] 
+        order: 2
+      - moduleName: activehostscan
+        tools: ['HTTPX_Tech', 'HTTPX']
+        order: 3
+      - moduleName: scan
+        tools: [ 'DNSTwister', 'Csper', 'Nuclei', 'NucleiRecon']
+        order: 4
+
+</code></pre>
+<p>As you can see, the new workflow does not contain modules like Route53, ActiveRecon, SecretsScanning etc. A couple of tools like SSLMate and IPInfo have been removed too. The name of the workflow is also changed to <strong>custom_workflow</strong></p>
+<p>Now to run this new workflow, you can make use of the -w options</p>
+<pre><code class="language-shell">$ mantis -o example -t example.org -w custom_workflow
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="scheduler-configuration"><a class="header" href="#scheduler-configuration">Scheduler Configuration</a></h1>
+<hr />
+<p>Mantis also lets you schedule scans, this scheduler option is present in in the workflow config itself.</p>
+<h2 id="examples-2"><a class="header" href="#examples-2">Examples</a></h2>
+<h3 id="example-1-2"><a class="header" href="#example-1-2">Example 1</a></h3>
+<p>Setup default workflow module to be run everyday at 9AM.</p>
+<blockquote>
+<p>INFO 💡 - Schedule key words are based on <a href="https://rocketry.readthedocs.io/en/stable/">Python Rocketery Framework</a></p>
+</blockquote>
+<pre><code class="language-yml">workflow:
+  - workflowName: 'default'
+    schedule: 'daily between 09:00 and 11:00'
+    cmd: ['python3 launch.py -o org_name -f org-tlds.txt --ignore_stale --stale']
+    workflowConfig:
+      - moduleName : Route53
+        tools: ['Route53'] 
+        order: 1
+      - moduleName : discovery
+        tools: ['Subfinder', 'SSLMate'] 
+        order: 1
+      - moduleName: prerecon
+        tools: ['FindCDN', 'Naabu', 'IPinfo'] 
+        order: 2
+      - moduleName: activehostscan
+        tools: ['HTTPX_Tech', 'HTTPX']
+        order: 3
+      - moduleName: activerecon
+        tools: ['Wafw00f']
+        order: 4
+      - moduleName: scan
+        tools: [ 'DNSTwister', 'Csper', 'Nuclei', 'NucleiRecon']
+        order: 5
+      - moduleName: secretscanner
+        tools: ['SecretScanner']
+        order: 6
+
+</code></pre>
+<ul>
+<li>Created a new config <strong>discovery_workflow</strong> that only runs discovery module</li>
+<li>Set the <strong>schedule</strong> parameter to <strong>daily at 9:00</strong></li>
+</ul>
+<h3 id="example-2-2"><a class="header" href="#example-2-2">Example 2</a></h3>
+<p>Setup discovery module to be run everyday at 11AM.</p>
+<pre><code class="language-yml">workflow:
+  - workflowName: 'discovery_workflow'
+    schedule: 'daily between 11:00 and 14:00'
+    cmd: ['python3 launch.py -o org_name -f org-tlds.txt -w discovery_workflow']
+    workflowConfig:
+      - moduleName : discovery
+        tools: ['Subfinder', 'SSLMate'] 
+        order: 1
+
+</code></pre>
+<ul>
+<li>Created a new config <strong>discovery_workflow</strong> that only runs discovery module</li>
+<li>Set the <strong>schedule</strong> parameter to <strong>daily at 9:00</strong></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="setting-app-context"><a class="header" href="#setting-app-context">Setting App Context</a></h1>
+<hr />
+<blockquote>
+<p>Warning 🚨 - Considering this feature is a string based match, this will not be 100 % accurate when you add strings that are of shorter length</p>
+</blockquote>
+<p>Mantis lets you setup an App Context to the subdomains discovered. For e.g. if you organisation has multiple apps like upi, insurance, mutual funds etc. You can provide key words for every app and Mantis will automatically map this context to each subdomain discovered and also to findings.</p>
+<pre><code class="language-yml">app:
+  upi: [upi,payments]
+  insurance: [insurance.org.com]
+  mutual-funds: [mutual-funds, mutual]
+  
+</code></pre>
+<p>This will map: </p>
+<ul>
+<li>upi.org.com, payments.org.com to <strong>upi app</strong></li>
+<li>buy.insurance.org.com, integrations.insurance.org.com to <strong>insurance app</strong></li>
+<li>mf.org.com, mf-buy.org.com, mf-api.org.com to <strong>mutual-funds app</strong></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="slack-notification"><a class="header" href="#slack-notification">Slack Notification</a></h1>
+<hr />
+<p>Mantis provides an advanced layered based Slack alerting, that includes:</p>
+<ul>
+<li>Teams</li>
+<li>Apps</li>
+<li>Assets/Findings</li>
+<li>Tagging</li>
+</ul>
+<h2 id="notifications-config"><a class="header" href="#notifications-config">Notifications Config</a></h2>
+<pre><code class="language-yaml">notify:
+  - teamName: web_team
+    scanEfficiency: true 
+    channel:
+      slack:
+        - https://hooks.slack.com/services/********/********
+    app: [payments-dashboard, transactions-dashboard]
+    assets:
+      - subdomain: ['prateek.thakare']
+      - certificate: ['praveen.kanniah']
+    findings: 
+      - vulnerability: []
+      - secret: []
+</code></pre>
+<h3 id="layer-1-teams"><a class="header" href="#layer-1-teams">Layer 1 (Teams)</a></h3>
+<hr />
+<p>A Team is a team within an organistion, e.g. web team, appsec team, infra team etc. With Mantis, you can create unique configurations for every team and alert them for what they need.</p>
+<h3 id="layer-2-apps"><a class="header" href="#layer-2-apps">Layer 2 (Apps)</a></h3>
+<hr />
+<p>In the background Mantis stores the identified assets, recon informtion and vulnerbailities in a <strong>mongDB</strong> database. Mantis lets you provide keywords to map a subdomain to an App, like this:</p>
+<pre><code class="language-yaml">app:
+payments-dashboard: [payments, upi]
+transactions-dashboard: [transactions, npci]
+</code></pre>
+<p>If a subdomain is discovered with these keywords, it will automatically map it to an app and store the context. A team can now receive alerts specific to an app.</p>
+<h3 id="layer-3-assets-and-findings"><a class="header" href="#layer-3-assets-and-findings">Layer 3 (Assets and Findings)</a></h3>
+<hr />
+<p>A team can also receive alerts based on an Asset Type or Findings Type</p>
+<ul>
+<li><strong>Assets</strong>
+<ul>
+<li>TLD (Top Level Domain)</li>
+<li>Subdomain</li>
+<li>IP</li>
+<li>Certificates</li>
+</ul>
+</li>
+<li><strong>Findings</strong>
+<ul>
+<li>Vulerabilities</li>
+<li>Misconfigurations</li>
+<li>Phishing</li>
+<li>Secrets</li>
+</ul>
+</li>
+</ul>
+<p>You can add/delete the types you want to receive/ignore alerts for.</p>
+<h3 id="layer-4-tagging-and-channels"><a class="header" href="#layer-4-tagging-and-channels">Layer 4 (Tagging and Channels)</a></h3>
+<hr />
+<p>This layer is specific to Slack alerting, where in a group you can particularly tag a specific person for a particular alert.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-command-line"><a class="header" href="#-command-line">🖥️ Command Line</a></h1>
+<hr />
+<p>Mantis ships with a simple list of command line options.</p>
+<img src="configuration/command-line.png" class="img-rounded" alt="Assets">
+<h2 id="quick-help"><a class="header" href="#quick-help">Quick Help</a></h2>
+<pre><code class="language-shell">
+  usage: 
+        ONBOARD: (First time scan, Run this !!)
+
+        mantis onboard -o example_org -t www.example.org
+        mantis onboard -o example_org -f file.txt
+
+        SCAN:
+
+        mantis scan -o example_org
+        mantis scan -o example_org -a example_app
+            
+
+options:
+  -h, --help      list command line options
+
+subparser:
+  {onboard,scan}
+    onboard       Onboard a target
+    scan          Scan an org
+</code></pre>
+<h2 id="onboard-help"><a class="header" href="#onboard-help">Onboard Help</a></h2>
+<pre><code class="language-shell">usage: 
+        ONBOARD: (First time scan, Run this !!)
+
+        mantis onboard -o example_org -t example.tld
+        mantis onboard -o example_org -f file.txt
+
+            
+
+options:
+  -h, --help            show this help message and exit
+  -t HOST, --host HOST  top level domain to scan
+  -f FILE_NAME, --file_input FILE_NAME
+                        path to file containing any combination of TLD, subdomain, IP-range, IP-CIDR
+  -w WORKFLOW, --workflow WORKFLOW
+                        workflow to be executed as specified in config file
+  -o ORG, --org ORG     name of the organisation
+  -a APP, --app APP     scan only subdomains that belong to an app
+  -p, --passive         run passive port scan
+  -s, --stale           mark domains as stale (domains purchased but not in use)
+  -i, --ignore_stale    ignore stale domains during scan
+  -tc THREAD_COUNT, --thread_count THREAD_COUNT
+                        thread count, default 10
+  -r, --use_ray         use ray framework for distributed scans
+  -n NUM_ACTORS, --num_actors NUM_ACTORS
+                        number of ray actors, default 10
+  -d, --delete_logs     delete logs of previous scans
+  -v, --verbose         print debug logs
+  -aws AWS_PROFILES, --aws_profiles AWS_PROFILES
+                        List of comma separated aws profiles for Route53
+
+</code></pre>
+<h2 id="scan-help"><a class="header" href="#scan-help">Scan Help</a></h2>
+<pre><code class="language-shell">usage: 
+        SCAN:
+
+        mantis scan -o example_org
+        mantis scan -o example_org -a example_app
+            
+
+options:
+  -h, --help            show this help message and exit
+  -w WORKFLOW, --workflow WORKFLOW
+                        workflow to be executed as specified in config file
+  -o ORG, --org ORG     name of the organisation
+  -a APP, --app APP     scan only subdomains that belong to an app
+  -p, --passive         run passive port scan
+  -s, --stale           mark domains as stale (domains purchased but not in use)
+  -i, --ignore_stale    ignore stale domains during scan
+  -tc THREAD_COUNT, --thread_count THREAD_COUNT
+                        thread count, default 10
+  -r, --use_ray         use ray framework for distributed scans
+  -n NUM_ACTORS, --num_actors NUM_ACTORS
+                        number of ray actors, default 10
+  -d, --delete_logs     delete logs of previous scans
+  -v, --verbose         print debug logs
+  -aws AWS_PROFILES, --aws_profiles AWS_PROFILES
+                        List of comma separated aws profiles for Route53
+
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-run-a-scan"><a class="header" href="#-run-a-scan">📨 Run a Scan</a></h1>
+<hr />
+<p>Mantis provides two modes to scan:</p>
+<ul>
+<li>Onbaord and Scan</li>
+<li>Scan</li>
+</ul>
+<h3 id="onboard-and-scan"><a class="header" href="#onboard-and-scan">Onboard and Scan</a></h3>
+<hr />
+<p>You want to onboard an org with its TLDs/IPs/IP-CIDRs/IP Range for the first time, use the onboard mode. This runs the scan on the default workflow.</p>
+<h4 id="tld"><a class="header" href="#tld">TLD</a></h4>
+<pre><code class="language-shell">$ python3 launch.py onboard -o org_name -t example.in   
+</code></pre>
+<h4 id="ip"><a class="header" href="#ip">IP</a></h4>
+<pre><code class="language-shell">$ python3 launch.py onboard -o org_name -t 10.123.123.12
+</code></pre>
+<h4 id="ip-range"><a class="header" href="#ip-range">IP-Range</a></h4>
+<pre><code class="language-shell">$ python3 launch.py onboard -o org_name -t 203.0.113.0-10
+</code></pre>
+<h4 id="ip-cidr"><a class="header" href="#ip-cidr">IP-CIDR</a></h4>
+<pre><code class="language-shell">$ python3 launch.py onboard -o org_name -t 203.0.113.0/24
+</code></pre>
+<h3 id="onboard-known-assets-and-scan"><a class="header" href="#onboard-known-assets-and-scan">Onboard Known Assets and Scan</a></h3>
+<pre><code class="language-shell">$ python3 launch.py onboard -o org_name -f input.txt
+</code></pre>
+<h3 id="scan-on-all-assets-belonging-to-an-organisation"><a class="header" href="#scan-on-all-assets-belonging-to-an-organisation">Scan on all assets belonging to an organisation</a></h3>
+<hr />
+<p>Now that you have onboarded, you just need to run scheduled scans for an org, you can just use the scan mode</p>
+<pre><code class="language-shell">$ python3 launch.py scan -o org_name
+</code></pre>
+<h3 id="scan-on-all-assets-belonging-to-an-organisation-and-app"><a class="header" href="#scan-on-all-assets-belonging-to-an-organisation-and-app">Scan on all assets belonging to an organisation and app</a></h3>
+<hr />
+<pre><code class="language-shell">$ python3 launch.py scan -o org_name -a app_name
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-notifications"><a class="header" href="#-notifications">📨 Notifications</a></h1>
+<p>Mantis currently supports the following clients for Notifications:</p>
+<ul>
+<li><a href="notifications/./notifications-slack.html">Slack</a></li>
+<li>Discord [Coming Soon]</li>
+<li>Mail [Coming Soon]</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="slack"><a class="header" href="#slack">Slack</a></h1>
+<hr />
+<p>Mantis provides an advanced layered based Slack alerting, that includes:</p>
+<ul>
+<li>Teams</li>
+<li>Apps</li>
+<li>Assets/Findings</li>
+<li>Tagging</li>
+</ul>
+<h2 id="notifications-config-1"><a class="header" href="#notifications-config-1">Notifications Config</a></h2>
+<pre><code class="language-yaml">notify:
+  - teamName: web_team
+    scanEfficiency: true 
+    channel:
+      slack:
+        - https://hooks.slack.com/services/********/********
+    app: [payments-dashboard, transactions-dashboard]
+    assets:
+      - subdomain: ['prateek.thakare']
+      - certificate: ['praveen.kanniah']
+    findings: 
+      - vulnerability: []
+      - secret: []
+</code></pre>
+<h3 id="layer-1-teams-1"><a class="header" href="#layer-1-teams-1">Layer 1 (Teams)</a></h3>
+<hr />
+<p>A Team is a team within an organistion, e.g. web team, appsec team, infra team etc. With Mantis, you can create unique configurations for every team and alert them for what they need.</p>
+<h3 id="layer-2-apps-1"><a class="header" href="#layer-2-apps-1">Layer 2 (Apps)</a></h3>
+<hr />
+<p>In the background Mantis stores the identified assets, recon informtion and vulnerbailities in a <strong>mongDB</strong> database. Mantis lets you provide keywords to map a subdomain to an App, like this:</p>
+<pre><code class="language-yaml">app:
+payments-dashboard: [payments, upi]
+transactions-dashboard: [transactions, npci]
+</code></pre>
+<p>If a subdomain is discovered with these keywords, it will automatically map it to an app and store the context. A team can now receive alerts specific to an app.</p>
+<h3 id="layer-3-assets-and-findings-1"><a class="header" href="#layer-3-assets-and-findings-1">Layer 3 (Assets and Findings)</a></h3>
+<hr />
+<p>A team can also receive alerts based on an Asset Type or Findings Type</p>
+<ul>
+<li><strong>Assets</strong>
+<ul>
+<li>TLD (Top Level Domain)</li>
+<li>Subdomain</li>
+<li>IP</li>
+<li>Certificates</li>
+</ul>
+</li>
+<li><strong>Findings</strong>
+<ul>
+<li>Vulerabilities</li>
+<li>Misconfigurations</li>
+<li>Phishing</li>
+<li>Secrets</li>
+</ul>
+</li>
+</ul>
+<p>You can add/delete the types you want to receive/ignore alerts for.</p>
+<h3 id="layer-4-tagging-and-channels-1"><a class="header" href="#layer-4-tagging-and-channels-1">Layer 4 (Tagging and Channels)</a></h3>
+<hr />
+<p>This layer is specific to Slack alerting, where in a group you can particularly tag a specific person for a particular alert.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tools-list"><a class="header" href="#tools-list">Tools List</a></h1>
+<hr />
+<p>List of tools that Mantis framework integrates and their purpose</p>
+<style>
+table {
+    float: left;
+}
+</style>
+<table><thead><tr><th>Module</th><th>Tool</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Discovery</td><td><a href="https://github.com/projectdiscovery/subfinder">Subfinder</a></td><td>Subdomain Enumeration</td></tr>
+<tr><td>Discovery</td><td><a href="https://github.com/owasp-amass/amass">AMASS</a></td><td>Subdomain Enumeration</td></tr>
+<tr><td>Discovery</td><td><a href="https://sslmate.com/">SSLMate</a></td><td>Certificates</td></tr>
+<tr><td>Pre-Recon</td><td><a href="https://github.com/cisagov/findcdn">FindCDN</a></td><td>Determine CDN</td></tr>
+<tr><td>Pre-Recon</td><td><a href="https://github.com/projectdiscovery/naabu">Naabu</a></td><td>Port Discovery</td></tr>
+<tr><td>Pre-Recon</td><td><a href="https://github.com/ipinfo">IPInfo</a></td><td>Extract IP Information</td></tr>
+<tr><td>Active-Host-Scan</td><td><a href="https://github.com/projectdiscovery/httpx">HTTPX</a></td><td>Determine Active hosts &amp; Technologies</td></tr>
+<tr><td>Active-Recon</td><td><a href="https://github.com/EnableSecurity/wafw00f">Wafw00f</a></td><td>Deteminf WAF</td></tr>
+<tr><td>Scan</td><td><a href="https://github.com/projectdiscovery/nuclei">Nuclei</a></td><td>Vulnerability Scan</td></tr>
+<tr><td>Scan</td><td><a href="https://dnstwister.report/">DNS Twister</a></td><td>Determine Phishing domains</td></tr>
+<tr><td>Scan</td><td><a href="https://csper.io/">Csper</a></td><td>Identify CSP misconfigurations</td></tr>
+<tr><td>Scan</td><td><a href="https://github.com/s0md3v/Corsy">Corsy</a></td><td>Identify CORS misconfigurations</td></tr>
+<tr><td>Secrets</td><td><a href="https://github.com/lc/gau">GAU</a></td><td>Determine wayback URLs</td></tr>
+<tr><td>Secrets</td><td><a href="https://github.com/gitleaks/gitleaks">Gitleaks</a></td><td>Identify Secrets</td></tr>
+</tbody></table>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-mantis-code---getting-started"><a class="header" href="#-mantis-code---getting-started">📖 Mantis Code - Getting Started</a></h1>
+<hr />
+<p>Before you add a new module or scanner to Mantis yourself, it is important to understand the parts of the code that you'll be editing and certain functions that will come in handy.</p>
+<p>In this walkthrough, we shall mainly focus on:</p>
+<ul>
+<li><a href="basics-mantis-code//./basics-mantis-code/folder-structure.html">Mantis folder structure</a> - This will help you understand exactly where you need to make changes for new integrations</li>
+<li><a href="basics-mantis-code//./basics-mantis-code/scanner-base-class.html">Base scanner class</a> - Based on the scanner that you want to integrate, this will help you choose the base class that you need to inherit</li>
+<li><a href="basics-mantis-code//./basics-mantis-code/important-utils.html">Important utility functions</a> - If your new scanner only accepts IP addresses, TLDs, or sometimes both, you don't have to write any queries or functions to validate the inputs. Mantis has built-in utility functions that can provide you with this input directly. </li>
+<li><a href="basics-mantis-code//./basics-mantis-code/db-models.html">DB models</a> - After your new scanner completes its scan, you'll need to insert the results into MongoDB. To do so, you'll need to understand the schema that is in place. This will help you do that.</li>
+</ul>
+<p>A basic understanding of the above will simplify any new integrations with Mantis.</p>
+<blockquote>
+<p>⏭️ Let's begin with understanding the folder structure next.</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="code---folder-structure"><a class="header" href="#code---folder-structure">Code - Folder Structure</a></h1>
+<hr />
+<p>This is an overview of the Mantis code's folder structure.</p>
+<pre><code class="language-console">.
+├── configs
+├── mantis
+│   ├── config_parsers
+│   ├── db
+│   ├── models
+│   ├── modules
+│   │   ├── Route53
+│   │   ├── activehostscan
+│   │   ├── activerecon
+│   │   ├── discovery
+│   │   ├── prerecon
+│   │   ├── scan
+│   │   └── secretscanner
+│   │       └── submodules
+│   ├── scan_orchestration
+│   ├── tool_base_classes
+│   ├── utils
+│   └── workflows
+└── setup
+    ├── docker
+    └── ubuntu
+
+</code></pre>
+<blockquote>
+<p>INFO💡: Before we begin, remember, the entire automation process is referred to as a workflow in Mantis, which is further broken down into modules, and modules are further broken down into tools.</p>
+</blockquote>
+<p>For the purpose of new integrations, let's look at the folders that will be most relevant to our objective.</p>
+<ul>
+<li><strong>configs</strong> - This folder contains the file <strong>local.yml</strong>, which is where, you do most of your framework customisations</li>
+<li><strong>db</strong> - Not every file under db will interest you, except the <strong>db_models.py</strong>. This file contains the db schema</li>
+<li><strong>modules</strong> - This folder contains the scanner classes categorized by each module. Here's a quick look inside one of the modules folder <strong>discovery</strong>
+<pre><code class="language-console">.
+├── Amass.py
+├── SSLMate.py
+├── Subfinder.py
+└── __init__.py
+</code></pre>
+</li>
+<li><strong>utils</strong> - Again not every file is of importance, except the <strong>tool_utils.py</strong>. This file contains functions that will make your life simple during new integrations</li>
+<li><strong>DockerFile</strong> - Last, the <strong>DockerFile</strong> itself, where you will add the installation instructions for new scanners, if any</li>
+</ul>
+<h2 id="a-quick-correlation-to-localyml"><a class="header" href="#a-quick-correlation-to-localyml">A Quick Correlation to local.yml</a></h2>
+<p>This is a snippet of the workflow section in local.yml</p>
+<pre><code class="language-yml">workflow: 
+  - moduleName : discovery
+    tools: ['Subfinder', 'SSLMate', 'Amass'] 
+    order: 1
+  - moduleName: prerecon
+    tools: ['FindCDN', 'Naabu', 'IPinfo'] 
+    order: 2
+  - moduleName: activehostscan
+    tools: ['HTTPX_Tech', 'HTTPX']
+    order: 3
+  - moduleName: activerecon
+    tools: ['Wafw00f']
+    order: 4
+  - moduleName: scan
+    tools: [ 'DNSTwister', 'Csper', 'SecretScanner']
+    order: 4
+
+</code></pre>
+<p>Let's do a quick correlation.</p>
+<img src="basics-mantis-code/code-config-mapping.png" class="img-rounded" alt="Mantis">
+<ul>
+<li><strong>moduleName</strong>, i.e. discovery, prerecon, activehostscan etc. are sub-folders under modules folder</li>
+<li><strong>tools</strong> under each moduleName, e.g. under discovery, you can find Subfinder, SSLMate, Amass, are the name of the scanner classes defined under each module</li>
+</ul>
+<blockquote>
+<p>⏭️ Now that you have a basic understanding of the folder structure, lets now understand the different types of scanner base class that Mantis offers.</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="scanner-base-class"><a class="header" href="#scanner-base-class">Scanner Base Class</a></h1>
+<hr />
+<p>When you are integrating a new scanner, the first thing to you need to know is that, if your scanner is a command line tool or an API, based on this there are two types of Scaner classes available.</p>
+<ul>
+<li><strong>ToolScanner</strong></li>
+<li><strong>APIScanner</strong></li>
+</ul>
+<h2 id="1-tool-scanner"><a class="header" href="#1-tool-scanner">1. Tool Scanner</a></h2>
+<p>From a recon automation perspective, command-line tools are tools that you typically install in your system using brew, apt, apt-install, or similar methods, and then run scans.</p>
+<p><code>$ nuclei -u https://www.example.org -json -o nuclei.json -exclude-severity info -v</code></p>
+<p><em>E.g. Amass, Subfinder, naabu, nuclei etc.</em></p>
+<h3 id="functions-to-implement"><a class="header" href="#functions-to-implement">Functions to implement</a></h3>
+<p>To integrate a tool like nuclei, your new scanner class will needs to inherit the <strong>ToolScanner</strong>.</p>
+<p>The functions you will need to implement as part of the ToolScanner are:</p>
+<p><strong>get_commands()</strong> - create the final tool command that needs to be run. </p>
+<p><strong>parse_report()</strong> - parse the report produced by the command, match it to the db schema and create a dictionary</p>
+<p><strong>db_operations()</strong> - insert the dictionary from parse_report() into the database</p>
+<h2 id="2-api-based-scanner"><a class="header" href="#2-api-based-scanner">2. API based Scanner</a></h2>
+<p>Scanners that involve sending an HTTP request instead of running an OS command to perform a scan. </p>
+<pre><code class="language-http">GET https://api.shodan.io/shodan/ports?key={YOUR_API_KEY}
+
+</code></pre>
+<p><em>E.g. Shodan, SSLMate etc.</em></p>
+<h3 id="functions-to-implement-1"><a class="header" href="#functions-to-implement-1">Functions to implement</a></h3>
+<p><strong>get_api_calls()</strong> - create the HTTP request you need to send </p>
+<p><strong>parse_reponse()</strong> - parse the HTTP response to get asset or findings information</p>
+<p><strong>db_operations()</strong> - insert the dictionary from parse_reponse() into the database</p>
+<blockquote>
+<p>⏭️ We are now aware of the folder structure and Base Scanner classes, let us now look at a few utils function that will help us ease through new integrations.</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="important-utils-function"><a class="header" href="#important-utils-function">Important Utils Function</a></h1>
+<hr />
+<p>Mantis stores the scan results in a MongoDB database. Therefore, when integrating a new scanner, you will also need to query/push data to/from MongoDB. </p>
+<p>To make this process easier, we have developed utility functions that interact with the database, keeping your new scanner integration simple..</p>
+<p>The <strong>tool_utils.py</strong> under mantis/utils consists of functions that will help you fetch information required for your new scanner as well help you push the data into mongoDB.</p>
+<h2 id="read-data"><a class="header" href="#read-data">Read Data</a></h2>
+<h3 id="get-basic-assets-data"><a class="header" href="#get-basic-assets-data">Get Basic Assets Data</a></h3>
+<p>When you are integrating a new scanner, in the context of recon automation, your will need to pass one of the inputs to your new scanner:</p>
+<ul>
+<li>Top Level Domains (TLDs)</li>
+<li>IPs</li>
+<li>Sub Domains</li>
+</ul>
+<blockquote>
+<p><strong>Location</strong>: mantis/utils/tool_utils<br />
+<strong>Function Name</strong>: async def get_assets_grouped_by_type(args, asset_type)</p>
+</blockquote>
+<hr />
+<blockquote>
+<p><strong>Get TLDs</strong>: self.assets = await get_assets_grouped_by_type(args, &quot;TLD&quot;)<br />
+<strong>Get Subdomains</strong>: self.assets = await get_assets_grouped_by_type(args, &quot;subdomains&quot;)<br />
+<strong>Get IPs</strong>: self.assets = await get_assets_grouped_by_type(args, &quot;ip&quot;)</p>
+</blockquote>
+<p>Thats it, its that simple !!</p>
+<h3 id="insert-data"><a class="header" href="#insert-data">Insert Data</a></h3>
+<p>Again, when you are integrating a new scanner, once the scan is complete, you will need insert the results into mongodb database</p>
+<blockquote>
+<p><strong>Location</strong>: mantis/utils/crud_utils</p>
+</blockquote>
+<hr />
+<blockquote>
+<p><strong>Insert Assets</strong>: async def insert_assets(assets: list, source='external')<br />
+<strong>Update Assets</strong>: async def update_asset(asset: str, org: str, tool_output_dict: dict):<br />
+<strong>Insert Findings</strong>: async def insert_findings(obj, asset: str, findings: list): </p>
+</blockquote>
+<blockquote>
+<p>⏭️ Now that we are aware about utility functions that will make data insertion and extration simpler. Let's now take a quick look at the database Models for Assets and Findings.</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="db-models"><a class="header" href="#db-models">DB Models</a></h1>
+<hr />
+<p>One more thing you need to understand before integrating your new scanner is the database models. Mantis's mongoDB database consists of two collections (or tables).</p>
+<ul>
+<li>Assets (Types: TLDs, IPs, Subdomains, Certificates)</li>
+<li>Findngs (Types: Vulnerability, Misconfiguration, Secrets, Phishing Domain)</li>
+</ul>
+<h2 id="assets-1"><a class="header" href="#assets-1">Assets:</a></h2>
+<pre><code class="language-python">    _id: str = Field(..., alias=&quot;_id&quot;)
+    asset: str = Field(...)
+    asset_type: str = Field(...) 
+    org: str = Field(...)
+    app: str = Field(None)
+    source: Literal['internal', 'external'] = Field(None) 
+    created_timestamp: str = Field(None)
+    cdn_names: Optional[str] = list()
+    waf: Optional[str] = list()
+    ports: Optional[list] = list()
+    as_number: Optional[str] = Field(None) 
+    as_name: Optional[str] = Field(None)
+    as_country: Optional[str] = Field(None)
+    as_range: Optional[list] = list()
+    dns: Optional[dict] = Field(None)
+    ipinfo: Optional[dict] = dict()
+    technologies: Optional[list] = list()
+    webserver: Optional[list] = list()
+    updated_timestamp: Optional[str] = Field(None)
+    active_hosts: Optional[list] = list()
+    stale: Optional[bool] = False
+    repositories: Optional[str] = Field(None) 
+    others: Optional[dict] = dict()
+</code></pre>
+<h2 id="findings"><a class="header" href="#findings">Findings:</a></h2>
+<pre><code class="language-python">    _id: str = Field(...)
+    host: str = Field(...) 
+    url: Optional[str] = Field(None) 
+    title: str = Field(...) 
+    org: str = Field(...) 
+    app: str = Field(None)
+    type: Literal['vulnerability', 'misconfiguration', 'secret', 'phishing'] = Field(None) 
+    description: str = Field(None)
+    severity: str = Field(None)
+    tool_source: str = Field(None) 
+    created_timestamp: str = Field(None)
+    updated_timestamp: Optional[str] = Field(None)
+    host_with_protocol: Optional[str] = Field(None)
+    remediation: Optional[str] = Field(None)
+    info: Optional[dict] = Field(None) 
+    cve_id: Optional[str] = Field(None)
+    cwe_id: Optional[str] = Field(None)
+    others: Optional[dict] = Field(None) 
+    falsepositive: bool = Field(None)
+    status: str = &quot;Open&quot;
+    modified_by: str = Field(None)
+
+
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="-new-scanner-integrations"><a class="header" href="#-new-scanner-integrations">🔗 New Scanner Integrations</a></h1>
+<hr />
+<p>To integrate a new scanner with Mantis, it should fall under one of these categories:</p>
+<ul>
+<li><a href="new-scanner-integrations//./new-scanner-integrations/new-scanner-integration-command-line.html"><strong>Command Line Tool based scanner</strong></a></li>
+<li><a href="new-scanner-integrations//./new-scanner-integrations/new-scanner-integration-api.html"><strong>API based scanner</strong></a></li>
+</ul>
+<h2 id="command-line-based-scanner"><a class="header" href="#command-line-based-scanner">Command Line based Scanner</a></h2>
+<p>From a recon automation perspective, command-line tools are tools that you typically install in your system using brew, apt, apt-install, or similar methods, and then run scans.</p>
+<p><em>E.g. Amass, Subfinder, naabu, nuclei etc.</em></p>
+<pre><code class="language-zsh">$ nuclei -u https://www.example.org -json -o nuclei.json -exclude-severity info -v
+</code></pre>
+<h2 id="api-based-scanner"><a class="header" href="#api-based-scanner">API based Scanner</a></h2>
+<p>Scanners that involve sending an HTTP request instead of running an OS command to perform a scan. </p>
+<p><em>E.g. Shodan, SSLMate etc.</em></p>
+<pre><code class="language-http">GET https://api.shodan.io/shodan/ports?key={YOUR_API_KEY}
+
+</code></pre>
+<p>Now that you are aware of the scanner types that Mantis supports, let's get started</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="command-line-tool"><a class="header" href="#command-line-tool">Command Line Tool</a></h1>
+<hr />
+<p>This tutorial will guide you through the process of integrating a new command-line tool with Mantis.</p>
+<p>Each section builds upon the previous one, but the tutorial is structured to separate topics, so that you can easily find the information you need to address your specific needs</p>
+<p>It's also designed to serve as a future reference, enabling you to come back and find the information you need when you need it.</p>
+<h2 id="-lets-get-started"><a class="header" href="#-lets-get-started">✍️ Let's Get Started</a></h2>
+<p>Let's say that you're a bug bounty hunter or a product security engineer who thinks that a particular tool can make a specific module more efficient. </p>
+<p>For the purpose of this tutorial, let's assume that we need to strengthen the Discovery module, which identifies subdomains, by adding a new tool. <a href="https://github.com/owasp-amass/amass"><strong>Amass</strong></a>. </p>
+<p><a href="https://github.com/owasp-amass/amass"><strong>Amass</strong></a> performs network mapping of attack surfaces and external asset discovery using open source information gathering and active reconnaissance techniques</p>
+<h2 id="-files-to-be-changed"><a class="header" href="#-files-to-be-changed">📇 Files to be changed</a></h2>
+<p>For integrating a command line scanner, these are the files you need to make changes:</p>
+<ol>
+<li>Add a <strong>new class file</strong> under the respective module</li>
+<li>Add the tool name in <strong>config.yml</strong></li>
+<li>Add the installation instructions in <strong>DockerFile</strong></li>
+</ol>
+<blockquote>
+<p>⏭️ Let's now integrate Amass tool into the Discovery module</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="add-a-new-tool-scanner-class"><a class="header" href="#add-a-new-tool-scanner-class">Add a new tool scanner class</a></h1>
+<hr />
+<p>As a first step to integrate a new scanner, answer the below questions:</p>
+<ul>
+<li><strong>Which module will this scanner be a part of?</strong>
+<ul>
+<li>Amass is used for subdomain discovery and hence will be part of the disovery module</li>
+</ul>
+</li>
+<li><strong>Is this scanner a command line tool or API?</strong>
+<ul>
+<li>Amass is a command line tool</li>
+</ul>
+</li>
+<li><strong>What will the tool output?</strong>
+<ul>
+<li>Amass will output a list of subdomains</li>
+</ul>
+</li>
+<li><strong>What is the report output format we are expecting to parse?</strong> 
+<ul>
+<li>Though Amass supports a number of output formats, lets go with .txt</li>
+</ul>
+</li>
+<li><strong>What is the command that you need to execute?</strong>
+<ul>
+<li>amass enum -passive -d {input_domain} -o {output_file_path}</li>
+</ul>
+</li>
+<li><strong>What is the input that the tool takes, meaning, TLDs, subdomains, IPs etc.?</strong>
+<ul>
+<li>Amass takes TLDs as an input</li>
+</ul>
+</li>
+</ul>
+<p>Now that we have a clear understanding of the expected input and output from the tool, let's begin the process of creating the scanner class. As previously indicated <a href="new-scanner-integrations//./basics-mantis-code/scanner-base-class.html">here</a>, we are required to implement three functions:</p>
+<ul>
+<li>base_get_commands() or get_commands() </li>
+<li>parse_report()</li>
+<li>db_operations()</li>
+</ul>
+<h2 id="creating-the-tool-class"><a class="header" href="#creating-the-tool-class">Creating the Tool Class</a></h2>
+<blockquote>
+<p>Please Note - The name of the tool class should be the same as defined in the config file</p>
+</blockquote>
+<p>Create a new file under <code>/mantis/mantis/modules/discovery/</code> and name it Amass.py</p>
+<h2 id="implementing-get_commands"><a class="header" href="#implementing-get_commands">Implementing get_commands()</a></h2>
+<p>This function needs to return a list of tool commands for every asset.</p>
+<pre><code class="language-python">def get_commands(self, assets):
+    self.org = args.org
+    self.base_command = 'amass enum -passive -d {input_domain} -o {output_file_path}'
+    self.outfile_extension = &quot;.txt&quot;
+    self.assets = await get_assets_grouped_by_type(args, ASSET_TYPE_TLD)
+    return super().base_get_commands(self.assets)
+</code></pre>
+<ul>
+<li><strong>self.base_command</strong> represents the command to be executed</li>
+<li><strong>self.outfile_extension</strong> indicates the output file extension</li>
+<li><strong>self.assets</strong> exclusively extract TLDs from the database, which are then supplied as input to Amass</li>
+</ul>
+<blockquote>
+<p>Info💡- As mentioned <a href="new-scanner-integrations//./basics-mantis-code/important-utils.html">here</a>, Mantis incorporates a range of pre-existing utility functions to facilitate the seamless integration of new tools</p>
+</blockquote>
+<h2 id="implementing-parse_report"><a class="header" href="#implementing-parse_report">Implementing parse_report()</a></h2>
+<p>This function is required to parse what the scanner outputs and insert it into the database. 
+In this context, a list of subdomains need to be extrated and inserted into the database.</p>
+<blockquote>
+<p>Info💡- To understand the DB schema, click <a href="new-scanner-integrations//./basics-mantis-code/db-models.html">here</a></p>
+</blockquote>
+<pre><code class="language-python">def parse_report(self, outfile):
+        output_dict_list = []
+        amass_output = open(outfile).readlines()
+        for domain in amass_output:
+            domain_dict = {}
+            domain_dict['asset'] = domain.rstrip('\n')
+            domain_dict['asset_type'] = ASSET_TYPE_SUBDOMAIN
+            domain_dict['org'] = self.org
+            output_dict_list.append(domain_dict)
+
+        return output_dict_list
+</code></pre>
+<blockquote>
+<p>You dont have to worry about where the output file is stored etc. The outfile parameter is the path to the output file generated by the tool</p>
+</blockquote>
+<ul>
+<li><strong>domain</strong> contains the subdomain</li>
+<li><strong>asset_type</strong> is a parameter required for Mantis, the type of Asset, if its a TLD, subdomain or IP</li>
+<li><strong>org</strong> is the organisation to which the asset belongs to, fetched from args</li>
+</ul>
+<h2 id="implementing-db_operations"><a class="header" href="#implementing-db_operations">Implementing db_operations()</a></h2>
+<p>The final step is to insert the data into mongoDB</p>
+<pre><code class="language-python">async def db_operations(self, tool_output_dict, asset=None):
+        await CrudUtils.insert_assets(tool_output_dict)
+
+</code></pre>
+<p>This is straight forward, call the corresponding util function to insert the data into mongoDB.</p>
+<blockquote>
+<p>Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described <a href="new-scanner-integrations//./basics-mantis-code/important-utils.html">here</a></p>
+</blockquote>
+<blockquote>
+<p>⏭️ In a similar fashion let's try to add a new API scanner. </p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="add-a-new-api-scanner-class"><a class="header" href="#add-a-new-api-scanner-class">Add a new API scanner class</a></h1>
+<hr />
+<p>Let's now try adding an API scanner instead of a command line tool, for example, SSLMate to Discovery module.</p>
+<p>As a first step to integrate a new scanner, answer the below questions:</p>
+<ul>
+<li><strong>Which module will this scanner be a part of?</strong>
+<ul>
+<li>SSLMate is used to retreive all the certificates belonging to an organisation, hence this will be under Discovery module</li>
+</ul>
+</li>
+<li><strong>Is this scanner a command line tool or API?</strong>
+<ul>
+<li>SSLMate is an API based scanner</li>
+</ul>
+</li>
+<li><strong>What will the tool output?</strong>
+<ul>
+<li>SSLMate will list all certificates, their DNS Names, public key, SHA. The certificate has to be added to assets and the corresponding recon information has to be update</li>
+</ul>
+</li>
+<li><strong>What is the report output format we are expecting to parse?</strong> 
+<ul>
+<li>JSON Response</li>
+</ul>
+</li>
+<li><strong>What is the input that the tool takes, meaning, TLDs, subdomains, IPs etc.?</strong>
+<ul>
+<li>SSLMate takes TLDs as an input</li>
+</ul>
+</li>
+</ul>
+<p>Now that we have a clear understanding of the expected input and output from the tool, let's begin the process of creating the scanner class. As previously indicated <a href="new-scanner-integrations//./basics-mantis-code/scanner-base-class.html">here</a>, we are required to implement three functions:</p>
+<ul>
+<li>get_api_calls()</li>
+<li>parse_reponse()</li>
+<li>db_operations()</li>
+</ul>
+<h2 id="creating-the-api-class"><a class="header" href="#creating-the-api-class">Creating the API Class</a></h2>
+<blockquote>
+<p>Please Note - The name of the tool class should be the same as defined in the config file</p>
+</blockquote>
+<p>Create a new file under <code>/mantis/mantis/modules/discovery/</code> and name it SSLMate.py</p>
+<h2 id="implementing-get_api_calls"><a class="header" href="#implementing-get_api_calls">Implementing get_api_calls()</a></h2>
+<p>This function needs to return the tool object and the HTTP method.</p>
+<pre><code class="language-python">
+async def get_api_calls(self, args: ArgsModel):
+        self.asset_api_list = []
+        self.scannerName = type(self).__name__
+        self.endpoint = &quot;https://api.certspotter.com/v1/issuances?domain={domain_name}&amp;include_subdomains=true&amp;expand=dns_names&amp;expand=issuer&amp;expand=revocation&amp;expand=problem_reporting&amp;expand=cert_der&quot;
+        self.body = &quot;&quot;
+        self.org = args.org
+        self.assets.extend(await get_assets_grouped_by_type(args, ASSET_TYPE_TLD))
+        for every_asset in self.assets:
+            endpoint = self.endpoint.format(domain_name=every_asset)
+            self.asset_api_list.append((self, endpoint, None,  every_asset))
+        return [(self, &quot;GET&quot;)]
+</code></pre>
+<ul>
+<li><strong>self.endpoint</strong> is the full HTTP request to the API Scanner</li>
+<li><strong>self.body</strong> is the HTTP request body</li>
+<li><strong>self.org</strong> is the organisation passed in the arguments</li>
+<li>The for loop generats an HTTP request per TLD</li>
+</ul>
+<h2 id="implementing-parse_response"><a class="header" href="#implementing-parse_response">Implementing parse_response()</a></h2>
+<p>This function is required to parse what the API outputs and insert it into the database. In this context, a list of certificates and its contextual information is extrated and inserted into the database.</p>
+<pre><code class="language-python">
+def parse_reponse(self, response):
+        output_dict_list = []
+        response_json = response.json()
+        for every_cert in response_json:
+            cert_dict = {}
+            cert_dict['asset'] = every_cert['id']
+            cert_dict['asset_type'] = ASSET_TYPE_CERT
+            cert_dict['org'] = self.org
+            cert_dict['others'] = {}
+            cert_dict['others']['dns_names'] = every_cert['dns_names']
+            cert_dict['others']['tbs_sha256'] = every_cert['tbs_sha256']
+            cert_dict['others']['cert_sha256'] = every_cert['cert_sha256']
+            cert_dict['others']['pubkey_sha256'] = every_cert['pubkey_sha256']
+            cert_dict['others']['issuer'] = every_cert['issuer']
+            cert_dict['others']['not_before'] = every_cert['not_before']
+            cert_dict['others']['not_after'] = every_cert['not_after']
+            cert_dict['others']['revoked'] = every_cert['revoked']
+            cert_dict['others']['revocation'] = every_cert['revocation']
+            cert_dict['others']['cert_der'] = every_cert['cert_der']
+            
+            output_dict_list.append(cert_dict)
+
+        return output_dict_list
+
+</code></pre>
+<blockquote>
+<p>You dont have to worry about where the HTTP response is retrieved etc. The response parameter contains the HTTP Reponse</p>
+</blockquote>
+<p>Extract the necessary information you want to store in the mongoDB, plus the org context and the type of Asset</p>
+<h2 id="implementing-db_operations-1"><a class="header" href="#implementing-db_operations-1">Implementing db_operations()</a></h2>
+<p>The final step is to insert the data into mongoDB</p>
+<pre><code class="language-python">
+    async def db_operations(self, output_dict, asset=None):
+        await CrudUtils.insert_assets(output_dict)
+
+</code></pre>
+<p>This is straight forward, call the corresponding util function to insert the data into mongoDB.</p>
+<blockquote>
+<p>Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described <a href="new-scanner-integrations//./basics-mantis-code/important-utils.html">here</a></p>
+</blockquote>
+<blockquote>
+<p>Let's now look at adding the new scanner to the config file. </p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="add-scanner-to-config-file"><a class="header" href="#add-scanner-to-config-file">Add scanner to config file</a></h1>
+<hr />
+<p>Now that the Amass.py and SSLMate.py tool classes are ready, adding it to config is simple. Add the class names Amass, SSLMate under moduleName <strong>discovery</strong> under <strong>tools</strong></p>
+<pre><code class="language-yaml">- workflowName: 'default'
+    schedule: 'daily between 00:00 and 04:00'
+    cmd: ['python3 launch.py -o org_name -f org-stale.txt --ignore_stale --stale']
+    workflowConfig:
+      - moduleName : discovery
+        tools: ['Subfinder', 'SSLMate', 'Amass'] 
+        order: 1
+      - moduleName: prerecon
+        tools: ['FindCDN', 'Naabu', 'IPinfo'] 
+        order: 2
+      - moduleName: activehostscan
+        tools: ['HTTPX_Tech', 'HTTPX']
+        order: 3
+      - moduleName: activerecon
+        tools: ['Wafw00f']
+        order: 4
+      - moduleName: scan
+        tools: [ 'DNSTwister', 'Csper', 'Nuclei', 'NucleiRecon']
+        order: 5
+      - moduleName: secretscanner
+        tools: ['SecretScanner']
+        order: 6
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="install-instructions"><a class="header" href="#install-instructions">Install instructions</a></h1>
+<h2 id="docker-file"><a class="header" href="#docker-file">Docker File</a></h2>
+<p>Add the install instructions below the <code>WORKDIR /home/mantis</code></p>
+<pre><code class="language-shell">RUN echo &quot;Installing Amass&quot;
+RUN wget https://github.com/owasp-amass/amass/releases/download/v3.23.2/amass_Linux_amd64.zip
+RUN unzip amass_Linux_amd64.zip
+RUN mv amass_Linux_amd64/amass /usr/bin
+
+</code></pre>
+<h2 id="devbox"><a class="header" href="#devbox">DevBox</a></h2>
+<p>Devbox creates isolated and reproducible development environments capable of running anywhere. It also features a package manager, NixOS. Please verify whether the package of the newly integrated tool is present <a href="https://search.nixos.org/packages">here</a>.</p>
+<p>If the package is present in NixOs, then add the package name with relevant version to the <strong>package</strong> list under <code>setup/ubuntu/devbox.json</code> or <code>setup/mac/devbox.json</code></p>
+<pre><code class="language-json"> &quot;packages&quot;: [
+    &quot;python@3.10&quot;,
+    &quot;stdenv.cc.cc.lib&quot;,
+    &quot;amass@3.22.2&quot;,
+    &quot;subfinder@2.6.0&quot;,
+    &quot;httpx@1.3.3&quot;,
+    &quot;ipinfo@2.10.1&quot;,
+    &quot;naabu@2.1.6&quot;,
+    &quot;nuclei@2.9.7&quot;,
+    &quot;gitleaks@8.17.0&quot;,
+    &quot;gau@2.1.2&quot;,
+    &quot;python310Packages.pip&quot;,
+    &quot;gccStdenv&quot;
+  ],
+</code></pre>
+<p>Else add the native installation in the <strong>setup</strong> list in <code>setup/ubuntu/devbox.json</code> or <code>setup/mac/devbox.json</code></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+                        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+                
+    </body>
+</html>
