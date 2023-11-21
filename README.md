@@ -11,6 +11,7 @@ Mantis is a command-line framework designed to automate the workflow of asset di
 - Distributed Scanning (split a single scan across multiple machines)
 - Super-Easy Scan Customisation
 - Dashboard Support
+- Vulnerability Management
 - Advanced Alerting
 - DNS Service Integration
 - Integrate new tool (existing and custom) in minutes
