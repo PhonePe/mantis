@@ -7,7 +7,7 @@ from mantis.utils.common_utils import CommonUtils
 from mantis.config_parsers.config_client import ConfigProvider
 from mantis.constants import ASSET_TYPE_SUBDOMAIN
 from mantis.utils.tool_utils import get_findings_by_asset
-from pymongo import UpdateOne
+from pymongo import UpdateOne, InsertOne
 import time
 
 # These function takes the input as the list of dict that are parsed into 
@@ -154,19 +154,20 @@ class CrudUtils:
     def create_assets_dict(args, assets_with_type: list):
         asset_dict_list = []
         for asset in assets_with_type:
-            asset_dict = {}
-            asset_dict['_id']               = asset['asset']
-            asset_dict['asset']             = asset['asset']
-            asset_dict['asset_type']        = asset['type']
-            asset_dict['org']               = asset['org']
-            asset_dict['created_timestamp'] = CommonUtils.get_ikaros_std_timestamp()
+            if 'asset' in asset and 'type' in asset and 'org' in asset:
+                asset_dict = {}
+                asset_dict['_id']               = asset['asset']
+                asset_dict['asset']             = asset['asset']
+                asset_dict['asset_type']        = asset['type']
+                asset_dict['org']               = asset['org']
+                asset_dict['created_timestamp'] = CommonUtils.get_ikaros_std_timestamp()
 
-            if args.stale:
-                asset_dict['stale']         = True
-            else:
-                asset_dict['stale']         = False
+                if args.stale:
+                    asset_dict['stale']         = True
+                else:
+                    asset_dict['stale']         = False
 
-            asset_dict_list.append(asset_dict)
+                asset_dict_list.append(asset_dict)
             
         return asset_dict_list
     
@@ -206,4 +207,4 @@ class CrudUtils:
                 if value in domain:
                     return key
         return default[0]
- 
+    
