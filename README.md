@@ -65,50 +65,6 @@ $ ./docker-setup-ubuntu.sh
 ```
 
 
-### Ubuntu - Linux
-
-To install Mantis directly on Ubuntu, follow the below steps. 
-
-Clone the Mantis repository 
-
-```
-$ git clone https://github.com/PhonePe/mantis.git
-```
-
-cd into the Mantis directory    
-
-```
-$ cd mantis/setup/ubuntu
-```
-
-Run the mac setup file
-
-```
-$ ./setup-mantis-ubuntu.sh
-```
-
-### MacOS
-
-To install Mantis directly on MacOS, follow the below steps. 
-
-Clone the Mantis repository 
-
-```
-$ git clone https://github.com/PhonePe/mantis.git
-```
-
-cd into the Mantis directory    
-
-```
-$ cd mantis/setup/macos
-```
-
-Run the mac setup file
-
-```
-$ ./setup-mantis-macos.sh
-```
-
 ## Command Line Options 🖥️
 
 ```

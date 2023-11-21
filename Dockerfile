@@ -9,14 +9,14 @@ RUN apt-get update --fix-missing && apt install git -y
 WORKDIR /home/mantis
 # Install amass
 RUN echo "Installing Amass"
-RUN wget https://github.com/owasp-amass/amass/releases/download/v3.23.2/amass_Linux_amd64.zip
+RUN wget https://github.com/owasp-amass/amass/releases/download/v4.1.0/amass_Linux_amd64.zip
 RUN unzip amass_Linux_amd64.zip
 RUN mv amass_Linux_amd64/amass /usr/bin
 
 # Install subfinder
 RUN echo "Installing subfinder"
-RUN wget https://github.com/projectdiscovery/subfinder/releases/download/v2.6.0/subfinder_2.6.0_linux_amd64.zip
-RUN unzip subfinder_2.6.0_linux_amd64.zip
+RUN wget https://github.com/projectdiscovery/subfinder/releases/download/v2.6.3/subfinder_2.6.3_linux_amd64.zip
+RUN unzip subfinder_2.6.3_linux_amd64.zip
 RUN mv subfinder /usr/bin
 
 # Install Puredns
@@ -27,7 +27,7 @@ RUN mv puredns /usr/bin
 
 # Install HTTPX
 RUN echo "Installing HTTPX"
-RUN wget https://github.com/projectdiscovery/httpx/releases/download/v1.3.2/httpx_1.3.2_linux_amd64.zip
+RUN wget https://github.com/projectdiscovery/httpx/releases/download/v1.3.7/httpx_1.3.7_linux_amd64.zip
 RUN unzip httpx_1.3.2_linux_amd64.zip
 RUN mv httpx /usr/bin
 
@@ -37,27 +37,27 @@ RUN pip install git+https://github.com/cisagov/findcdn.git
 
 # Install Ipinfo
 RUN echo "Installing Ipinfo"
-RUN wget https://github.com/ipinfo/cli/releases/download/ipinfo-2.10.1/ipinfo_2.10.1_linux_amd64.tar.gz
-RUN tar -xvf ipinfo_2.10.1_linux_amd64.tar.gz
-RUN mv ipinfo_2.10.1_linux_amd64 ipinfo
+RUN wget https://github.com/ipinfo/cli/releases/download/ipinfo-3.1.2/ipinfo_3.1.2_linux_amd64.tar.gz
+RUN tar -xvf ipinfo_3.1.2_linux_amd64.tar.gz
+RUN mv ipinfo_3.1.2_linux_amd64 ipinfo
 RUN mv ipinfo /usr/bin
 
 # Install naabu
 RUN echo "Installing naabu"
-RUN wget https://github.com/projectdiscovery/naabu/releases/download/v2.1.6/naabu_2.1.6_linux_amd64.zip
-RUN unzip naabu_2.1.6_linux_amd64.zip
+RUN wget https://github.com/projectdiscovery/naabu/releases/download/v2.1.9/naabu_2.1.9_linux_amd64.zip
+RUN unzip naabu_2.1.9_linux_amd64.zip
 RUN mv naabu /usr/bin
 
 # Install nuclei
 RUN echo "Installing nuclei"
-RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v2.9.6/nuclei_2.9.6_linux_amd64.zip
-RUN unzip nuclei_2.9.6_linux_amd64.zip
+RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v3.0.4/nuclei_3.0.4_linux_amd64.zip
+RUN unzip nuclei_3.0.4_linux_amd64.zip
 RUN mv nuclei /usr/bin
 
 # Install gitleaks 
 RUN echo "Installing gitleaks"
-RUN wget https://github.com/gitleaks/gitleaks/releases/download/v8.17.0/gitleaks_8.17.0_linux_x64.tar.gz
-RUN tar -xvf gitleaks_8.17.0_linux_x64.tar.gz
+RUN wget https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz
+RUN tar -xvf gitleaks_8.18.1_linux_x64.tar.gz
 RUN mv gitleaks /usr/bin
 
 
@@ -70,8 +70,8 @@ RUN pip install wafw00f
 
 #Install gau
 RUN echo "Installing GAU"
-RUN wget https://github.com/lc/gau/releases/download/v2.1.2/gau_2.1.2_linux_amd64.tar.gz
-RUN tar -xvf gau_2.1.2_linux_amd64.tar.gz
+RUN wget https://github.com/lc/gau/releases/download/v2.2.1/gau_2.2.1_linux_amd64.tar.gz
+RUN tar -xvf gau_2.2.1_linux_amd64.tar.gz
 RUN mv gau /usr/bin
 
 # Installing Corsy
