@@ -53,6 +53,7 @@ class SecretFinder:
         secrets = self.report_data
         matching_urls = self.find_matching_urls([entry['Secret'] for entry in secrets])
         finding_dict_list = []
+        self.finding_type = "secret"
         for secret in secrets:
             urls = matching_urls.get(secret['Secret'], [])
             for url in urls:
@@ -74,7 +75,7 @@ class SecretFinder:
                 finding_dict_list.append(finding_dict)
         if len(finding_dict_list):
             logging.debug("Inserting secrets in db.")
-            await CrudUtils.insert_findings(self, None, finding_dict_list, "host")
+            await CrudUtils.insert_findings(self, None, finding_dict_list, self.finding_type,"host")
         else:
             logging.debug('No secrets found')
         logging.debug("Findings inserted in db") 

@@ -29,9 +29,9 @@ class BaseRequestExecutor:
             
             elif method == "GET":
                 if headers is not None:
-                    response = session.get(url, headers= headers, verify=True, timeout=BaseRequestExecutor.TIMEOUT,)
+                    response = session.get(url, headers= headers, verify=True, timeout=BaseRequestExecutor.TIMEOUT)
                 else:
-                    response = session.get(url, verify=True, timeout=BaseRequestExecutor.TIMEOUT,)
+                    response = session.get(url, verify=True, timeout=BaseRequestExecutor.TIMEOUT)
 
                 logging.debug(f"Response code for {url} : {response.status_code}, {response.request}")
                 

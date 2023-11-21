@@ -18,7 +18,7 @@ class HTTPX_Active(ToolScanner):
         self.org = args.org
         self.base_command = 'echo {subdomain} | httpx -o {output_file_path} -p {ports_comma_seperated} -json'
         self.outfile_extension = ".txt"
-        self.assets = await get_assets_with_non_empty_fields(self, args, "ports")
+        self.assets = await get_assets_with_non_empty_fields(self,args, "ports")
         self.commands_list = []
         for every_asset in self.assets:  
             domain = every_asset['_id']

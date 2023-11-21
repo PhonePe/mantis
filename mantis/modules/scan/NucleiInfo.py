@@ -47,7 +47,7 @@ class NucleiInfo(ToolScanner):
     def parse_report(self, outfile):
         report_dict = []
         nuclei_info = []
-
+        self.finding_type = "informational"
         # Convert json lines file to dict
         with open(outfile) as json_lines:
             for line in json_lines:
@@ -55,7 +55,7 @@ class NucleiInfo(ToolScanner):
         if report_dict:
             for every_vuln in report_dict:
                 nuclei = {}
-                # logging.debug(f'Every vulnerability - {every_vuln}')
+                logging.info(f'Every vulnerability - {every_vuln}')
                 nuclei["type"] = "informational"
                 nuclei["org"] = self.org
                 nuclei['title'] = every_vuln['template-id']
@@ -94,4 +94,4 @@ class NucleiInfo(ToolScanner):
     
     async def db_operations(self, output_dict, asset=None):
 
-        await CrudUtils.insert_findings(self, asset, output_dict)
+        await CrudUtils.insert_findings(self, asset, output_dict, self.finding_type)

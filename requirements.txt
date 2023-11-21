@@ -14,3 +14,4 @@ GitPython==3.1.31
 slack-sdk==3.21.3
 rocketry==2.5.1
 boto3==1.28.20
+tqdm==4.66.1

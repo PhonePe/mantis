@@ -17,22 +17,22 @@ class Csper(APIScanner):
         self.asset_api_list = []
         self.scannerName = type(self).__name__
         self.endpoint = 'https://csper.io/api/evaluations'
-        self.body = {"URL":"https://{asset}"}
         self.org = args.org
-        self.assets.extend(await get_assets_grouped_by_type(self, args, ASSET_TYPE_TLD))
+        # self.assets.extend(await get_assets_grouped_by_type(self, args, ASSET_TYPE_TLD))
         self.assets.extend(await get_assets_grouped_by_type(self, args, ASSET_TYPE_SUBDOMAIN))
         for every_asset in self.assets:
-            body_param = self.body["URL"].format(asset=every_asset)
+            body_param = '{"URL":"'+f"https://{every_asset}"+'"}'
             # Append tuple with endpoint, headers, body, asset
             self.asset_api_list.append((self.endpoint, None, body_param, every_asset))
 
-        return [(self, "GET")]
+        return [(self, "POST")]
     
 
     def parse_reponse(self, response):
         findings = []
         response_json = response.json()
         recommendations = response_json[0]['recommendations']
+        self.finding_type = "misconfiguration"
         for recommendation in recommendations:
             finding_dict = {}
             finding_dict["title"] = recommendation["title"]
@@ -48,4 +48,4 @@ class Csper(APIScanner):
 
 
     async def db_operations(self, output_dict, asset=None):
-        await CrudUtils.insert_findings(self, asset, output_dict)
+        await CrudUtils.insert_findings(self, asset, output_dict, self.finding_type)

@@ -9,7 +9,7 @@ class JSONConverter:
     @staticmethod
     async def convert_to_json_array(args, path):
 
-        domains = await get_assets_grouped_by_type("SecretScanner", args, ASSET_TYPE_TLD)
+        domains = await get_assets_grouped_by_type(None, args, ASSET_TYPE_TLD)
 
         for domain in domains:
             input_file = os.path.join(path, domain, domain)

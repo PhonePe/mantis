@@ -2,7 +2,7 @@ from mantis.config_parsers.config_client import ConfigProvider
 from mantis.utils.notifications import NotificationsUtils, Notifications
 from mantis.db.crud_assets import read_assets
 from mantis.db.crud_vulnerabilities import read_findings
-from datetime import datetime, timedelta
+from datetime import datetime
 import logging
 import copy
 import sys
@@ -142,14 +142,11 @@ class Alerter:
             }}
             )
         pipeline_type_discovered.extend([
-            # {"$match" : {
-            #     "org" : args.org
-            # }},
             
             {"$match" : {
                 "asset_type": { "$in": asset_types}
             }},
-            {"$match" : {"created_timestamp":{"$gte" : (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d')}}},
+            {"$match" : {"created_timestamp":{"$gte" : datetime.today().strftime('%Y-%m-%d')}}},
             {"$group":  {
                 "_id": "$asset_type",
                 "asset_info":{"$push":{
@@ -182,7 +179,7 @@ class Alerter:
             }}
             )
         pipeline_type_discovered.extend([
-            
+
             {"$match" : {
                 "type": { "$in": finding_types }
             }},

@@ -30,7 +30,7 @@ class DNSTwister(ToolScanner):
         self.assets = await get_assets_by_field_value(self, args, "stale", False, constants.ASSET_TYPE_TLD)
         db_assets_dict = await get_assets_with_non_empty_fields(self, args, "asset")
         self.db_assets = []
-
+        # print("self base command::: ", self.base_command)
         for asset in db_assets_dict:
             self.db_assets.extend(asset['asset'])
         return super().base_get_commands(self.assets)
@@ -40,6 +40,7 @@ class DNSTwister(ToolScanner):
         report_list = []
         session = requests.Session()
         session.max_redirects = 3
+        self.finding_type = constants.FINDING_TYPE_PHISHING
         # Convert json lines file to dict
         with open(outfile) as report_out:
             report_dict = json.load(report_out)
@@ -97,6 +98,7 @@ class DNSTwister(ToolScanner):
             else:
                 logging.warning('DNSTwister output file found, but no vulnerabilities were reported')
         except Exception as e:
-            logging.error(f"Exception in DNSTwister: {e}")
+            print(e)
+            
     async def db_operations(self, output_dict, asset):
-        await CrudUtils.insert_findings(self, asset, output_dict)
+        await CrudUtils.insert_findings(self, asset, output_dict, self.finding_type)

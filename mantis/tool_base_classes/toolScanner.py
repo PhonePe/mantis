@@ -83,8 +83,8 @@ class ToolScanner:
                 results["failure"] += 1
             tool_results_dict = self.parse_report(outfile=outfile)
             results["tool_time_taken"] = CommonUtils.get_ikaros_std_timestamp()
-            if tool_results_dict:
-                await self.db_operations(tool_results_dict, asset=asset)
+            # if tool_results_dict:
+            await self.db_operations(tool_results_dict, asset=asset)
         
         except FileNotFoundError as e:
             logging.debug(f"No file generated for the {asset}")
