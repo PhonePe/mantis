@@ -71,6 +71,8 @@ else
     exit -1
 fi
 
+sudo apt update && sudo apt install jq -y
+
 if docker compose ps | grep -q "Up"; then
     echo -e "[?] ${BIYellow}Looks like this script was run previously to setup Mantis.${NC}\n"
 
@@ -146,7 +148,6 @@ echo -e -n "[?] ${BICyan}Do you have sudo access on the machine? (y/n)? ${NC}"
 
 # Install packages
 
-sudo apt update && sudo apt install jq -y
 
 sudo docker compose up --remove-orphans -d --build
 
