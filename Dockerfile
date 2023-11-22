@@ -28,7 +28,7 @@ RUN mv puredns /usr/bin
 # Install HTTPX
 RUN echo "Installing HTTPX"
 RUN wget https://github.com/projectdiscovery/httpx/releases/download/v1.3.7/httpx_1.3.7_linux_amd64.zip
-RUN unzip httpx_1.3.2_linux_amd64.zip
+RUN unzip httpx_1.3.7_linux_amd64.zip
 RUN mv httpx /usr/bin
 
 # Install Findcdn
