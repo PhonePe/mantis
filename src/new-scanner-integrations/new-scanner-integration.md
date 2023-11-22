@@ -2,8 +2,8 @@
 ---
 
 To integrate a new scanner with Mantis, it should fall under one of these categories:
-- [**Command Line Tool based scanner**](/./new-scanner-integrations/new-scanner-integration-command-line.md)
-- [**API based scanner**](/./new-scanner-integrations/new-scanner-integration-api.md)
+- [**Command Line Tool based scanner**](/./mantis/new-scanner-integrations/new-scanner-integration-command-line.md)
+- [**API based scanner**](/./mantis/new-scanner-integrations/new-scanner-integration-api.md)
 
 ## Command Line based Scanner 
 From a recon automation perspective, command-line tools are tools that you typically install in your system using brew, apt, apt-install, or similar methods, and then run scans.  
