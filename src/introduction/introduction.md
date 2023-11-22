@@ -7,13 +7,13 @@
 
 ## 🤔 What is Mantis ?
 
-[**Mantis**](https://github.com/rust-lang/mdBook) is an advanced open-source framework that:
+[**Mantis**](https://github.com/PhonePe/mantis/) is an advanced open-source framework that:
 
 - Enables **automated asset discovery, reconnaissance, and vulnerability scanning processes**
 - The results of these comprehensive scans are stored in a robust **MongoDB database**
 - and can be seamlessly integrated with any **dashboard** supporting MongoDB integration
 
-<img src="intro.jpg" class="img-rounded" alt="Mantis">
+<img src="intro.png" class="img-rounded" alt="Mantis">
 
 
 ## 🤨 Why another RECON automation framework ?
