@@ -8,5 +8,5 @@ title = "Mantis - Documentation"
 [output.html]
 additional-css = ["src/css/custom.css"]
 site-url = "/mantis/"
-default-theme = "rust"
-preferred-dark-theme = "rust"
+default-theme = "navy"
+preferred-dark-theme = "navy"
