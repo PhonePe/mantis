@@ -40,7 +40,7 @@ class Nuclei(ToolScanner):
         self.outfile_extension = ".json"
         self.assets = await get_assets_with_non_empty_fields(self, args, "active_hosts")
         self.assets.extend(await get_assets_with_empty_fields(self, args, "active_hosts"))
-        print("Asssssets::: ",self.assets)
+
         for every_asset in self.assets:
             if "_id" in every_asset:
                 domain = every_asset["_id"]
@@ -52,7 +52,7 @@ class Nuclei(ToolScanner):
                 outfile = CommonUtils.generate_unique_output_file_name(every_asset, self.outfile_extension)
                 command = self.base_command.format(input_domain = every_asset, output_file_path = outfile)
                 self.commands_list.append((self, command, outfile, every_asset))
-        print("Commands List", self.commands_list)
+
         return self.commands_list
     
     def parse_report(self, outfile):

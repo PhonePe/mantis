@@ -123,7 +123,7 @@ class CrudUtils:
         try:
             for db_finding in db_findings:
                 if db_finding["_id"] not in new_finding_ids:
-                    print("In here???")
+
                     bulk_write_query.append(UpdateOne({"_id": db_finding["_id"]}, 
                                                     {"$set": 
                                                         {"updated_timestamp": CommonUtils.get_ikaros_std_timestamp(),
