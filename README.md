@@ -42,26 +42,31 @@ Mantis supports multiple installation types. Installing Mantis via Docker would 
 
 Considering that Mantis also includes MongoDB and AppSmith, we have provided a shell script that installs all the components.
 
+### Minimum System Requirements (Single Machine Scan)
+RAM - 4GB
+Cores - 2
+Storage - 16GB
+
 ### Docker 
 
 Clone the Mantis repository 
 
 ```
-$ git clone https://github.com/PhonePe/mantis.git
+git clone https://github.com/PhonePe/mantis.git
 ```
 
 cd into the Mantis directory    
 
 ```
-$ cd mantis/setup/docker
+cd mantis/setup/docker
 ```
 
 Run the respective docker setup file based on your OS
 
 ```
-$ ./docker-setup-macos.sh
+./docker-setup-macos.sh
 
-$ ./docker-setup-ubuntu.sh
+./docker-setup-ubuntu.sh
 ```
 
 
