@@ -9,7 +9,7 @@ class Notifications:
         if webhook == 'None':
             raise Exception("Slack URL not provided")
         webhook = WebhookClient(webhook)
-        response = webhook.send(text="Ikaros notification",
+        response = webhook.send(text="Mantis notification",
             blocks=blocks
         )
         
