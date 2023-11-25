@@ -42,10 +42,10 @@ Mantis supports multiple installation types. Installing Mantis via Docker would 
 
 Considering that Mantis also includes MongoDB and AppSmith, we have provided a shell script that installs all the components.
 
-### Minimum System Requirements (Single Machine Scan)
-RAM - 4GB
-Cores - 2
-Storage - 16GB
+### Minimum System Requirements (Single Machine Scan) 🖥️
+- RAM - 4GB
+- Cores - 2
+- Storage - 16GB
 
 ### Docker 
 
@@ -69,6 +69,17 @@ Run the respective docker setup file based on your OS
 ./docker-setup-ubuntu.sh
 ```
 
+## Dashboard Setup 📊
+
+- The dashboard is accessible at http://mantis.dashboard:1337
+- Once you access the dashboard, create an account on AppSmith.
+- Now go to base [url](http://mantis.dashboard:1337) 
+- Click on 3 dots on right side of the home page and import the template from dashboard_templates folder
+- You will be asked to enter db information, enter the following information:
+    - host - mantis.db
+    - port - 27017
+    - default db - mantis
+- Please run a scan before setting the dashboard
 
 ## Command Line Options 🖥️
 
