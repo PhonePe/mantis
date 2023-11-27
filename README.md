@@ -231,7 +231,7 @@ If you want to contribute to this project:
 
 ## Contributers
 
-<p align="center">
+<p align="left">
 <a href="https://github.com/phonepe/mantis/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=phonepe/mantis&max=500">
 </a>
