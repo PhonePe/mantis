@@ -1,3 +1,13 @@
+<p align="center">
+  <a href="#features-rocket">Features</a> •
+  <a href="#modules-">Modules</a> •
+  <a href="#installation-%EF%B8%8F">Installation</a> •
+  <a href="#command-line-options-%EF%B8%8F">Command Line Options</a> •
+  <a href="https://phonepe.github.io/mantis/">Documentation</a> •
+  <a href="#contributers">Contributers</a> •
+  <a href="https://discord.gg/uJV8Y3uSGu">Join Discord</a>
+</p>
+
 # Mantis
 
 ## Summary
@@ -15,6 +25,8 @@ Mantis is a command-line framework designed to automate the workflow of asset di
 - Advanced Alerting
 - DNS Service Integration
 - Integrate new tool (existing and custom) in minutes
+
+[Click here](https://phonepe.github.io/mantis/features/features.html) to know more about the features in detail. 
 
 
 ## Modules 🧰
@@ -43,6 +55,7 @@ Mantis supports multiple installation types. Installing Mantis via Docker would 
 Considering that Mantis also includes MongoDB and AppSmith, we have provided a shell script that installs all the components.
 
 ### Minimum System Requirements (Single Machine Scan) 🖥️
+- Supported OS: Ubuntu, macOS
 - RAM - 4GB
 - Cores - 2
 - Storage - 16GB
@@ -71,6 +84,10 @@ Run the respective docker setup file based on your OS
 
 ## Dashboard Setup 📊
 
+Once the docker setup is complete, please run a scan and follow the below instructions to setup the dashboard.
+
+> Warning 🚨 - Please note that running a scan is important to setup the dashboard 
+
 - The dashboard is accessible at http://mantis.dashboard:1337
 - Once you access the dashboard, create an account on AppSmith.
 - Now go to base [url](http://mantis.dashboard:1337) 
@@ -79,7 +96,14 @@ Run the respective docker setup file based on your OS
     - host - mantis.db
     - port - 27017
     - default db - mantis
-- Please run a scan before setting the dashboard
+
+### Assets 
+
+<img src="./Assets.png">
+
+### Vulnerabilities
+
+<img src="./Vulnerabilities.png">
 
 ## Command Line Options 🖥️
 
@@ -138,29 +162,29 @@ You want to onboard an org with its TLDs/IPs/IP-CIDRs/IP Range for the first tim
 #### TLD
 
 ```shell
-$ mantis onboard -o org_name -t example.in   
+mantis onboard -o org_name -t example.in   
 ```
 #### IP
 
 ```shell
-$ mantis onboard -o org_name -t 10.123.123.12
+mantis onboard -o org_name -t 10.123.123.12
 ```
 
 #### IP-Range
 
 ```shell
-$ mantis onboard -o org_name -t 203.0.113.0-203.0.113.255
+mantis onboard -o org_name -t 203.0.113.0-10
 ```
 
 #### IP-CIDR
 
 ```shell
-$ mantis onboard -o org_name -t 203.0.113.0/24
+mantis onboard -o org_name -t 203.0.113.0/24
 ```
 
 ### Onboard Known Assets and Scan
 ```shell
-$ mantis onboard -o org_name -f input.txt
+mantis onboard -o org_name -f input.txt
 ```
 
 ### Scan on all assets belonging to an organisation
@@ -168,13 +192,13 @@ $ mantis onboard -o org_name -f input.txt
 Now that you have onboarded, you just need to run scheduled scans for an org, you can just use the scan mode
 
 ```shell
-$ mantis scan -o org_name
+mantis scan -o org_name
 ```
 
 ### Scan on all assets belonging to an organisation and app
 
 ```shell
-$ mantis scan -o org_name -a app_name
+ mantis scan -o org_name -a app_name
 ```
 
 
@@ -200,6 +224,14 @@ If you want to contribute to this project:
 **Framework Design** - Praveen Kanniah  
 
 **Special Thanks** - Ankur Bhargava
+
+## Contributers
+
+<p align="center">
+<a href="https://github.com/phonepe/mantis/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=phonepe/mantis&max=500">
+</a>
+</p>
 
 ## Disclaimer
 
