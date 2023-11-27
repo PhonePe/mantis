@@ -86,7 +86,11 @@ Run the respective docker setup file based on your OS
 
 Once the docker setup is complete, please run a scan and follow the below instructions to setup the dashboard.
 
-> Warning 🚨 - Please note that running a scan is important to setup the dashboard 
+> Warning 🚨 - Run atleast one scan before setting up dashboard using the command
+
+```shell
+mantis onboard -o org_name -t example.in   
+```
 
 - The dashboard is accessible at http://mantis.dashboard:1337
 - Once you access the dashboard, create an account on AppSmith.
