@@ -4,7 +4,7 @@
   <a href="#installation-%EF%B8%8F">Installation</a> •
   <a href="#command-line-options-%EF%B8%8F">Command Line Options</a> •
   <a href="https://phonepe.github.io/mantis/">Documentation</a> •
-  <a href="#contributers">Contributers</a> •
+  <a href="#contributors">Contributors</a> •
   <a href="https://discord.gg/uJV8Y3uSGu">Join Discord</a>
 </p>
 
@@ -229,7 +229,7 @@ If you want to contribute to this project:
 
 **Special Thanks** - Ankur Bhargava
 
-## Contributers
+## Contributors
 
 <p align="left">
 <a href="https://github.com/phonepe/mantis/graphs/contributors">
