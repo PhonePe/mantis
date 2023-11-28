@@ -10,7 +10,6 @@
   <a href="https://discord.gg/uJV8Y3uSGu">Join Discord</a>
 </p>
 
-# Mantis
 
 ## Summary
 
@@ -63,6 +62,8 @@ Considering that Mantis also includes MongoDB and AppSmith, we have provided a s
 - Storage - 16GB
 
 ### Docker 
+
+Setup Video - (Click Here)[https://www.youtube.com/watch?v=3PCRIJEOTWo]
 
 Clone the Mantis repository 
 
@@ -217,8 +218,8 @@ If you want to contribute to this project:
 
 ## Need Help ? 🙋‍♂️
     
-* Take a look at the wiki section.
-* Check FAQ for commonly asked questions.
+* Take a look at our (documentation)[https://phonepe.github.io/mantis/].
+* Please join our (discord channel)[https://discord.gg/uJV8Y3uSGu]
 
 ## Credits 🎖
 
