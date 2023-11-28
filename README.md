@@ -63,7 +63,7 @@ Considering that Mantis also includes MongoDB and AppSmith, we have provided a s
 
 ### Docker 
 
-Setup Video - (Click Here)[https://www.youtube.com/watch?v=3PCRIJEOTWo]
+Setup Video - [Click Here](https://www.youtube.com/watch?v=3PCRIJEOTWo)
 
 Clone the Mantis repository 
 
@@ -218,8 +218,8 @@ If you want to contribute to this project:
 
 ## Need Help ? 🙋‍♂️
     
-* Take a look at our (documentation)[https://phonepe.github.io/mantis/].
-* Please join our (discord channel)[https://discord.gg/uJV8Y3uSGu]
+* Take a look at our [documentation](https://phonepe.github.io/mantis/).
+* Please join our [discord channel](https://discord.gg/uJV8Y3uSGu)
 
 ## Credits 🎖
 
