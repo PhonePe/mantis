@@ -1,3 +1,5 @@
+<img src="./images/mantis.png" align="middle">
+
 <p align="center">
   <a href="#features-rocket">Features</a> •
   <a href="#modules-">Modules</a> •
@@ -103,11 +105,11 @@ mantis onboard -o org_name -t example.in
 
 ### Assets 
 
-<img src="./Assets.png">
+<img src="./images/Assets.png">
 
 ### Vulnerabilities
 
-<img src="./Vulnerabilities.png">
+<img src="./images/Vulnerabilities.png">
 
 ## Command Line Options 🖥️
 
