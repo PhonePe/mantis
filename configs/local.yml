@@ -18,7 +18,7 @@ workflow:
         tools: ['Wafw00f']
         order: 4
       - moduleName: scan
-        tools: [ 'DNSTwister', 'Nuclei', 'NucleiInfo', 'Corsy']
+        tools: [ 'DNSTwister', 'Nuclei', 'Corsy']
         order: 5
       - moduleName: secretscanner
         tools: ['SecretScanner']
