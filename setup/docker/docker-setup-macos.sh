@@ -173,7 +173,6 @@ if [ -n "$appsmith_exists" ] && [ -n "$mongo_exists" ] && [ -n "$mantis_exists" 
 
 echo -e -n "
 ${BIGreen}
-    Mantis has been setup successfully on docker!
 
     1. You can find the Mantis shell below where you can run mantis commands. Run help for further instructions.
         - You can always access Mantis container again using: ${BICyan}docker exec -it mantis bash${BIGreen}
@@ -182,20 +181,23 @@ ${BIGreen}
     2. Mantis dashboard (appsmith) is accessible on the host's localhost port 1337
         - For ease of use, you can access dashboard from your system at ${BICyan}http://mantis.dashboard:1337${BIGreen}
         - You can access appsmith container using - ${BICyan}docker exec -it appsmith bash${BIGreen}
-        - Configure your dashboard using instructions at https://
+        - Configure your dashboard using instructions at https://github.com/PhonePe/mantis/#dashboard-setup-
 
     3. You can access MongoDB container using: ${BICyan}docker exec -it mongodb bash${BIGreen}
 
     4. Mantis documentation is available at https://phonepe.github.io/mantis
-    5. Get help and give feedback at https://slack.com
+    5. Get help and give feedback at https://discord.gg/uJV8Y3uSGu
+
+    Mantis has been setup successfully on docker!
     ${NC}
 "
 else
     echo -e -n "
 ${BIRed}
+Please check the container/service status above and check for any errors to resolve this issue.
+
 Mantis has NOT setup successfully on docker!
 
-Please check the container/service status above and check for any errors to resolve this issue.
 "
 fi
 
