@@ -10,6 +10,7 @@
   <a href="https://discord.gg/uJV8Y3uSGu">Join Discord</a>
 </p>
 
+We are in the beta phase of the tool and would like to know if you are facing any installation issues with our framework. If so, please post your issues on our [discord](https://discord.gg/uJV8Y3uSGu).
 
 ## Summary
 
@@ -34,7 +35,7 @@ Mantis is a command-line framework designed to automate the workflow of asset di
 
 - Discovery
     - Subdomains
-    - Certificateds
+    - Certificates
 - Recon
     - Open Ports
     - Technologies
@@ -218,7 +219,7 @@ If you want to contribute to this project:
 
 ## Need Help ? 🙋‍♂️
     
-* Take a look at our [documentation](https://phonepe.github.io/mantis/).
+* Take a look at our [documentation](https://phonepe.github.io/mantis/)
 * Please join our [discord channel](https://discord.gg/uJV8Y3uSGu)
 
 ## Credits 🎖

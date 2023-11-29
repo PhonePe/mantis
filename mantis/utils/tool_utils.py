@@ -80,6 +80,9 @@ async def get_assets_with_non_empty_fields(self, args, field_name):
     pipeline_non_empty_fields.extend([
         {"$match" : {"org" : args.org}},
         {"$match" : {
+            "asset_type" : { "$nin": ["certificate"] }
+         }},
+        {"$match" : {
             field_name: { "$nin": [None, "", []] }
         }},
         {"$group":  {
