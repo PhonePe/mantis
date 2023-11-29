@@ -114,7 +114,7 @@ class ArgsParse:
         
         onboard_parser.add_argument('-tc', '--thread_count', 
                             dest = 'thread_count',
-                            help = 'thread count, default 10',
+                            help = 'thread count, default 3',
                             )
         
         onboard_parser.add_argument('-r', '--use_ray', 
@@ -125,7 +125,7 @@ class ArgsParse:
         
         onboard_parser.add_argument('-n', '--num_actors', 
                             dest = 'num_actors',
-                            help = 'number of ray actors, default 10',
+                            help = 'number of ray actors, default 3',
                             )
               
         onboard_parser.add_argument('-d', '--delete_logs', 
@@ -184,7 +184,7 @@ class ArgsParse:
         
         scan_parser.add_argument('-tc', '--thread_count', 
                             dest = 'thread_count',
-                            help = 'thread count, default 10',
+                            help = 'thread count, default 3',
                             )
         
         scan_parser.add_argument('-r', '--use_ray', 
@@ -195,7 +195,7 @@ class ArgsParse:
         
         scan_parser.add_argument('-n', '--num_actors', 
                             dest = 'num_actors',
-                            help = 'number of ray actors, default 10',
+                            help = 'number of ray actors, default 3',
                             )
         
         scan_parser.add_argument('-d', '--delete_logs', 

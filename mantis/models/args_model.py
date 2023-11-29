@@ -14,8 +14,8 @@ class ArgsModel(BaseModel):
     aws_profiles: list = Field(None)
     ignore_stale: bool = False
     use_ray: bool = False
-    num_actors: int = 10
+    num_actors: int = 3
     delete_logs: bool = False
     verbose: bool = False
-    thread_count: int = 10
+    thread_count: int = 3
     
