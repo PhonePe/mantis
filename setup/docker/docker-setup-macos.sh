@@ -73,10 +73,12 @@ else
     exit -1
 fi
 
+brew install jq
+
 if docker compose ps | grep -q "Up"; then
     echo -e "[?] ${BIYellow}Looks like this script was run previously to setup Mantis.${NC}\n"
-    docker compose ps --format json | jq -r \
-    '["Service","Status"], ["--------","------------"], (.[] | [.Service, .State]) | @tsv' | column -ts $'\t'
+    sudo docker compose ps --format json | jq -r '(. | [.Service, .State]) | @tsv' | column -ts $'\t'
+
 
 echo -e -n "
 [!] ${Yellow}Previously created resources need to be cleaned up before proceeding with installation \n
@@ -151,15 +153,13 @@ echo -e -n "[?] ${BICyan} Do you have sudo access on the machine? (y/n)? ${NC}"
 
 # Install packages
 
-brew install jq
 
 docker compose up --remove-orphans -d --build
 #docker network connect mantis-network appsmith
 
 echo -e "${BIYellow}\n\nSETUP SUMMARY${NC}\n"
 
-docker compose ps --format json | jq -r \
-'["Service","Status"], ["--------","------------"], (.[] | [.Service, .State]) | @tsv' | column -ts $'\t'
+sudo docker compose ps --format json | jq -r '(. | [.Service, .State]) | @tsv' | column -ts $'\t'
 
 sudo  sed -i "" "/mantis/d" /etc/hosts
 sudo -- sh -c -e "echo '10.10.0.3  mantis.db' >> /etc/hosts";

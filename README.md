@@ -10,7 +10,7 @@
   <a href="https://discord.gg/uJV8Y3uSGu">Join Discord</a>
 </p>
 
-We are in the beta phase of the tool and would like to know if you are facing any installation issues with our framework. If so, please post your issues on our [discord](https://discord.gg/uJV8Y3uSGu).
+> We are in the beta phase of the tool and would like to know if you are facing any installation issues with our framework. If so, please post your issues on our [discord](https://discord.gg/uJV8Y3uSGu).
 
 ## Summary
 
