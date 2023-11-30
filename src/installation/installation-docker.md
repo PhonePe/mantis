@@ -10,19 +10,19 @@ Considering that Mantis also includes mongoDB and AppSmith, we have provided a s
 Clone the Mantis repository 
 
 ```shell
-$ git clone https://github.com/PhonePe/mantis.git
+git clone https://github.com/PhonePe/mantis.git
 ```
 
 cd into the Mantis directory    
 
 ```shell
-$ cd mantis/setup/docker
+cd mantis/setup/docker
 ```
 
 Run the respective docker setup file based on your OS
 
 ```shell
-$ ./docker-setup-macos.sh
+./docker-setup-macos.sh
 
-$ ./docker-setup-ubuntu.sh
+./docker-setup-ubuntu.sh
 ```
