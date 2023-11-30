@@ -4,12 +4,12 @@ Mantis provides multiple installation methods that includes performing the entir
 
 **Single Machine** 
 - Docker 
-- Linux (Ubuntu)
+- Linux (Ubuntu) (Coming Soon)
 - Windows (Coming Soon)
 
 **Multiple Machine** 
-- Set of VMs
-- AWS (Ansible script)
+- Set of VMs  (Coming Soon)
+- AWS (Ansible script)  (Coming Soon)
 
 
 
