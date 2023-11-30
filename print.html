@@ -511,15 +511,15 @@
 <p>Considering that Mantis also includes mongoDB and AppSmith, we have provided a shell script that installs all the components.</p>
 <h2 id="setup"><a class="header" href="#setup">Setup</a></h2>
 <p>Clone the Mantis repository </p>
-<pre><code class="language-shell">$ git clone https://github.com/PhonePe/mantis.git
+<pre><code class="language-shell">git clone https://github.com/PhonePe/mantis.git
 </code></pre>
 <p>cd into the Mantis directory</p>
-<pre><code class="language-shell">$ cd mantis/setup/docker
+<pre><code class="language-shell">cd mantis/setup/docker
 </code></pre>
 <p>Run the respective docker setup file based on your OS</p>
-<pre><code class="language-shell">$ ./docker-setup-macos.sh
+<pre><code class="language-shell">./docker-setup-macos.sh
 
-$ ./docker-setup-ubuntu.sh
+./docker-setup-ubuntu.sh
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="-configuration"><a class="header" href="#-configuration">🛠️ Configuration</a></h1>
 <p>Once you have setup Mantis, you can now look at customising your scan requirements. Scan customisations are available via:</p>
@@ -852,29 +852,30 @@ options:
 <h3 id="onboard-and-scan"><a class="header" href="#onboard-and-scan">Onboard and Scan</a></h3>
 <hr />
 <p>You want to onboard an org with its TLDs/IPs/IP-CIDRs/IP Range for the first time, use the onboard mode. This runs the scan on the default workflow.</p>
+<p>You can use mantis command or directly run the framework using python3 launch.py. </p>
 <h4 id="tld"><a class="header" href="#tld">TLD</a></h4>
-<pre><code class="language-shell">$ python3 launch.py onboard -o org_name -t example.in   
+<pre><code class="language-shell">python3 launch.py onboard -o org_name -t example.in   
 </code></pre>
 <h4 id="ip"><a class="header" href="#ip">IP</a></h4>
-<pre><code class="language-shell">$ python3 launch.py onboard -o org_name -t 10.123.123.12
+<pre><code class="language-shell">python3 launch.py onboard -o org_name -t 10.123.123.12
 </code></pre>
 <h4 id="ip-range"><a class="header" href="#ip-range">IP-Range</a></h4>
-<pre><code class="language-shell">$ python3 launch.py onboard -o org_name -t 203.0.113.0-10
+<pre><code class="language-shell">python3 launch.py onboard -o org_name -t 10.0.0.10-10
 </code></pre>
 <h4 id="ip-cidr"><a class="header" href="#ip-cidr">IP-CIDR</a></h4>
-<pre><code class="language-shell">$ python3 launch.py onboard -o org_name -t 203.0.113.0/24
+<pre><code class="language-shell">python3 launch.py onboard -o org_name -t 10.0.0.10/24
 </code></pre>
 <h3 id="onboard-known-assets-and-scan"><a class="header" href="#onboard-known-assets-and-scan">Onboard Known Assets and Scan</a></h3>
-<pre><code class="language-shell">$ python3 launch.py onboard -o org_name -f input.txt
+<pre><code class="language-shell">python3 launch.py onboard -o org_name -f input.txt
 </code></pre>
 <h3 id="scan-on-all-assets-belonging-to-an-organisation"><a class="header" href="#scan-on-all-assets-belonging-to-an-organisation">Scan on all assets belonging to an organisation</a></h3>
 <hr />
 <p>Now that you have onboarded, you just need to run scheduled scans for an org, you can just use the scan mode</p>
-<pre><code class="language-shell">$ python3 launch.py scan -o org_name
+<pre><code class="language-shell">python3 launch.py scan -o org_name
 </code></pre>
 <h3 id="scan-on-all-assets-belonging-to-an-organisation-and-app"><a class="header" href="#scan-on-all-assets-belonging-to-an-organisation-and-app">Scan on all assets belonging to an organisation and app</a></h3>
 <hr />
-<pre><code class="language-shell">$ python3 launch.py scan -o org_name -a app_name
+<pre><code class="language-shell">python3 launch.py scan -o org_name -a app_name
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="-notifications"><a class="header" href="#-notifications">📨 Notifications</a></h1>
 <p>Mantis currently supports the following clients for Notifications:</p>
