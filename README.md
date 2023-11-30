@@ -62,8 +62,8 @@ Considering that Mantis also includes MongoDB and AppSmith, we have provided a s
 - Cores - 2
 - Storage - 16GB
 
-> Warning 🚨 - The framework combines a number of open source and custom tools, hence the framework will be CPU intensive. Hence it is ideal to run the framework in a VM.  
-> The ``-tc`` option controls the parallel processing. If you run it from a machine with low configuration, set the -tc to 1 or 2. If you have machine with high configuration, you can increase the -tc count. 
+> Warning 🚨 - The framework combines a number of open source and custom tools and runs them in parallel, hence the framework is CPU intensive and is recommended to run the framework on a dedicated VM.  
+> The ``-tc`` option controls the parallel processing. If you run it from a machine with low configuration, set the -tc to 1 or 2. If you have a machine with a higher configuration, you can increase the -tc count. 
 
 ### Docker 
 
