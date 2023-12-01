@@ -24,14 +24,14 @@ workflow:
         tools: ['SecretScanner']
         order: 6
 
-# This workflow is for product security teams. It includes tools like Route53 and Ipinfo. Please provide the key for IPinfo     
+# This workflow is for product security teams. It includes tools like dns and Ipinfo. Please provide the key for IPinfo     
   - workflowName: 'productsecurity'
     schedule: 'daily between 00:00 and 04:00'
     cmd: []
     scanNewOnly: true
     workflowConfig:
-      - moduleName : Route53
-        tools: ['Route53'] 
+      - moduleName : dns
+        tools: ['Route53', 'Cloudflare'] 
         order: 1
       - moduleName : discovery
         tools: ['Subfinder', 'SSLMate', 'Amass'] 
@@ -80,8 +80,8 @@ workflow:
     schedule: 'daily between 00:00 and 04:00'
     cmd: []
     workflowConfig:
-      - moduleName : discovery
-        tools: ['Subfinder'] 
+      - moduleName : dns
+        tools: ['Cloudflare'] 
         order: 1
 
 nuclei_template_path:
@@ -90,7 +90,7 @@ nuclei_template_path:
 
 aws:
   config_path: 
-  credentials_path: 
+  credentials_path:
 
 app:
   default: ["None"]
