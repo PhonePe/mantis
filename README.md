@@ -89,6 +89,12 @@ Run the respective docker setup file based on your OS
 ./docker-setup-ubuntu.sh
 ```
 
+For uninstalling Mantis (remove all the resources created by installation), run the following command in the same directory
+
+```
+docker compose down
+```
+
 ## Dashboard Setup 📊
 
 Once the docker setup is complete, please run a scan and follow the below instructions to setup the dashboard.
