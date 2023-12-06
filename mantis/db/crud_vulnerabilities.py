@@ -28,7 +28,7 @@ async def findings_bulk_mixed_query(bulk_write_query):
     try:
         result = findings_collection.bulk_write(bulk_write_query)
 
-    except BulkWriteError as bwe:
-        logging.debug(f'Findings Bulk write error while update: {bwe}')
+    except Exception as e:
+        logging.debug(f'Findings Bulk write error while update: {e}')
 
     
