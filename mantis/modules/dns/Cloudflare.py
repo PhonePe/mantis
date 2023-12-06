@@ -63,8 +63,10 @@ class Cloudflare(BaseScanner):
                         output_dict_list.append(domain_dict)
             await CrudUtils.insert_assets(output_dict_list, source='internal')
             results["success"] = 1
-
+            return results
+        
         except Exception as e:
             results["failure"] = 1
             results['exception'] = str(e)
+            return results
             
