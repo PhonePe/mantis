@@ -216,7 +216,7 @@
 <h2 id="how-does-mantis-distribute-your-scan-"><a class="header" href="#how-does-mantis-distribute-your-scan-">How does Mantis distribute your scan ?</a></h2>
 <p>Mantis uses <a href="https://www.ray.io">Ray</a> framework to scale. <a href="https://docs.ray.io/en/latest/ray-core/walkthrough.html">Ray Core</a> provides a small number of core primitives (i.e., tasks, actors, objects) for building and scaling distributed applications.</p>
 <blockquote>
-<p>Please Note - A short infrastructure setup is required before utilising this feature as <a href="features//./installation/installation-multiple.html">described here</a></p>
+<p>Please Note - A short infrastructure setup is required before utilising this feature as <a href="features//./mantis/installation/installation-multiple.html">described here</a></p>
 </blockquote>
 <img src="features/ray.png" class="img-rounded" alt="Mantis">
 <p>The Mantis framework is designed to use Ray Core in the most efficient way, breaking down a single scan into the most granular level. To put it simply:</p>
@@ -323,7 +323,7 @@
 </code></pre>
 <h2 id="understanding-configyml"><a class="header" href="#understanding-configyml">Understanding config.yml</a></h2>
 <blockquote>
-<p>INFO💡: For more details on config.yml and how to edit it, <a href="features//./configuration/configuration.html">Click here</a></p>
+<p>INFO💡: For more details on config.yml and how to edit it, <a href="features//./mantis/configuration/configuration.html">Click here</a></p>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="advanced-alerting"><a class="header" href="#advanced-alerting">Advanced Alerting</a></h1>
 <hr />
@@ -348,7 +348,7 @@
 <img src="features/slack-tag.png" class="img-rounded" alt="Slack Tag">
 <h3 id="understanding-configyml-1"><a class="header" href="#understanding-configyml-1">Understanding config.yml</a></h3>
 <blockquote>
-<p>INFO💡: For more details on config.yml and how to edit it, <a href="features//./configuration/configuration.html">Click here</a></p>
+<p>INFO💡: For more details on config.yml and how to edit it, <a href="features//./mantis/configuration/configuration.html">Click here</a></p>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="understanding-scan-efficiency"><a class="header" href="#understanding-scan-efficiency">Understanding Scan Efficiency</a></h1>
 <hr />
@@ -490,7 +490,7 @@
 <li>Add the install instructions in <strong>DockerFile</strong></li>
 </ul>
 <blockquote>
-<p>INFO💡: For a more detailed understanding on how to integrate a new scanner, <a href="features//./new-scanner-integrations/new-scanner-integration.html">Click here</a></p>
+<p>INFO💡: For a more detailed understanding on how to integrate a new scanner, <a href="features//./mantis/new-scanner-integrations/new-scanner-integration.html">Click here</a></p>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="-installation"><a class="header" href="#-installation">⚙️ Installation</a></h1>
 <p>Mantis provides multiple installation methods that includes performing the entire scan in a single system or multiple machines</p>
@@ -524,8 +524,8 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="-configuration"><a class="header" href="#-configuration">🛠️ Configuration</a></h1>
 <p>Once you have setup Mantis, you can now look at customising your scan requirements. Scan customisations are available via:</p>
 <ul>
-<li><a href="configuration//./mantis/configuration/config-file.html">Config File</a> - contains customisations related to scan workflow, scheduling, notifications etc.</li>
-<li><a href="configuration//./mantis/configuration/command-line.html">Command Line</a> - contains basic options to onboard your assets and scan</li>
+<li><a href="configuration//./mantis/mantis/configuration/config-file.html">Config File</a> - contains customisations related to scan workflow, scheduling, notifications etc.</li>
+<li><a href="configuration//./mantis/mantis/configuration/command-line.html">Command Line</a> - contains basic options to onboard your assets and scan</li>
 </ul>
 <blockquote>
 <p>INFO💡- Config File Path: /mantis/config/local.yml</p>
@@ -534,10 +534,10 @@
 <hr />
 <p>Mantis Config file provides multiple customisations including:</p>
 <ul>
-<li><a href="configuration//./configuration/workflow-config.html"><strong>Workflow Customisation</strong></a></li>
-<li><a href="configuration//./configuration/scheduler-config.html"><strong>Scheduler Customisation</strong></a></li>
-<li><a href="configuration//./configuration/app-context-config.html"><strong>Setting App Context</strong></a></li>
-<li><a href="configuration//./configuration/slack-config.html"><strong>Slack Alerting</strong></a></li>
+<li><a href="configuration//./mantis/configuration/workflow-config.html"><strong>Workflow Customisation</strong></a></li>
+<li><a href="configuration//./mantis/configuration/scheduler-config.html"><strong>Scheduler Customisation</strong></a></li>
+<li><a href="configuration//./mantis/configuration/app-context-config.html"><strong>Setting App Context</strong></a></li>
+<li><a href="configuration//./mantis/configuration/slack-config.html"><strong>Slack Alerting</strong></a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="-workflow-configuration"><a class="header" href="#-workflow-configuration">🎛️ Workflow Configuration</a></h1>
 <hr />
@@ -973,10 +973,10 @@ table {
 <p>Before you add a new module or scanner to Mantis yourself, it is important to understand the parts of the code that you'll be editing and certain functions that will come in handy.</p>
 <p>In this walkthrough, we shall mainly focus on:</p>
 <ul>
-<li><a href="basics-mantis-code//./basics-mantis-code/folder-structure.html">Mantis folder structure</a> - This will help you understand exactly where you need to make changes for new integrations</li>
-<li><a href="basics-mantis-code//./basics-mantis-code/scanner-base-class.html">Base scanner class</a> - Based on the scanner that you want to integrate, this will help you choose the base class that you need to inherit</li>
-<li><a href="basics-mantis-code//./basics-mantis-code/important-utils.html">Important utility functions</a> - If your new scanner only accepts IP addresses, TLDs, or sometimes both, you don't have to write any queries or functions to validate the inputs. Mantis has built-in utility functions that can provide you with this input directly. </li>
-<li><a href="basics-mantis-code//./basics-mantis-code/db-models.html">DB models</a> - After your new scanner completes its scan, you'll need to insert the results into MongoDB. To do so, you'll need to understand the schema that is in place. This will help you do that.</li>
+<li><a href="basics-mantis-code//./mantis/basics-mantis-code/folder-structure.html">Mantis folder structure</a> - This will help you understand exactly where you need to make changes for new integrations</li>
+<li><a href="basics-mantis-code//./mantis/basics-mantis-code/scanner-base-class.html">Base scanner class</a> - Based on the scanner that you want to integrate, this will help you choose the base class that you need to inherit</li>
+<li><a href="basics-mantis-code//./mantis/basics-mantis-code/important-utils.html">Important utility functions</a> - If your new scanner only accepts IP addresses, TLDs, or sometimes both, you don't have to write any queries or functions to validate the inputs. Mantis has built-in utility functions that can provide you with this input directly. </li>
+<li><a href="basics-mantis-code//./mantis/basics-mantis-code/db-models.html">DB models</a> - After your new scanner completes its scan, you'll need to insert the results into MongoDB. To do so, you'll need to understand the schema that is in place. This will help you do that.</li>
 </ul>
 <p>A basic understanding of the above will simplify any new integrations with Mantis.</p>
 <blockquote>
@@ -1254,7 +1254,7 @@ table {
 </ul>
 </li>
 </ul>
-<p>Now that we have a clear understanding of the expected input and output from the tool, let's begin the process of creating the scanner class. As previously indicated <a href="new-scanner-integrations//./basics-mantis-code/scanner-base-class.html">here</a>, we are required to implement three functions:</p>
+<p>Now that we have a clear understanding of the expected input and output from the tool, let's begin the process of creating the scanner class. As previously indicated <a href="new-scanner-integrations//./mantis/basics-mantis-code/scanner-base-class.html">here</a>, we are required to implement three functions:</p>
 <ul>
 <li>base_get_commands() or get_commands() </li>
 <li>parse_report()</li>
@@ -1280,13 +1280,13 @@ table {
 <li><strong>self.assets</strong> exclusively extract TLDs from the database, which are then supplied as input to Amass</li>
 </ul>
 <blockquote>
-<p>Info💡- As mentioned <a href="new-scanner-integrations//./basics-mantis-code/important-utils.html">here</a>, Mantis incorporates a range of pre-existing utility functions to facilitate the seamless integration of new tools</p>
+<p>Info💡- As mentioned <a href="new-scanner-integrations//./mantis/basics-mantis-code/important-utils.html">here</a>, Mantis incorporates a range of pre-existing utility functions to facilitate the seamless integration of new tools</p>
 </blockquote>
 <h2 id="implementing-parse_report"><a class="header" href="#implementing-parse_report">Implementing parse_report()</a></h2>
 <p>This function is required to parse what the scanner outputs and insert it into the database. 
 In this context, a list of subdomains need to be extrated and inserted into the database.</p>
 <blockquote>
-<p>Info💡- To understand the DB schema, click <a href="new-scanner-integrations//./basics-mantis-code/db-models.html">here</a></p>
+<p>Info💡- To understand the DB schema, click <a href="new-scanner-integrations//./mantis/basics-mantis-code/db-models.html">here</a></p>
 </blockquote>
 <pre><code class="language-python">def parse_report(self, outfile):
         output_dict_list = []
@@ -1316,7 +1316,7 @@ In this context, a list of subdomains need to be extrated and inserted into the 
 </code></pre>
 <p>This is straight forward, call the corresponding util function to insert the data into mongoDB.</p>
 <blockquote>
-<p>Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described <a href="new-scanner-integrations//./basics-mantis-code/important-utils.html">here</a></p>
+<p>Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described <a href="new-scanner-integrations//./mantis/basics-mantis-code/important-utils.html">here</a></p>
 </blockquote>
 <blockquote>
 <p>⏭️ In a similar fashion let's try to add a new API scanner. </p>
@@ -1352,7 +1352,7 @@ In this context, a list of subdomains need to be extrated and inserted into the 
 </ul>
 </li>
 </ul>
-<p>Now that we have a clear understanding of the expected input and output from the tool, let's begin the process of creating the scanner class. As previously indicated <a href="new-scanner-integrations//./basics-mantis-code/scanner-base-class.html">here</a>, we are required to implement three functions:</p>
+<p>Now that we have a clear understanding of the expected input and output from the tool, let's begin the process of creating the scanner class. As previously indicated <a href="new-scanner-integrations//./mantis/basics-mantis-code/scanner-base-class.html">here</a>, we are required to implement three functions:</p>
 <ul>
 <li>get_api_calls()</li>
 <li>parse_reponse()</li>
@@ -1425,7 +1425,7 @@ def parse_reponse(self, response):
 </code></pre>
 <p>This is straight forward, call the corresponding util function to insert the data into mongoDB.</p>
 <blockquote>
-<p>Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described <a href="new-scanner-integrations//./basics-mantis-code/important-utils.html">here</a></p>
+<p>Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described <a href="new-scanner-integrations//./mantis/basics-mantis-code/important-utils.html">here</a></p>
 </blockquote>
 <blockquote>
 <p>Let's now look at adding the new scanner to the config file. </p>

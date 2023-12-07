@@ -179,7 +179,7 @@
 </ul>
 </li>
 </ul>
-<p>Now that we have a clear understanding of the expected input and output from the tool, let's begin the process of creating the scanner class. As previously indicated <a href="/./basics-mantis-code/scanner-base-class.html">here</a>, we are required to implement three functions:</p>
+<p>Now that we have a clear understanding of the expected input and output from the tool, let's begin the process of creating the scanner class. As previously indicated <a href="/./mantis/basics-mantis-code/scanner-base-class.html">here</a>, we are required to implement three functions:</p>
 <ul>
 <li>base_get_commands() or get_commands() </li>
 <li>parse_report()</li>
@@ -205,13 +205,13 @@
 <li><strong>self.assets</strong> exclusively extract TLDs from the database, which are then supplied as input to Amass</li>
 </ul>
 <blockquote>
-<p>Info💡- As mentioned <a href="/./basics-mantis-code/important-utils.html">here</a>, Mantis incorporates a range of pre-existing utility functions to facilitate the seamless integration of new tools</p>
+<p>Info💡- As mentioned <a href="/./mantis/basics-mantis-code/important-utils.html">here</a>, Mantis incorporates a range of pre-existing utility functions to facilitate the seamless integration of new tools</p>
 </blockquote>
 <h2 id="implementing-parse_report"><a class="header" href="#implementing-parse_report">Implementing parse_report()</a></h2>
 <p>This function is required to parse what the scanner outputs and insert it into the database. 
 In this context, a list of subdomains need to be extrated and inserted into the database.</p>
 <blockquote>
-<p>Info💡- To understand the DB schema, click <a href="/./basics-mantis-code/db-models.html">here</a></p>
+<p>Info💡- To understand the DB schema, click <a href="/./mantis/basics-mantis-code/db-models.html">here</a></p>
 </blockquote>
 <pre><code class="language-python">def parse_report(self, outfile):
         output_dict_list = []
@@ -241,7 +241,7 @@ In this context, a list of subdomains need to be extrated and inserted into the 
 </code></pre>
 <p>This is straight forward, call the corresponding util function to insert the data into mongoDB.</p>
 <blockquote>
-<p>Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described <a href="/./basics-mantis-code/important-utils.html">here</a></p>
+<p>Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described <a href="/./mantis/basics-mantis-code/important-utils.html">here</a></p>
 </blockquote>
 <blockquote>
 <p>⏭️ In a similar fashion let's try to add a new API scanner. </p>
