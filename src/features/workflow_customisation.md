@@ -75,4 +75,4 @@ workflow:
     order: 1
 ```
 ## Understanding config.yml
-> INFO💡: For more details on config.yml and how to edit it, [Click here](/./configuration/configuration.md)
+> INFO💡: For more details on config.yml and how to edit it, [Click here](/./mantis/configuration/configuration.md)

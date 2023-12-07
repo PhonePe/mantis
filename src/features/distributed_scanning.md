@@ -16,7 +16,7 @@ Mantis is one of the first recon automation framework that that allows you to **
 
 Mantis uses [Ray](https://www.ray.io) framework to scale. [Ray Core](https://docs.ray.io/en/latest/ray-core/walkthrough.html) provides a small number of core primitives (i.e., tasks, actors, objects) for building and scaling distributed applications.   
 
-> Please Note - A short infrastructure setup is required before utilising this feature as [described here](/./installation/installation-multiple.md)
+> Please Note - A short infrastructure setup is required before utilising this feature as [described here](/./mantis/installation/installation-multiple.md)
 
 <img src="ray.png" class="img-rounded" alt="Mantis">
 

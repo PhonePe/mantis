@@ -2,7 +2,7 @@
 ---
 
 Mantis Config file provides multiple customisations including:
-- [**Workflow Customisation**](/./configuration/workflow-config.md)
-- [**Scheduler Customisation**](/./configuration/scheduler-config.md)
-- [**Setting App Context**](/./configuration/app-context-config.md)
-- [**Slack Alerting**](/./configuration/slack-config.md)
+- [**Workflow Customisation**](/./mantis/configuration/workflow-config.md)
+- [**Scheduler Customisation**](/./mantis/configuration/scheduler-config.md)
+- [**Setting App Context**](/./mantis/configuration/app-context-config.md)
+- [**Slack Alerting**](/./mantis/configuration/slack-config.md)

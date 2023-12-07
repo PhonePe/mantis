@@ -16,7 +16,7 @@ As a first step to integrate a new scanner, answer the below questions:
 - **What is the input that the tool takes, meaning, TLDs, subdomains, IPs etc.?**
     - SSLMate takes TLDs as an input
 
-Now that we have a clear understanding of the expected input and output from the tool, let's begin the process of creating the scanner class. As previously indicated [here](/./basics-mantis-code/scanner-base-class.md), we are required to implement three functions:
+Now that we have a clear understanding of the expected input and output from the tool, let's begin the process of creating the scanner class. As previously indicated [here](/./mantis/basics-mantis-code/scanner-base-class.md), we are required to implement three functions:
 
 - get_api_calls()
 - parse_reponse()
@@ -99,6 +99,6 @@ The final step is to insert the data into mongoDB
 ```
 This is straight forward, call the corresponding util function to insert the data into mongoDB.
 
-> Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described [here](/./basics-mantis-code/important-utils.md)
+> Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described [here](/./mantis/basics-mantis-code/important-utils.md)
 
 > Let's now look at adding the new scanner to the config file. 

@@ -27,4 +27,4 @@ Currently, we support notifications via **slack**
 <img src="slack-tag.png" class="img-rounded" alt="Slack Tag">
 
 ### Understanding config.yml
-> INFO💡: For more details on config.yml and how to edit it, [Click here](/./configuration/configuration.md)
+> INFO💡: For more details on config.yml and how to edit it, [Click here](/./mantis/configuration/configuration.md)

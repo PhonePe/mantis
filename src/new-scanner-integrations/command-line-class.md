@@ -16,7 +16,7 @@ As a first step to integrate a new scanner, answer the below questions:
 - **What is the input that the tool takes, meaning, TLDs, subdomains, IPs etc.?**
     - Amass takes TLDs as an input
 
-Now that we have a clear understanding of the expected input and output from the tool, let's begin the process of creating the scanner class. As previously indicated [here](/./basics-mantis-code/scanner-base-class.md), we are required to implement three functions:
+Now that we have a clear understanding of the expected input and output from the tool, let's begin the process of creating the scanner class. As previously indicated [here](/./mantis/basics-mantis-code/scanner-base-class.md), we are required to implement three functions:
 
 - base_get_commands() or get_commands() 
 - parse_report()
@@ -45,14 +45,14 @@ def get_commands(self, assets):
 - **self.outfile_extension** indicates the output file extension
 - **self.assets** exclusively extract TLDs from the database, which are then supplied as input to Amass
 
-> Info💡- As mentioned [here](/./basics-mantis-code/important-utils.md), Mantis incorporates a range of pre-existing utility functions to facilitate the seamless integration of new tools
+> Info💡- As mentioned [here](/./mantis/basics-mantis-code/important-utils.md), Mantis incorporates a range of pre-existing utility functions to facilitate the seamless integration of new tools
 
 ## Implementing parse_report()
 
 This function is required to parse what the scanner outputs and insert it into the database. 
 In this context, a list of subdomains need to be extrated and inserted into the database.
 
-> Info💡- To understand the DB schema, click [here](/./basics-mantis-code/db-models.md)
+> Info💡- To understand the DB schema, click [here](/./mantis/basics-mantis-code/db-models.md)
 
 ```python
 def parse_report(self, outfile):
@@ -86,7 +86,7 @@ async def db_operations(self, tool_output_dict, asset=None):
 
 This is straight forward, call the corresponding util function to insert the data into mongoDB.
 
-> Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described [here](/./basics-mantis-code/important-utils.md)
+> Info💡- Depending on whether you are inserting an asset, or updating an asset for recon information, or adding a new finding, you can use the corresponding util functions as described [here](/./mantis/basics-mantis-code/important-utils.md)
 
  > ⏭️ In a similar fashion let's try to add a new API scanner. 
 
