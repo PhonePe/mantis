@@ -28,7 +28,7 @@ class Csper(APIScanner):
         return [(self, "POST")]
     
 
-    def parse_reponse(self, response):
+    def parse_response(self, response):
         findings = []
         response_json = response.json()
         recommendations = response_json[0]['recommendations']
