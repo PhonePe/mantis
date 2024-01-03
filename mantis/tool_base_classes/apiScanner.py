@@ -25,7 +25,7 @@ class APIScanner:
         raise NotImplementedError
     
 
-    def parse_reponse(self, response):
+    def parse_response(self, response):
         raise NotImplementedError
     
 
@@ -50,7 +50,7 @@ class APIScanner:
                     else:
                         results["failure"] += 1
                         
-                    asset_update_dict = self.parse_reponse(response.result()[1])
+                    asset_update_dict = self.parse_response(response.result()[1])
                     
                     await self.db_operations(asset_update_dict, asset=response.result()[0]) 
         except Exception as e:

@@ -35,7 +35,7 @@ class SSLMate(APIScanner):
         return [(self, "GET")]
     
 
-    def parse_reponse(self, response):
+    def parse_response(self, response):
         output_dict_list = []
         response_json = response.json()
         for every_cert in response_json:
