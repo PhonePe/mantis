@@ -19,7 +19,7 @@ As a first step to integrate a new scanner, answer the below questions:
 Now that we have a clear understanding of the expected input and output from the tool, let's begin the process of creating the scanner class. As previously indicated [here](/./mantis/basics-mantis-code/scanner-base-class.md), we are required to implement three functions:
 
 - get_api_calls()
-- parse_reponse()
+- parse_response()
 - db_operations()
 
 ## Creating the API Class
@@ -58,7 +58,7 @@ This function is required to parse what the API outputs and insert it into the d
 
 ```python
 
-def parse_reponse(self, response):
+def parse_response(self, response):
         output_dict_list = []
         response_json = response.json()
         for every_cert in response_json:
