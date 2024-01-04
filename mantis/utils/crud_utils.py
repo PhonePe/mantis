@@ -46,9 +46,9 @@ class CrudUtils:
                     finding["created_timestamp"] = CommonUtils.get_ikaros_std_timestamp()
                     if asset is not None:
                         finding['app'] = CrudUtils.assign_app_context(asset)
-                    else:
+                    elif app_context_param is not None:
                         finding['app'] = CrudUtils.assign_app_context(finding[app_context_param])
-
+                    
                     single_finding = Findings.parse_obj(finding).dict()
                     single_finding["_id"] = CrudUtils.generate_unique_hash(
                                             single_finding["host"],
@@ -115,10 +115,10 @@ class CrudUtils:
         bulk_write_query = []
         ## close reopen insert
         db_findings = await get_findings_by_asset(asset, finding_type)
-        logging.debug("New finding IDS ", new_finding_ids, len(new_finding_ids))
-        logging.debug("Asset Name: ", asset)
-        logging.debug("findings list: ", findings_list, len(findings_list))
-        logging.debug("DB findings ", db_findings, len(db_findings))
+        # logging.debug("New finding IDS ", new_finding_ids, len(new_finding_ids))
+        # logging.debug("Asset Name: ", asset)
+        # logging.debug("findings list: ", findings_list, len(findings_list))
+        # logging.debug("DB findings ", db_findings, len(db_findings))
         # time.sleep(10)
         try:
             for db_finding in db_findings:

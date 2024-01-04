@@ -1,6 +1,6 @@
 FROM --platform=linux/amd64 python:3.9-slim
 # Install wget
-RUN apt-get update && apt-get install -y wget unzip tar gcc libpcap-dev dnsutils git dnstwist
+RUN apt-get update && apt-get install -y wget unzip tar gcc libpcap-dev dnsutils git dnstwist vim
 
 # Install git
 RUN apt-get update --fix-missing && apt install git -y

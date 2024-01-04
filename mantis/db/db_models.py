@@ -38,7 +38,7 @@ class Findings(BaseModel):
     title: str = Field(...) #
     org: str = Field(...) 
     app: str = Field(None)
-    type: Literal['vulnerability', 'misconfiguration', 'secret', 'phishing', 'informational'] = Field(None) #
+    type: Literal['vulnerability', 'misconfiguration', 'secret', 'phishing', 'informational' , 'api_collection'] = Field(None) #
     description: str = Field(None)
     severity: str = Field(None)
     tool_source: str = Field(None) #

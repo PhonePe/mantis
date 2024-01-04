@@ -80,8 +80,8 @@ workflow:
     schedule: 'daily between 00:00 and 04:00'
     cmd: []
     workflowConfig:
-      - moduleName : dns
-        tools: ['Cloudflare'] 
+      - moduleName : secretscanner
+        tools: ['PostmanScanner'] 
         order: 1
 
 nuclei_template_path:
