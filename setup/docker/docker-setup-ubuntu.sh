@@ -51,8 +51,8 @@ Please ensure your system meets them before proceeding.
 1. Install Docker >= v19.0.0
    - https://docs.docker.com/engine/install/ubuntu/
    - Check version with 'docker --version'
-2. Install Docker compose >= v2.0.0
-   - Check version with 'docker compose version'
+2. Install docker-compose >= v2.0.0
+   - Check version with 'docker-compose version'
 4. sudo access on the machine
 5. Ports 1337, 1338, 27000 available on host machine (for Mantis dashboard and MongoDB)
     - If these ports can't be freed then modify the port mapping in docker-compose-mantis.yml 
@@ -73,10 +73,10 @@ fi
 
 sudo apt update && sudo apt install jq -y
 
-if docker compose ps | grep -q "Up"; then
+if docker-compose ps | grep -q "Up"; then
     echo -e "[?] ${BIYellow}Looks like this script was run previously to setup Mantis.${NC}\n"
 
-sudo docker compose ps --format json | jq -r '(. | [.Service, .State]) | @tsv' | column -ts $'\t'
+sudo docker-compose ps --format json | jq -r '(. | [.Service, .State]) | @tsv' | column -ts $'\t'
 
 echo -e -n "
 [!] ${Yellow}Previously created resources need to be cleaned up before proceeding with installation \n
@@ -103,22 +103,22 @@ read -p "What would you like to do? (1/2/3/4): " choice
 case $choice in
     1)
         echo -e "[-] ${Red}Removing all the existing containers from Mantis setup${NC}"
-        sudo docker compose down
+        sudo docker-compose down
         ;;
     2)
         echo -e "[-] ${Red}Removing Mantis, Appsmith and retaining MongoDB${NC}"
-        sudo docker compose down appsmith
-        sudo docker compose down mantis
+        sudo docker-compose down appsmith
+        sudo docker-compose down mantis
         ;;
     3)
         echo -e "[-] ${Red}Removing Mantis, MongoDB and retaining Appsmith${NC}"
-        sudo docker compose down mongodb
-        sudo docker compose down mantis
+        sudo docker-compose down mongodb
+        sudo docker-compose down mantis
         ;;
 
     4)
         echo -e "[-] ${Red}Removing Mantis and retaining MongoDB, Appsmith${NC}"
-        sudo docker compose down mantis
+        sudo docker-compose down mantis
         ;;
     *)
         echo -e "\nInvalid choice. Please select a valid option (1/2/3/4)."
@@ -149,19 +149,19 @@ echo -e -n "[?] ${BICyan}Do you have sudo access on the machine? (y/n)? ${NC}"
 # Install packages
 
 
-sudo docker compose up --remove-orphans -d --build
+sudo docker-compose up --remove-orphans -d --build
 
 echo -e "${BIYellow}\n\nSETUP SUMMARY${NC}\n"
 
-sudo docker compose ps --format json | jq -r '(. | [.Service, .State]) | @tsv' | column -ts $'\t'
+sudo docker-compose ps --format json | jq -r '(. | [.Service, .State]) | @tsv' | column -ts $'\t'
 
 sudo  sed -i "/mantis/d" /etc/hosts
 sudo -- sh -c -e "echo '10.10.0.3  mantis.db' >> /etc/hosts";
 sudo -- sh -c -e "echo '127.0.0.1  mantis.dashboard' >> /etc/hosts";
 
-appsmith_exists=$(docker compose ps appsmith --quiet)
-mongo_exists=$(docker compose ps mongodb --quiet)
-mantis_exists=$(docker compose ps mantis --quiet)
+appsmith_exists=$(docker-compose ps appsmith --quiet)
+mongo_exists=$(docker-compose ps mongodb --quiet)
+mantis_exists=$(docker-compose ps mantis --quiet)
 
 if [ -n "$appsmith_exists" ] && [ -n "$mongo_exists" ] && [ -n "$mantis_exists" ]; then
 echo -e -n "
