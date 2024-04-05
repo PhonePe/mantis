@@ -105,14 +105,18 @@ Once the docker setup is complete, please run a scan and follow the below instru
 mantis onboard -o org_name -t example.in   
 ```
 
-- The dashboard is accessible at http://mantis.dashboard:1337
-- Once you access the dashboard, create an account on AppSmith.
-- Now go to base [url](http://mantis.dashboard:1337) 
-- Click on 3 dots on right side of the home page and import the template from dashboard_templates folder
-- You will be asked to enter db information, enter the following information:
+- The dashboard will be accessible at http://mantis.dashboard:1337
+- Once you access this dashboard URL, you should be prompted to create an AppSmith account.
+- Remember/bookmark this base [url](http://mantis.dashboard:1337) as AppSmith uses a multi-application construct with "My first application" as the default.  We will be importing the appropriate Application and Pages in the following steps.
+- Navigate to [Applications](http://localhost:1337/applications) with the "a_" icon on the upper left or using the link included.
+- In the upper right of the Applications page, there is an orange button "Create new" as well as 3 dots, click the orange "Create new" button to expand a drop-down.
+- The drop-down menu has 3 items: "Application", "Templates", and "Import" ... select "Import" by clicking it.
+- From there, import the template JSON file.  It is located in the cloned repo: in the dashboard_templates folder. (`mantis\dashboard_templates\Mantis Dashboard.json`)
+- You will be asked to enter db information for the included MongoDB that was created. Enter the following:
     - host - mantis.db
     - port - 27017
     - default db - mantis
+- By default this places you in "edit mode" for the application layout.  To view the application and your results from the previous scan, in the upper right of the screen click the "Deploy" button.  It has a small rocket icon next to it.  This should launch a new tab/window where you can navigate through the results of your scan(s).
 
 ### Assets 
 
