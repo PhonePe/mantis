@@ -159,9 +159,9 @@ sudo  sed -i "/mantis/d" /etc/hosts
 sudo -- sh -c -e "echo '10.10.0.3  mantis.db' >> /etc/hosts";
 sudo -- sh -c -e "echo '127.0.0.1  mantis.dashboard' >> /etc/hosts";
 
-appsmith_exists=$(docker-compose ps appsmith)
-mongo_exists=$(docker-compose ps mongodb)
-mantis_exists=$(docker-compose ps mantis)
+appsmith_exists=$(docker-compose ps -q appsmith)
+mongo_exists=$(docker-compose ps -q mongodb)
+mantis_exists=$(docker-compose ps -q mantis)
 
 if [ -n "$appsmith_exists" ] && [ -n "$mongo_exists" ] && [ -n "$mantis_exists" ]; then
 echo -e -n "
