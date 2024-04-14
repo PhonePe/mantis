@@ -1,4 +1,0 @@
-# Ubuntu - Linux
----
-
-Coming Soon

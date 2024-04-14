@@ -53,3 +53,9 @@ python3 launch.py scan -o org_name
 python3 launch.py scan -o org_name -a app_name
 ```
 
+### Scan using RAY (Distributed Scanning)
+---
+
+```shell
+python3 launch.py scan -o org_name -a app_name -r
+```

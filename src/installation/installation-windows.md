@@ -1,3 +1,0 @@
-# Windows
---- 
-[Coming soon]
