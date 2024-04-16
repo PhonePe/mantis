@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   mantis:
     build:
@@ -43,6 +41,19 @@ services:
     volumes:
       - ./stacks:/appsmith-stacks
     restart: unless-stopped
+  dashboard:
+    build:
+      dockerfile: Dockerfile
+      context: ../../dashboard
+    container_name: mantis-dashboard
+    ports:
+      - "8000:8000"
+    restart: on-failure
+    networks:
+      network:
+        ipv4_address: 10.10.0.5
+    extra_hosts:
+      - "mantis.db:10.10.0.3"
 networks:
   network:
     name: mantis-network
