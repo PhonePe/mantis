@@ -57,9 +57,9 @@ Please ensure your system meets them before proceeding.
 4. Homebrew installed
     - https://brew.sh/
 5. sudo access on the machine
-6. Ports 8000, 27000 available on host machine (for Mantis dashboard and MongoDB)
-    - If these ports can't be freed then modify the port mapping in docker-compose.yml 
-      to any available ports
+6. Ports 8000 available on host machine for Mantis dashboard
+    - If this port can't be freed then modify the port mapping in docker-compose.yml 
+      to any available port
 ${NC}
 "
 
@@ -138,7 +138,7 @@ COMMAND_CONTENT="docker exec -it mantis bash"
 
 # Check if the command already exists
 
-echo -e "[*] ${BPurple}Sudo is required for running docker and adding aliases/commands on host system ${NC}"
+echo -e "[*] ${BPurple} Sudo is required for running docker and adding aliases/commands on host system ${NC}"
 echo -e -n "[?] ${BICyan} Do you have sudo access on the machine? (y/n)? ${NC}"
     read sudo_answer
     if [ "$sudo_answer" != "${sudo_answer#[Yy]}" ] ;then 
