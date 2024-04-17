@@ -18,11 +18,11 @@ services:
     image: mongo:latest
     restart: always
     ports:
-      - "27000:27017"
+      - "127.0.0.1:27000:27017"
     networks:
       network:
         ipv4_address: 10.10.0.3
-    command: mongod --bind_ip 0.0.0.0
+    command: mongod --bind_ip 10.10.0.3
     environment:
       MONGO_INITDB_ROOT_DATABASE: mantis
     volumes:
