@@ -13,13 +13,16 @@ router = APIRouter(
 )
 
 #tempelete and static file mount
+
+@router.get("/", response_class=HTMLResponse)
+async def read_item(request: Request): 
+    return templates.TemplateResponse("login.html", {"request": request})
+
 router.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-#route for the testing 
 @router.get("/login", response_class=HTMLResponse)
 async def read_item(request: Request): 
-
     return templates.TemplateResponse("login.html", {"request": request})
 
 @router.get("/registration", response_class=HTMLResponse)

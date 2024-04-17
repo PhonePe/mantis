@@ -361,7 +361,7 @@ async def vulnerability_download_csv(current_user: Annotated[User, Security(get_
         }
     ]
 
-  result = list(Findings_collection.aggregate(pipeline))
+  result = list(Assets_collection.aggregate(pipeline))
 
   df = pd.DataFrame(result)  # Convert data to a DataFrame
   csv_file = io.StringIO()  # Create an in-memory file-like object

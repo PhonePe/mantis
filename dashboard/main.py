@@ -84,7 +84,4 @@ db = client["mantis"]
 Assets_collection = db["assets_collection"]
 Findings_collection = db["findings_collection"]
 
-@app.get("/", status_code=status.HTTP_201_CREATED)
-async def get_assets_count():
-    return "Working "
 

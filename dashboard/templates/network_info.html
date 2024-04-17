@@ -277,7 +277,7 @@ document.getElementById('ipExportLink').addEventListener('click', function(event
         const url = window.URL.createObjectURL(new Blob([blob]));
         const a = document.createElement('a');
         a.href = url;
-        a.download = `vulnerability_data_${download_org}.csv`; // Set the filename for download
+        a.download = `network_info_${download_org}.csv`; // Set the filename for download
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
