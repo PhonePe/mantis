@@ -115,7 +115,6 @@
             <script src="{{ url_for('static', path='chart/bar.js') }}"></script>
             <script src="{{ url_for('static', path='chart/PolarArea.js') }}"></script>
             <script src="{{ url_for('static', path='chart/radar.js') }}"></script>
-            <script src="{{ url_for('static', path='chart/test/pie.js') }}"></script>
             <script src="{{ url_for('static', path='chart/line.js') }}"></script>
 
             <script>
@@ -337,7 +336,7 @@
           const url = window.URL.createObjectURL(new Blob([blob]));
           const a = document.createElement('a');
           a.href = url;
-          a.download = `vulnerability_data_${download_org}.csv`; // Set the filename for download
+          a.download = `assets_${download_org}.csv`; // Set the filename for download
           document.body.appendChild(a);
           a.click();
           window.URL.revokeObjectURL(url);

@@ -51,6 +51,29 @@
     
     
     <script>
+
+function fetchDataAndSetLocalStorage() {
+    fetch('org/organizations')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Assuming data is an array with at least one element
+            const selectedOrg = data[0];
+
+            // Set the selectedOrg in local storage
+            localStorage.setItem('selectedOrg', selectedOrg);
+            console.log('Selected organization stored in local storage:', selectedOrg);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            // Handle fetch errors here
+        });
+}
+
         const loginAlertRed = document.getElementById('loginAlertRed');
     
         document.getElementById('loginForm').addEventListener('submit', async function (event) {
@@ -74,6 +97,7 @@
                 localStorage.setItem('accessToken', data.access_token);
                 // Redirect or do something else
                 console.log('Login successful. Token:', data.access_token);
+                fetchDataAndSetLocalStorage();
                 window.location.href = '/vulnerabilities';
                 
             } else {
@@ -87,7 +111,6 @@
                 console.error('Login failed:', data.detail);
             }
         });
-
 
     </script>
 </body>

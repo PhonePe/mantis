@@ -86,10 +86,10 @@
                 <input id="searchInput" class="p-2 rounded-lg bg-gray-200 mr-2 text-black border-none" placeholder="Search...">
             </div>
             <!-- Add a button to toggle visibility on small screens -->
-            <button id="searchBtn" class="hidden md:block hover:bg-indigo-800 bg-indigo-600 p-2 rounded-lg bg-gray-200 mr-2 text-white border-none flex items-center">
+            <button id="searchBtn" class="hidden md:block border-2 border-indigo-600 text-indigo-600 py-2 px-4 mr-2 rounded-2xl">
                 Search
             </button>
-            <a href="#" id="exportLink" class="hover:bg-indigo-800 bg-indigo-600 p-2 rounded-lg bg-gray-200 mr-2 text-white border-none flex items-center">
+            <a href="#" id="exportLink" class="border-2 border-indigo-600 text-indigo-600 py-2 px-4 mr-2 rounded-2xl">
                 Export <svg class="h-6  ml-2 mr-1" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="4.8"> <path d="M12 3V16M12 16L16 11.625M12 16L8 11.625" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M15 21H9C6.17157 21 4.75736 21 3.87868 20.1213C3 19.2426 3 17.8284 3 15M21 15C21 17.8284 21 19.2426 20.1213 20.1213C19.8215 20.4211 19.4594 20.6186 19 20.7487" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path> </g><g id="SVGRepo_iconCarrier"> <path d="M12 3V16M12 16L16 11.625M12 16L8 11.625" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M15 21H9C6.17157 21 4.75736 21 3.87868 20.1213C3 19.2426 3 17.8284 3 15M21 15C21 17.8284 21 19.2426 20.1213 20.1213C19.8215 20.4211 19.4594 20.6186 19 20.7487" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
             </a>
         </div>
@@ -273,7 +273,7 @@
           const url = window.URL.createObjectURL(new Blob([blob]));
           const a = document.createElement('a');
           a.href = url;
-          a.download = `vulnerability_data_${download_org}.csv`; // Set the filename for download
+          a.download = `phishing_${download_org}.csv`; // Set the filename for download
           document.body.appendChild(a);
           a.click();
           window.URL.revokeObjectURL(url);
