@@ -16,11 +16,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # This is necessary for initializing the repo with all history for the sparse-checkout paths.
-          sparse-checkout: |
-            /*
-            !/dashboard/
+        
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
