@@ -1,6 +1,6 @@
 FROM --platform=linux/amd64 python:3.12-slim
 
-RUN apt-get update -y && apt-get upgrade
+RUN apt-get update -y && apt-get upgrade -y
 
 # Setup work directory
 WORKDIR /home/
