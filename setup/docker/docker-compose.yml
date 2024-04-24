@@ -5,7 +5,7 @@ services:
       context: ../../
     container_name: mantis
     restart: on-failure
-    command:  tail -F /dev/random
+    command: sleep infinity
     networks:
       network:
         ipv4_address: 10.10.0.2
