@@ -55,7 +55,7 @@ Please ensure your system meets them before proceeding.
    - Check version with 'docker compose version'
 4. sudo access on the machine
 5. Ports 8000 available on host machine for Mantis dashboard
-    - If this port can't be freed then modify the port mapping in docker compose.yml 
+    - If this port can't be freed then modify the port mapping in docker-compose.yml 
       to any available port
 ${NC}
 "
