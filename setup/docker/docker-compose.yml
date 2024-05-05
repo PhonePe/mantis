@@ -14,6 +14,7 @@ services:
     environment:
       - "PS1='Mantis > '"
   mongodb:
+    platform: "${MAC_PLATFORM:-linux/amd64}"
     container_name: mongodb
     image: mongo:latest
     restart: always
