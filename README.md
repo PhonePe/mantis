@@ -83,11 +83,20 @@ cd mantis/setup/docker
 
 Run the respective docker setup file based on your OS
 
+*Note: If you are using MacOS with ARM architecture (M1/M2/M3) create a `.env` in the `setup/docker` folder with the following env variable.*
+
+```
+MAC_PLATFORM=linux/arm64
+```
+
 ```
 ./docker-setup-macos.sh
 
 ./docker-setup-ubuntu.sh
 ```
+
+
+
 
 For uninstalling Mantis (remove all the resources created by installation), run the following command in the same directory
 
