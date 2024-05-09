@@ -1,4 +1,4 @@
-name: Release container on tagging
+name: Mantis CLI Release
 on:
   push:
     branches:
