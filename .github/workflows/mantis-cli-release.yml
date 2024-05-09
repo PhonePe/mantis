@@ -1,5 +1,8 @@
 name: Release container on tagging
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 env:
   REGISTRY: ghcr.io
@@ -35,5 +38,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: latest
           labels: ${{ steps.meta.outputs.labels }}
