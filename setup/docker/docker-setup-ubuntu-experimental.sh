@@ -87,12 +87,14 @@ Following are your options:
 
 echo -e "${BICyan}
 1. Delete all the previously created containers${BYellow}
-    - Recommended to backup the database before deleting MongoDB${BICyan}
-2. Delete Mantis, Dashboard and don't delete MongoDB${BICyan}
-3. ${BICyan}Delete Mantis, MongoDB and don't delete Dashboard${BYellow}
-    - Recommended to backup the database before deleting MongoDB 
+    - Recommended to export the dashboard before deleting dashboard
+    - ${BYellow}Recommended to backup the database before deleting MongoDB${BICyan}
+2. Delete Mantis,dashboard and don't delete MongoDB
+    - ${BYellow}Recommended to export the dashboard before deleting dashboard${BICyan}
+3. Delete Mantis, MongoDB and don't delete dashboard
+    - ${BYellow}Recommended to backup the database before deleting MongoDB 
       https://www.mongodb.com/docs/manual/tutorial/backup-and-restore-tools/${BICyan}
-4. Delete Mantis and don't delete Dashboard, MongoDB
+4. Delete Mantis and don't delete dashboard, MongoDB
 ${NC}
 "
 
@@ -101,13 +103,11 @@ read -p "What would you like to do? (1/2/3/4): " choice
 case $choice in
     1)
         echo -e "[-] ${Red}Removing all the existing containers from Mantis setup${NC}"
-        sudo docker compose down dashboard
-        sudo docker compose down mantis
-        sudo docker compose down mongodb
+        sudo docker compose down
         ;;
     2)
         echo -e "[-] ${Red}Removing Mantis, dashboard and retaining MongoDB${NC}"
-        sudo docker compose down dashboard
+        sudo docker compose down mantis-dashboard
         sudo docker compose down mantis
         ;;
     3)

@@ -1,6 +1,8 @@
 services:
   mantis:
-    image: ghcr.io/phonepe/mantis:latest
+    build:
+      dockerfile: Dockerfile
+      context: ../../
     container_name: mantis
     restart: on-failure
     command: sleep infinity
@@ -40,7 +42,9 @@ services:
       - ./stacks:/appsmith-stacks
     restart: unless-stopped
   dashboard:
-    image: ghcr.io/phonepe/mantis-dashboard:latest
+    build:
+      dockerfile: Dockerfile
+      context: ../../dashboard
     container_name: mantis-dashboard
     ports:
       - "8000:8000"
