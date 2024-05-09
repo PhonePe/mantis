@@ -104,7 +104,9 @@ read -p "What would you like to do? (1/2/3/4): " choice
 case $choice in
     1)
         echo -e "[-] ${Red}Removing all the existing containers from Mantis setup${NC}"
-        docker compose down
+        docker compose down mantis
+        docker compose down mongodb
+        docker compose down appsmith
         ;;
     2)
         echo -e "[-] ${Red}Removing Mantis, Appsmith and retaining MongoDB${NC}"
@@ -154,7 +156,9 @@ echo -e -n "[?] ${BICyan} Do you have sudo access on the machine? (y/n)? ${NC}"
 # Install packages
 
 
-docker compose up --remove-orphans -d --build
+docker compose up --remove-orphans -d --build mongodb 
+docker compose up --remove-orphans -d --build mantis 
+docker compose up --remove-orphans -d --build appsmith 
 #docker network connect mantis-network appsmith
 
 echo -e "${BIYellow}\n\nSETUP SUMMARY${NC}\n"
