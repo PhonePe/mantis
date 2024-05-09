@@ -1,4 +1,4 @@
-name: Release container on tagging
+name: Mantis Dashboard Release
 on:
   push:
     branches:
@@ -10,7 +10,7 @@ env:
 
 jobs:
   build-and-push-image:
-
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       contents: read
