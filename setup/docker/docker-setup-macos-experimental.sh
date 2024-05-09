@@ -89,13 +89,14 @@ Following are your options:
 
 echo -e "${BICyan}
 1. Delete all the previously created containers${BYellow}
-    - Recommended to backup the database before deleting MongoDB${BICyan}
-2. Delete Mantis, Dashboard and don't delete MongoDB${BICyan}
-3. ${BICyan}Delete Mantis, MongoDB and don't delete Dashboard${BYellow}
+    - Recommended to export the dashboard before deleting Dashboard
+    - ${BYellow}Recommended to backup the database before deleting MongoDB${BICyan}
+2. Delete Mantis, Dashboard and don't delete MongoDB${BYellow}
+    - Recommended to export the dashboard before deleting Appsmith${BICyan}
+3. Delete Mantis, MongoDB and don't delete Dashboard${BYellow}
     - Recommended to backup the database before deleting MongoDB 
       https://www.mongodb.com/docs/manual/tutorial/backup-and-restore-tools/${BICyan}
 4. Delete Mantis and don't delete Dashboard, MongoDB
-${NC}
 "
 
 read -p "What would you like to do? (1/2/3/4): " choice
@@ -103,13 +104,11 @@ read -p "What would you like to do? (1/2/3/4): " choice
 case $choice in
     1)
         echo -e "[-] ${Red}Removing all the existing containers from Mantis setup${NC}"
-        docker compose down mantis
-        docker compose down mongodb
-        docker compose down dashboard
+        docker compose down
         ;;
     2)
         echo -e "[-] ${Red}Removing Mantis, Dashboard and retaining MongoDB${NC}"
-        docker compose down dashboard
+        docker compose down mantis-dashboard
         docker compose down mantis
         ;;
     3)
