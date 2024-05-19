@@ -10,13 +10,7 @@ from config.db import db, Assets_collection, Findings_collection
 
 router = APIRouter(prefix="/secrets", tags=["secrets"])
 
-# client = MongoClient("mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.1")
-
-
-# #mongodb details
-# db = client["mantis"]
-# Assets_collection = db["assets_collection"]
-# Findings_collection = db["findings_collection"]
+ 
 
 @router.get("/total_count", status_code=status.HTTP_200_OK)
 async def total_count(current_user: Annotated[User, Security(get_current_user, scopes=["admin", "read","write"])], org: str = Query(None, description="Organization name")):

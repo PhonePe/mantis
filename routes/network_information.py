@@ -11,13 +11,7 @@ from config.db import db, Assets_collection, Findings_collection
 router = APIRouter(prefix="/network_information", tags=["network_information"])
 
 #mongo connect client 
-# client = MongoClient("mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.1")
-
-
-# #mongodb details
-# db = client["mantis"]
-# Assets_collection = db["assets_collection"]
-# Findings_collection = db["findings_collection"]
+ 
 
 
 #table route

@@ -10,13 +10,7 @@ from config.db import db, Assets_collection, Findings_collection
 
 router = APIRouter(prefix="/phishing_domain", tags=["phishing_domain"])
 
-# client = MongoClient("mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.1")
-
-
-# #mongodb details
-# db = client["mantis"]
-# Assets_collection = db["assets_collection"]
-# Findings_collection = db["findings_collection"]
+ 
 
 #table
 @router.get("/search", status_code=status.HTTP_200_OK)
