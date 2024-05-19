@@ -61,16 +61,13 @@ function fetchDataAndSetLocalStorage() {
             return response.json();
         })
         .then(data => {
-            // Assuming data is an array with at least one element
-            const selectedOrg = data[0];
+            const org = data[0];
 
-            // Set the selectedOrg in local storage
-            localStorage.setItem('selectedOrg', selectedOrg);
-            console.log('Selected organization stored in local storage:', selectedOrg);
+            localStorage.setItem('org', org);
+            console.log('Selected organization stored in local storage:', org);
         })
         .catch(error => {
             console.error('Error fetching data:', error);
-            // Handle fetch errors here
         });
 }
 
