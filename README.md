@@ -133,7 +133,7 @@ mantis onboard -o org_name -t example.in
   usage: 
         ONBOARD: (First time scan, Run this !!)
 
-        mantis onboard -o example_org -t www.example.org
+        mantis onboard -o example_org -t example.org
         mantis onboard -o example_org -f file.txt
 
         SCAN:
@@ -241,6 +241,7 @@ If you want to contribute to this project:
 ## Need Help ? 🙋‍♂️
     
 * Take a look at our [documentation](https://phonepe.github.io/mantis/)
+* Please use [Mantis Discussions](https://github.com/PhonePe/mantis/discussions) forum for all your queries
 * Please join our [discord channel](https://discord.gg/uJV8Y3uSGu)
 
 ## Credits 🎖
@@ -248,8 +249,8 @@ If you want to contribute to this project:
 **Development** - Prateek Thakare  
 **Recon Tools Design/Launch scripts** - Bharath Kumar  
 **Secret Scanning** - Hitesh Kumar, Saddam Hussain  
-**Dashboard** - Pragya Gupta  
-**Design Suggestions** - Dhruv Shekawat, Santanu Sinha  
+**Dashboard** - Saddam Hussain  
+**Design Suggestions** - Dhruv Shekhawat, Santanu Sinha  
 **Framework Design** - Praveen Kanniah  
 
 **Special Thanks** - Ankur Bhargava
