@@ -76,6 +76,6 @@ class HTTPX(ToolScanner):
 
     async def db_operations(self, tool_output_dict, asset):
         await CrudUtils.update_asset(asset=asset, org=self.org, tool_output_dict=tool_output_dict)
-        if self.third_party_integrations:
+        if hasattr(self, 'third_party_integrations'):
             logging.debug("Inserting Third party integrations")
             await CrudUtils.insert_assets(self.third_party_integrations)

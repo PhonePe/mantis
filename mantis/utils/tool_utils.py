@@ -139,6 +139,10 @@ def get_pipeline(self, args):
                 {"$match" : {"created_timestamp":{"$gte" : datetime.today().strftime('%Y-%m-%d')}}}
                 
             )
+    if args.subdomain:
+        pipeline.append(
+            {"$match" : {"asset" : args.subdomain}}
+        )
 
     return pipeline
 

@@ -18,4 +18,5 @@ class ArgsModel(BaseModel):
     delete_logs: bool = False
     verbose: bool = False
     thread_count: int = 3
+    subdomain: str = Field(None)
     
