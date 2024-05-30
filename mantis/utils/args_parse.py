@@ -215,6 +215,10 @@ class ArgsParse:
                             help = 'List of comma separated aws profiles for Route53',
                             )
         
+        scan_parser.add_argument('--sub', 
+                                 dest = 'subdomain',
+                                 help='Subdomain to scan')
+        
         
         # display help, if no arguments are passed
         args = parser.parse_args(args=None if argv[1:] else ['--help'])
@@ -270,6 +274,9 @@ class ArgsParse:
 
         if args.thread_count:
             parsed_args["thread_count"] = args.thread_count
+
+        if args.subdomain:
+            parsed_args["subdomain"] = args.subdomain
          
 
         args_pydantic_obj = ArgsModel.parse_obj(parsed_args)
