@@ -29,9 +29,6 @@ jobs:
       - name: Install Poetry and bump2version
         run: pip install poetry==1.4.2 bump2version==1.0.1
 
-      - name: Install dependencies
-        run: poetry install
-
       - name: Bump version
         id: bump_version
         run: poetry run bump2version patch
