@@ -36,7 +36,6 @@ rocketry = "2.5.1"
 boto3 = "1.28.20"
 tqdm = "4.66.1"
 cloudflare = "*"
-bump2version = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core"]
