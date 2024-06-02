@@ -1,4 +1,5 @@
 FROM --platform=linux/amd64 python:3.9-slim
+
 # Install wget
 RUN apt-get update && apt-get install -y wget unzip tar gcc libpcap-dev dnsutils git dnstwist
 
@@ -34,6 +35,7 @@ RUN wget https://github.com/projectdiscovery/httpx/releases/download/v1.3.7/http
 RUN unzip httpx_1.3.7_linux_amd64.zip
 RUN mv httpx /usr/bin
 RUN rm -rf *
+
 # Install Findcdn
 RUN echo "Installing Findcdn"
 RUN pip install git+https://github.com/cisagov/findcdn.git
@@ -67,10 +69,6 @@ RUN tar -xvf gitleaks_8.18.1_linux_x64.tar.gz
 RUN mv gitleaks /usr/bin
 RUN rm -rf *
 
-# Copy requirements.txt for mantis
-COPY ./requirements.txt /home/mantis/requirements.txt
-RUN pip install -r requirements.txt
-
 # Install wafw00f
 RUN pip install wafw00f
 
@@ -89,6 +87,25 @@ RUN mv Corsy-1.0-rc Corsy
 RUN mv Corsy /usr/bin
 RUN rm -rf *
 
+# Install Poetry
+RUN pip install poetry==1.4.2
+
+# Add Poetry to PATH
+ENV PATH="/root/.local/bin:$PATH"
+
+# Setup Poetry ENV variables
+ENV POETRY_NO_INTERACTION=1 \
+    POETRY_VIRTUALENVS_IN_PROJECT=0 \
+    POETRY_VIRTUALENVS_CREATE=0 \
+    POETRY_CACHE_DIR=/tmp/poetry_cache
+
+# Copy pyproject.toml and poetry.lock
+COPY pyproject.toml poetry.lock* /home/mantis/
+
+# Install dependencies using Poetry
+RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
+
+# Creating Mantis alias
 RUN echo 'export PS1="🦗 Mantis > " && \
 alias mantis="python /home/mantis/launch.py" && \
 alias help="python /home/mantis/launch.py --help"' | tee -a ~/.bashrc
@@ -101,12 +118,11 @@ COPY ./configs /home/mantis/configs
 COPY ./launch.py /home/mantis/launch.py
 COPY ./scheduler.py /home/mantis/scheduler.py
 COPY ./*.txt /home/mantis/
+
+# Create Directories
 RUN mkdir /home/mantis/logs
 RUN mkdir /home/mantis/logs/scan_efficiency
 RUN mkdir /home/mantis/logs/tool_logs
 
-
 # Required for displaying stdout sequentially
 ENV PYTHONUNBUFFERED=1
-
-#ENTRYPOINT ["python3","launch.py"]% 
