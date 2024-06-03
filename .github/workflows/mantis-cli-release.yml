@@ -4,6 +4,17 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+        releaseType:
+          description: 'What kind of release is this?'
+          required: true
+          type: choice
+          options:
+            - 'auto'
+            - 'major'
+            - 'minor'
+            - 'patch'
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ncoder2/ncoder2-mantis
@@ -26,14 +37,18 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install Poetry and bump2version
-        run: pip install poetry==1.4.2 bump2version==1.0.1
+      - name: Install requirements
+        run: |
+          python -m pip install bump-my-version
 
       - name: Bump version
         id: bump_version
-        run: poetry run bump2version patch
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+              bump-my-version bump --allow-dirty --verbose --no-commit "$RELEASE_KIND"
+                    echo "TAG_NAME=$(bump-my-version show current_version)" >> $GITHUB_ENV
+                    git push
+                    git push --tags
+                    echo "PACKAGE=true" >> $GITHUB_ENV
           
       - name: Push version bump commit and tag
         run: |
