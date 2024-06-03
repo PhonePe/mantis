@@ -1,0 +1,23 @@
+name: checkout-and-setup-python
+description: 'Checkout the repository and setup Python'
+inputs:
+  python-version:
+    description: 'Python version to use'
+    required: false
+    default: '3.11'
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-python@v4
+      name: Setup Python
+      with:
+        python-version: ${{ inputs.python-version }}
+        cache: 'pip' # caching pip dependencies
+
+    - name: Git check
+      run: |
+        git config --global user.email "ncoder2mantis@github.actions"
+        git config --global user.name "mantis"
+        git --version
+        git config --list
+      shell: bash
