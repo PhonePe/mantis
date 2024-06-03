@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - main
-    tags:
-      - 'v*'
   workflow_dispatch:
     inputs:
         releaseType:
@@ -40,7 +38,7 @@ jobs:
 
       - name: Install requirements
         run: |
-          python -m pip install generate-changelog bump-my-version
+          python -m pip install bump-my-version
 
       - name: Determine release type
         id: determine_release_type
@@ -67,14 +65,13 @@ jobs:
       - name: Bump version
         id: bump_version
         run: |
-          bump-my-version bump --allow-dirty --verbose --no-commit "${{ env.RELEASE_TYPE }}"
+          bump-my-version bump --allow-dirty --verbose "${{ env.RELEASE_TYPE }}"
           version=$(bump-my-version show current_version)
           new_version="v$version"
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
           echo "TAG_NAME=$new_version" >> $GITHUB_ENV
           git commit -am "Bump version to $new_version"
           git tag $new_version
-          echo "PACKAGE=true" >> $GITHUB_ENV
           
       - name: Push version bump commit and tag
         run: |
