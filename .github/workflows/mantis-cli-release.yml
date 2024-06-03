@@ -16,7 +16,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ncoder2/ncoder2mantis
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push-image:
@@ -38,31 +38,54 @@ jobs:
 
       - name: Install requirements
         run: |
-          python -m pip install generate-changelog bump-my-version
+          python -m pip install bump-my-version
 
-      - name: Generate the changelog and get the release hint
-        id: generate-changelog
+      - name: Determine release type
+        id: determine_release_type
         run: |
-          RELEASE_KIND=$(generate-changelog --output release-hint)
-          echo "::notice::Suggested release type for this branch is: ${RELEASE_KIND}"
-          echo "RELEASE_KIND=$RELEASE_KIND" >> $GITHUB_ENV
-          echo "release-kind=$RELEASE_KIND" >> $GITHUB_OUTPUT
-          echo "PACKAGE=false" >> $GITHUB_ENV
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            RELEASE_TYPE="${{ github.event.inputs.releaseType }}"
+          else
+            if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+              RELEASE_TYPE="minor"  # Default case
+            elif [[ "${GITHUB_REF}" == refs/heads/feature/* ]]; then
+              RELEASE_TYPE="minor"  # Feature branches
+            elif [[ "${GITHUB_REF}" == refs/heads/bugfix/* ]]; then
+              RELEASE_TYPE="patch"  # Bug fix branches
+            elif [[ "${GITHUB_REF}" == refs/heads/release/* ]]; then
+              RELEASE_TYPE="major"  # Release branches
+            elif [[ "${GITHUB_REF}" == refs/heads/dev/* ]]; then
+              RELEASE_TYPE="dev"    # Development branches
+            else
+              RELEASE_TYPE="auto"   # Default if no match
+            fi
+          fi
+          echo "RELEASE_TYPE=$RELEASE_TYPE" >> $GITHUB_ENV
 
       - name: Bump version
         id: bump_version
         run: |
-              bump-my-version bump --allow-dirty --verbose "$RELEASE_KIND"
-              echo "TAG_NAME=$(bump-my-version show current_version)" >> $GITHUB_ENV
-              git push
-              git push --tags
-              echo "PACKAGE=true" >> $GITHUB_ENV
+          bump-my-version bump --allow-dirty --verbose "${{ env.RELEASE_TYPE }}"
+          version=$(bump-my-version show current_version)
+          new_version="v$version"
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+          echo "TAG_NAME=$new_version" >> $GITHUB_ENV
+          git commit -am "Bump version to $new_version"
+          git tag $new_version
           
       - name: Push version bump commit and tag
         run: |
-          git push origin main --tags
+          git push origin main --tags > git_push_output.txt 2>&1
+          cat git_push_output.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+      - name: Verify NEW_VERSION
+        run: |
+          echo "New version is: ${{ env.NEW_VERSION }}"
+          echo "Registry: ${{ env.REGISTRY }}"
+          echo "Image name: ${{ env.IMAGE_NAME }}"
 
       - name: Log in to the Container registry
         uses: docker/login-action@v2
@@ -71,16 +94,42 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Print all tags
+        run: |
+          echo "List of all tags:"
+          git tag -l
+
+      - name: Print detailed tag info
+        run: |
+          for tag in $(git tag -l); do
+            echo "Details for tag $tag:"
+            git show $tag
+          done
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+
+      - name: Print extracted tags
+        run: |
+          echo "Extracted tags: ${{ steps.meta.outputs.tags }}"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Verify Docker Metadata
+        run: |
+          echo "Docker Metadata Tags: ${{ steps.meta.outputs.tags }}"
+          echo "Docker Metadata Labels: ${{ steps.meta.outputs.labels }}"
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.bump_version.outputs.new_version }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
