@@ -73,7 +73,7 @@ jobs:
       
       - name: Push version bump commit and tag
         run: |
-          git push origin main --tags
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
