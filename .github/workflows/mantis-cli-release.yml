@@ -95,16 +95,26 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Print all tags
+        run: |
+          echo "List of all tags:"
+          git tag -l
+
+      - name: Print detailed tag info
+        run: |
+          for tag in $(git tag -l); do
+            echo "Details for tag $tag:"
+            git show $tag
+          done
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=ref,event=branch
             type=ref,event=tag
           flavor: |
-            latest=true
             prefix=true
 
       - name: Verify Docker Metadata
