@@ -16,7 +16,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ncoder2/ncoder2mantis
+  IMAGE_NAME: ncoder2/mantis
 
 jobs:
   build-and-push-image:
