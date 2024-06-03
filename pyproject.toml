@@ -52,8 +52,8 @@ commit_args = ""
 
 [[tool.bumpversion.files]]
 filename = "pyproject.toml"
-search = "version = {current_version}"
-replace = "version = {new_version}"
+search = "myproject]\nversion={current_version}"
+replace = "myproject]\nversion={new_version}"
 
 [build-system]
 requires = ["poetry-core"]
