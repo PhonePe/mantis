@@ -65,11 +65,12 @@ jobs:
       - name: Bump version
         id: bump_version
         run: |
-          new_version=$(bump-my-version bump --allow-dirty --verbose --no-commit "${{ env.RELEASE_TYPE }}" | grep 'New version:' | awk '{print $NF}')
+          bump-my-version bump --allow-dirty --verbose --no-commit "${{ env.RELEASE_TYPE }}"
+          new_version=$(bump-my-version show current_version)
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
           echo "TAG_NAME=$new_version" >> $GITHUB_ENV
-          git push
-          git push --tags
+          git commit -am "Bump version to $new_version"
+          git tag $new_version
           echo "PACKAGE=true" >> $GITHUB_ENV
           
       - name: Push version bump commit and tag
