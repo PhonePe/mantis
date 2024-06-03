@@ -65,10 +65,13 @@ jobs:
       - name: Bump version
         id: bump_version
         run: |
-              bump-my-version bump --allow-dirty --verbose "$RELEASE_KIND"
-              echo "TAG_NAME=$(bump-my-version show current_version)" >> $GITHUB_ENV
-              git push
-              git push --tags
+          bump-my-version bump --allow-dirty --verbose "${{ env.RELEASE_TYPE }}"
+          version=$(bump-my-version show current_version)
+          new_version="v$version"
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+          echo "TAG_NAME=$new_version" >> $GITHUB_ENV
+          git commit -am "Bump version to $new_version"
+          git tag $new_version
           
       - name: Push version bump commit and tag
         run: |
