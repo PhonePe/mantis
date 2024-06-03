@@ -116,8 +116,6 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=semver,pattern={{version}}
-          flavor: |
-            prefix=true
 
       - name: Print extracted tags
         run: |
