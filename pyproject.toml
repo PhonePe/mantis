@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mantis"
-version = "0.1.0"
+version = "1.0.0"
 description = "Mantis is a security framework that automates the workflow of discovery, reconnaissance, and vulnerability scanning."
 license = "apache2"
 repository = "https://github.com/PhonePe/mantis"
@@ -33,7 +33,7 @@ tqdm = "4.66.1"
 cloudflare = "*"
 
 [tool.bumpversion]
-current_version = "0.1.0"
+current_version = "1.0.0"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = ["{major}.{minor}.{patch}"]
 search = "{current_version}"
