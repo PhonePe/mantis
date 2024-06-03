@@ -50,7 +50,7 @@ commit = false
 message = "Bump version: {current_version} → {new_version}"
 commit_args = ""
 
-[tool.bumpversion.files]
+[[tool.bumpversion.files]]
 filename = "pyproject.toml"
 search = '''
 version = "{current_version}"
