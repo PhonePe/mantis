@@ -43,18 +43,22 @@ jobs:
       - name: Determine release type
         id: determine_release_type
         run: |
-          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
-            RELEASE_TYPE="auto"
-          elif [[ "${GITHUB_REF}" == "refs/heads/feature/*" ]]; then
-            RELEASE_TYPE="minor"
-          elif [[ "${GITHUB_REF}" == "refs/heads/bugfix/*" ]]; then
-            RELEASE_TYPE="patch"
-          elif [[ "${GITHUB_REF}" == "refs/heads/release/*" ]]; then
-            RELEASE_TYPE="major"
-          elif [[ "${GITHUB_REF}" == "refs/heads/dev/*" ]]; then
-            RELEASE_TYPE="dev"
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            RELEASE_TYPE="${{ github.event.inputs.releaseType }}"
           else
-            RELEASE_TYPE="auto"
+            if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+              RELEASE_TYPE="minor"  # Default case
+            elif [[ "${GITHUB_REF}" == refs/heads/feature/* ]]; then
+              RELEASE_TYPE="minor"  # Feature branches
+            elif [[ "${GITHUB_REF}" == refs/heads/bugfix/* ]]; then
+              RELEASE_TYPE="patch"  # Bug fix branches
+            elif [[ "${GITHUB_REF}" == refs/heads/release/* ]]; then
+              RELEASE_TYPE="major"  # Release branches
+            elif [[ "${GITHUB_REF}" == refs/heads/dev/* ]]; then
+              RELEASE_TYPE="dev"    # Development branches
+            else
+              RELEASE_TYPE="auto"   # Default if no match
+            fi
           fi
           echo "RELEASE_TYPE=$RELEASE_TYPE" >> $GITHUB_ENV
 
