@@ -16,8 +16,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
+  IMAGE_NAME: ncoder2/ncoder2mantis
 jobs:
   build-and-push-image:
     if: github.event_name == 'workflow_dispatch'
