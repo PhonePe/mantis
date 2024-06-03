@@ -101,5 +101,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.bump_version.outputs.new_version }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.new_version }}
           labels: ${{ steps.meta.outputs.labels }}
