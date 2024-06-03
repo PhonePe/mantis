@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: phonepe/mantis
+  IMAGE_NAME: ncoder2/ncoder2-mantis
 
 jobs:
   build-and-push-image:
