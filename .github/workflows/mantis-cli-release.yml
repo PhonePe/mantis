@@ -76,9 +76,11 @@ jobs:
           
       - name: Push version bump commit and tag
         run: |
-          git push origin main --tags
+          git push origin main --tags > git_push_output.txt 2>&1
+          cat git_push_output.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       - name: Verify NEW_VERSION
         run: |
