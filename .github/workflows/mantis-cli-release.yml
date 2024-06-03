@@ -44,11 +44,12 @@ jobs:
       - name: Bump version
         id: bump_version
         run: |
-              bump-my-version bump --allow-dirty --verbose --no-commit "${{ github.event.inputs.releaseType }}"
-                    echo "TAG_NAME=$(bump-my-version show current_version)" >> $GITHUB_ENV
-                    git push
-                    git push --tags
-                    echo "PACKAGE=true" >> $GITHUB_ENV
+          new_version=$(bump-my-version bump --allow-dirty --verbose --no-commit "${{ github.event.inputs.releaseType }}" | grep 'New version:' | awk '{print $NF}')
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+          echo "TAG_NAME=$new_version" >> $GITHUB_ENV
+          git push
+          git push --tags
+          echo "PACKAGE=true" >> $GITHUB_ENV
           
       - name: Push version bump commit and tag
         run: |
