@@ -97,7 +97,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ghcr.io/ncoder2/mantis
+          tags: |
+            type=ref,event=branch
+            type=ref,event=tag
 
       - name: Verify Docker Metadata
         run: |
