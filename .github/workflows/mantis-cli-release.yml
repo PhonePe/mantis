@@ -98,6 +98,12 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.NEW_VERSION }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=tag
+          flavor: |
+            latest=true
+            prefix=true
 
       - name: Verify Docker Metadata
         run: |
