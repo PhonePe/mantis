@@ -71,6 +71,7 @@ jobs:
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
           echo "TAG_NAME=$new_version" >> $GITHUB_ENV
           git commit -am "Bump version to $new_version"
+          git push origin main
           git tag $new_version
           
       - name: Push version bump commit and tag
