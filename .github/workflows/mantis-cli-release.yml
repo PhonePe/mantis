@@ -90,7 +90,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=semver,pattern={{raw}}
+            type=semver,pattern={{version}}
           flavor: |
             latest=false
 
