@@ -36,14 +36,8 @@ cloudflare = "*"
 current_version = "0.1.0"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = ["{major}.{minor}.{patch}"]
-search = '''
-version = "{current_version}"
-current_version = "{current_version}"
-'''
-replace = '''
-version = "{new_version}"
-current_version = "{new_version}"
-'''
+search = "{current_version}"
+replace = "{new_version}"
 regex = false
 ignore_missing_version = false
 ignore_missing_files = false
@@ -55,6 +49,15 @@ allow_dirty = false
 commit = false
 message = "Bump version: {current_version} → {new_version}"
 commit_args = ""
+
+[tool.bumpversion.files]
+filename = "pyproject.toml"
+search = '''
+version = "{current_version}"
+'''
+replace = '''
+version = "{new_version}"
+'''
 
 [build-system]
 requires = ["poetry-core"]
