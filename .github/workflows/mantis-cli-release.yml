@@ -82,6 +82,8 @@ jobs:
       - name: Verify NEW_VERSION
         run: |
           echo "New version is: ${{ env.NEW_VERSION }}"
+          echo "Registry: ${{ env.REGISTRY }}"
+          echo "Image name: ${{ env.IMAGE_NAME }}"
 
       - name: Log in to the Container registry
         uses: docker/login-action@v2
@@ -95,6 +97,11 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Verify Docker Metadata
+        run: |
+          echo "Docker Metadata Tags: ${{ steps.meta.outputs.tags }}"
+          echo "Docker Metadata Labels: ${{ steps.meta.outputs.labels }}"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
