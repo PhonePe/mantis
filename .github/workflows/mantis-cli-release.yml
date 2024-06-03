@@ -44,7 +44,7 @@ jobs:
       - name: Bump version
         id: bump_version
         run: |
-              bump-my-version bump --allow-dirty --verbose --no-commit "$RELEASE_KIND"
+              bump-my-version bump --allow-dirty --verbose --no-commit "${{ github.event.inputs.releaseType }}"
                     echo "TAG_NAME=$(bump-my-version show current_version)" >> $GITHUB_ENV
                     git push
                     git push --tags
