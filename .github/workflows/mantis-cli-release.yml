@@ -114,8 +114,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
              type=semver,pattern={{version}}
-          flavor: |
-            prefix=true
+             type=ref,event=branch
 
       - name: Verify Docker Metadata
         run: |
