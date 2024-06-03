@@ -31,8 +31,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Setup Python and Git
+        uses: ./.github/actions/setup-python-and-git
         with:
           python-version: '3.9'
 
