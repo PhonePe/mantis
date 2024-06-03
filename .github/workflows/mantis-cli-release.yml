@@ -113,7 +113,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=ref,event=tag
+             type=semver,pattern={{version}}
           flavor: |
             prefix=true
 
