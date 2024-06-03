@@ -67,7 +67,7 @@ jobs:
         run: |
           bump-my-version bump --allow-dirty --verbose --no-commit "${{ env.RELEASE_TYPE }}"
           version=$(bump-my-version show current_version)
-          new_version="v$version"
+          new_version="$version"
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
           echo "TAG_NAME=$new_version" >> $GITHUB_ENV
           git commit -am "Bump version to $new_version"
