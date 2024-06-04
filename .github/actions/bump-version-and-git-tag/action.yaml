@@ -1,0 +1,20 @@
+name: Bump Poetry Version
+description: Bumps the poetry version based on the release type and creates a new git tag.
+inputs:
+  releaseType:
+    description: 'The type of release'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Bump poetry version
+      shell: bash
+      run: |
+        poetry version "${{ inputs.releaseType }}"
+        version=$(poetry version --short)
+        new_version="v$version"
+        echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+        echo "TAG_NAME=$new_version" >> $GITHUB_ENV
+        git commit -am "Bump poetry version to $new_version"
+        git tag $new_version
