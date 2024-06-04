@@ -1,8 +1,9 @@
 [tool.poetry]
 name = "mantis"
-version = "5.0.0"
+version = "0.1.0"
 description = "Mantis is a security framework that automates the workflow of discovery, reconnaissance, and vulnerability scanning."
 license = "apache2"
+authors=["PK <pk@gmail.com>"]
 repository = "https://github.com/PhonePe/mantis"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -31,33 +32,6 @@ rocketry = "2.5.1"
 boto3 = "1.28.20"
 tqdm = "4.66.1"
 cloudflare = "*"
-
-[tool.bumpversion]
-current_version = "5.0.0"
-parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
-serialize = ["{major}.{minor}.{patch}"]
-search = "{current_version}"
-replace = "{new_version}"
-regex = false
-ignore_missing_version = false
-ignore_missing_files = false
-tag = true
-sign_tags = false
-tag_name = "v{new_version}"
-tag_message = "Bump version: {current_version} → {new_version}"
-allow_dirty = true
-commit = true
-message = "Bump version: {current_version} → {new_version}"
-commit_args = "--no-verify"
-
-[[tool.bumpversion.files]]
-filename = "pyproject.toml"
-search = '''
-version = "{current_version}"
-'''
-replace = '''
-version = "{new_version}"
-'''
 
 [build-system]
 requires = ["poetry-core"]

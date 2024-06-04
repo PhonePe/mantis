@@ -17,7 +17,7 @@ runs:
     - name: Git check
       run: |
         git config --global user.email "ncoder2mantis@github.actions"
-        git config --global user.name "mantis"
+        git config --global user.name "ncoder2mantis"
         git --version
         git config --list
       shell: bash

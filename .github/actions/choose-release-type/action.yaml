@@ -1,0 +1,36 @@
+  - name: Determine release type
+  - description: To determine the release for MR and PR
+        id: determine_release_type
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            RELEASE_TYPE="${{ github.event.inputs.releaseType }}"
+          elif [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            if [[ "${{ github.head_ref }}" == "main" ]]; then
+              echo "Releases from the main branch are not supported."
+              exit 1
+            elif [[ "${{ github.head_ref }}" == major/* ]]; then
+              RELEASE_TYPE="major"  # Major release branches
+            elif [[ "${{ github.head_ref }}" == minor/* ]]; then
+              RELEASE_TYPE="minor"  # Minor release branches
+            elif [[ "${{ github.head_ref }}" == patch/* ]]; then
+              RELEASE_TYPE="patch"  # Patch release branches
+            else
+              echo "Branch does not match any supported release type."
+              exit 1
+            fi
+          else
+            if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+              echo "Releases from the main branch are not supported."
+              exit 1
+            elif [[ "${GITHUB_REF}" == refs/heads/major/* ]]; then
+              RELEASE_TYPE="major"  # Major release branches
+            elif [[ "${GITHUB_REF}" == refs/heads/minor/* ]]; then
+              RELEASE_TYPE="minor"  # Minor release branches
+            elif [[ "${GITHUB_REF}" == refs/heads/patch/* ]]; then
+              RELEASE_TYPE="patch"  # Patch release branches
+            else
+              echo "Branch does not match any supported release type."
+              exit 1
+            fi
+          fi
+          echo "RELEASE_TYPE=$RELEASE_TYPE" >> $GITHUB_ENV

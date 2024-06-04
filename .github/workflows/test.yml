@@ -35,26 +35,44 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install Poetry and bump2version
-        run: pip install poetry==1.4.2
+      - name: Install requirements
+        run: |
+          python -m pip install bump-my-version
 
       - name: Determine release type
-        uses: ./.github/actions/choose-release-type
-  
-      - name: Bump poetry version
-        id: bump_poetry_version
+        id: determine_release_type
         run: |
-          poetry version "${{ env.RELEASE_TYPE }}"
-          version=$(poetry version --short)
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            RELEASE_TYPE="${{ github.event.inputs.releaseType }}"
+          else
+            if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+              RELEASE_TYPE="minor"  # Default case
+            elif [[ "${GITHUB_REF}" == refs/heads/feature/* ]]; then
+              RELEASE_TYPE="minor"  # Feature branches
+            elif [[ "${GITHUB_REF}" == refs/heads/bugfix/* ]]; then
+              RELEASE_TYPE="patch"  # Bug fix branches
+            elif [[ "${GITHUB_REF}" == refs/heads/release/* ]]; then
+              RELEASE_TYPE="major"  # Release branches
+            elif [[ "${GITHUB_REF}" == refs/heads/dev/* ]]; then
+              RELEASE_TYPE="dev"    # Development branches
+            else
+              RELEASE_TYPE="auto"   # Default if no match
+            fi
+          fi
+          echo "RELEASE_TYPE=$RELEASE_TYPE" >> $GITHUB_ENV
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          bump-my-version bump --allow-dirty --verbose "${{ env.RELEASE_TYPE }}"
+          version=$(bump-my-version show current_version)
           new_version="v$version"
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
           echo "TAG_NAME=$new_version" >> $GITHUB_ENV
-          git commit -am "Bump poetry version to $new_version"
-          git tag $new_version
       
       - name: Push version bump commit and tag
         run: |
-          git push origin main --tags
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
