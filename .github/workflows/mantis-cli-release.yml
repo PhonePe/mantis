@@ -35,7 +35,7 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install Poetry and bump2version
+      - name: Install Poetry
         run: pip install poetry==1.4.2
 
       - name: Determine release type
