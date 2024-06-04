@@ -1,4 +1,4 @@
-name: Mantis CLI Release
+name: Mantis CLI Release (OLD)
 on:
   push:
     branches:
