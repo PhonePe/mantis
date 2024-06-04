@@ -33,7 +33,7 @@ jobs:
         run: |
           version=$(poetry version --short)
           latest_version="v$version"
-          echo "LATEST_VERSION=$lataest_version" >> $GITHUB_ENV
+          echo "LATEST_VERSION=$latest_version" >> $GITHUB_ENV
 
       - name: Log in to the Container registry
         uses: docker/login-action@v2
