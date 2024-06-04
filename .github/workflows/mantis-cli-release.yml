@@ -43,20 +43,14 @@ jobs:
         with:
           releaseType: ${{ github.event.inputs.releaseType }}
   
-      - name: Bump poetry version
-        id: bump_poetry_version
-        run: |
-          poetry version "${{ env.RELEASE_TYPE }}"
-          version=$(poetry version --short)
-          new_version="v$version"
-          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
-          echo "TAG_NAME=$new_version" >> $GITHUB_ENV
-          git commit -am "Bump poetry version to $new_version"
-          git tag $new_version
+      - name: Bump poetry version and add git tag
+        uses: ./.github/actions/bump-version-and-git-tag
+        with:
+          releaseType: ${{ env.RELEASE_TYPE }}
       
-      - name: Push version bump commit and tag
+      - name: Push version bump commit
         run: |
-          git push origin main --tags
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
