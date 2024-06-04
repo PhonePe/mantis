@@ -12,8 +12,7 @@ runs:
       shell: bash
       run: |
         poetry version "${{ inputs.releaseType }}"
-        version=$(poetry version --short)
-        new_version="v$version"
+        new_version=$(poetry version --short)
         echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
         echo "TAG_NAME=$new_version" >> $GITHUB_ENV
         git commit -am "Bump poetry version to $new_version"

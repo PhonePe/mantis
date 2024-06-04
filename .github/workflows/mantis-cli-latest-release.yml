@@ -31,9 +31,25 @@ jobs:
 
       - name: Determine Current Version
         run: |
-          version=$(poetry version --short)
-          latest_version="v$version"
+          latest_version=$(poetry version --short)
           echo "LATEST_VERSION=$latest_version" >> $GITHUB_ENV
+
+      - name: Check if Git Tag Exists
+        id: git-tag
+        run: |
+          if git rev-parse "$latest_version" >/dev/null 2>&1; then
+            echo "Tag $latest_version already exists."
+            exit 0
+          else
+            echo "Tag $latest_version does not exist."
+            echo "CREATE_TAG=true" >> $GITHUB_ENV
+          fi
+
+      - name: Create Git Tag
+        if: env.CREATE_TAG == 'true'
+        run: |
+          git tag -a "$LATEST_VERSION" -m "Release $LATEST_VERSION"
+          git push origin "$LATEST_VERSION"
 
       - name: Log in to the Container registry
         uses: docker/login-action@v2
