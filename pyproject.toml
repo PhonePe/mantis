@@ -3,7 +3,7 @@ name = "mantis"
 version = "0.1.0"
 description = "Mantis is a security framework that automates the workflow of discovery, reconnaissance, and vulnerability scanning."
 license = "apache2"
-authors=["PK <pk@gmail.com>"]
+authors=["PK1 <pk@gmail.com>"]
 repository = "https://github.com/PhonePe/mantis"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
