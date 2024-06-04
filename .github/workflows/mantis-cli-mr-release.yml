@@ -1,0 +1,77 @@
+name: Mantis CLI MR/PR Release
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+        releaseType:
+          description: 'What kind of release is this?'
+          required: true
+          type: choice
+          options:
+            - 'major'
+            - 'minor'
+            - 'patch'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ncoder2/ncoder2mantis
+jobs:
+  build-and-push-image:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      actions: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python and Git
+        uses: ./.github/actions/setup-python-and-git
+        with:
+          python-version: '3.9'
+
+      - name: Install Poetry
+        run: pip install poetry==1.4.2
+
+      - name: Determine release type
+        uses: ./.github/actions/determine-release-type
+        with:
+          releaseType: ${{ github.event.inputs.releaseType }}
+  
+      - name: Bump poetry version and add git tag
+        uses: ./.github/actions/bump-version-and-git-tag
+        with:
+          releaseType: ${{ env.RELEASE_TYPE }}
+      
+      - name: Push version bump commit
+        run: |
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.NEW_VERSION }}
+          labels: ${{ steps.meta.outputs.labels }}
