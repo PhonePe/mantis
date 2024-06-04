@@ -39,7 +39,9 @@ jobs:
         run: pip install poetry==1.4.2
 
       - name: Determine release type
-        uses: ./.github/actions/choose-release-type
+        uses: ./.github/actions/determine-release-type
+        with:
+          releaseType: ${{ github.event.inputs.releaseType }}
   
       - name: Bump poetry version
         id: bump_poetry_version
