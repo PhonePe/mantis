@@ -274,10 +274,11 @@ class ArgsParse:
 
         if args.thread_count:
             parsed_args["thread_count"] = args.thread_count
-
-        if args.subdomain:
-            parsed_args["subdomain"] = args.subdomain
-         
+        
+        if args.subcommand == "scan":
+            if args.subdomain:
+                parsed_args["subdomain"] = args.subdomain
+            
 
         args_pydantic_obj = ArgsModel.parse_obj(parsed_args)
         logging.info(f'parsed args - {args_pydantic_obj}')
