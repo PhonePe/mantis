@@ -1,11 +1,19 @@
 [tool.poetry]
 name = "mantis"
-version = "0.1.0"
+version = "1.0.0"
 description = "Mantis is a security framework that automates the workflow of discovery, reconnaissance, and vulnerability scanning."
 authors = ["Prateek Thakare <pratikthakare65@gmail.com>",
-           "Praveen Kanniah <praveen.kanniah@gmail.com>"]
+           "Bharath Kumar <bharath.isecure@protonmail.com>", 
+           "Saddam Hussain <hopesaddam@gmail.com>",
+           "Hitesh Kumar <0hitesh.thakur@gmail.com>",
+           "Praveen Kanniah <praveen.kanniah@gmail.com>"
+           ]
 maintainers = ["Prateek Thakare <pratikthakare65@gmail.com>",
-               "Praveen Kanniah <praveen.kanniah@gmail.com>"]
+           "Bharath Kumar <bharath.isecure@protonmail.com>", 
+           "Saddam Hussain <hopesaddam@gmail.com>",
+           "Hitesh Kumar <0hitesh.thakur@gmail.com>",
+           "Praveen Kanniah <praveen.kanniah@gmail.com>"
+           ]
 license = "apache2"
 repository = "https://github.com/PhonePe/mantis"
 keywords = ["asset discovery", "recon", "recon automation", "osint", "threat intelligence", "recon framework"]
