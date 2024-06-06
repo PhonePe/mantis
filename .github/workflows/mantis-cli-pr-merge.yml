@@ -1,22 +1,18 @@
-name: Mantis CLI Latest Release
+name: Mantis CLI MR/PR Release
 on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
   workflow_dispatch:
-    inputs:
-      releaseType:
-        description: 'What kind of release is this?'
-        required: true
-        type: choice
-        options:
-          - 'major'
-          - 'minor'
-          - 'patch'
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: phonepe/mantis
+  IMAGE_NAME: phonepe/mantis-upstream
 jobs:
   build-and-push-image:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -26,8 +22,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # added to fetch tags from git
 
       - name: Setup Python and Git
         uses: ./.github/actions/setup-python-and-git
@@ -37,19 +31,6 @@ jobs:
       - name: Install Poetry
         run: pip install poetry==1.4.2
   
-      - name: Bump poetry version and add git tag
-        uses: ./.github/actions/bump-version-and-git-tag
-        with:
-          releaseType: ${{ inputs.releaseType }}
-      
-      - name: Push version bump commit
-        run: |
-          git push -u origin main
-          git push origin ${{ env.NEW_VERSION }}
-          git log -1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Log in to the Container registry
         uses: docker/login-action@v2
         with:
@@ -63,12 +44,11 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+
       - name: Build and push Docker image
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
           push: true
-          tags: |
-              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.NEW_VERSION }}
-              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
