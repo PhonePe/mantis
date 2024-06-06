@@ -150,10 +150,10 @@ echo -e -n "[?] ${BICyan}Do you have sudo access on the machine? (y/n)? ${NC}"
 
 # Install packages
 
-
-sudo docker compose up --remove-orphans -d --build mongodb 
-sudo docker compose up --remove-orphans -d --build mantis 
-sudo docker compose up --remove-orphans -d --build appsmith 
+sudo docker compose pull
+sudo docker compose up --remove-orphans -d mongodb 
+sudo docker compose up --remove-orphans -d mantis 
+sudo docker compose up --remove-orphans -d appsmith 
 
 echo -e "${BIYellow}\n\nSETUP SUMMARY${NC}\n"
 
