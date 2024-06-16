@@ -1,6 +1,6 @@
 [tool.poetry]
 name= "mantis-dashboard"
-version= "0.1.0"
+version= "1.0.0"
 description= "Proprietary dashboard for Mantis CLI"
 authors= ["Saddam Hussain <hopesaddam@gmail.com>"]
 license= "apache2"
