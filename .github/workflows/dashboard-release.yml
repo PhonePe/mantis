@@ -1,8 +1,5 @@
 name: Dashboard Latest Release
 on:
-  push:
-    branches:
-      - dashboard
   workflow_dispatch:
     inputs:
       releaseType:
@@ -19,6 +16,7 @@ env:
   IMAGE_NAME: phonepe/mantis-dashboard
 jobs:
   build-and-push-image:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/dashboard'
     runs-on: ubuntu-latest
     permissions:
       contents: write
