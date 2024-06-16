@@ -1,9 +1,12 @@
 name: Dashboard Latest Release
 on:
+  push:
+    branches:
+      - dashboard
   workflow_dispatch:
     inputs:
       releaseType:
-        description: 'What kind of release is this?'
+        description: 'What kind of dashboard release is this?'
         required: true
         type: choice
         options:
