@@ -1,5 +1,8 @@
 name: Dashboard Latest Release
 on:
+  push:
+    branches:
+      - dashboard
   workflow_dispatch:
     inputs:
       releaseType:
