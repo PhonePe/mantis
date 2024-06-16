@@ -11,20 +11,25 @@ runs:
     - name: Bump poetry version
       shell: bash
       run: |
+        # Create Latest Image Version
         poetry version "${{ inputs.releaseType }}"
-        new_version=$(poetry version --short)
-        echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+        latest_image_version=$(poetry version --short)
+        echo "LATEST_IMAGE_VERSION=$latest_image_version" >> $GITHUB_ENV
+
+        # Create git Tag version for cli
+        tag_version="cli-${latest_image_version}"
+        echo "TAG_VERSION=$tag_version" >> $GITHUB_ENV
 
         # Add commit messsage for message bump
         git add .
-        git commit -m "Bump poetry version to $new_version"
+        git commit -m "Bump poetry version to $latest_image_version"
 
         # Check if the new version tag already exists
-        if git rev-parse "$new_version" >/dev/null 2>&1; then
-          echo "Tag $new_version already exists."
+        if git rev-parse "$tag_version" >/dev/null 2>&1; then
+          echo "Tag $tag_version already exists."
         else
           # Commit and tag the new version
-          echo "Tag $new_version does not exist."
-          git tag -a $new_version -m "$new_version"
-          git show "$new_version"
+          echo "Tag $tag_version does not exist."
+          git tag -a $tag_version -m "$tag_version"
+          git show "$tag_version"
         fi

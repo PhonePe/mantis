@@ -16,7 +16,7 @@ env:
   IMAGE_NAME: phonepe/mantis
 jobs:
   build-and-push-image:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -42,10 +42,10 @@ jobs:
         with:
           releaseType: ${{ inputs.releaseType }}
       
-      - name: Push version bump commit
+      - name: Push tag changes
         run: |
           git push -u origin main
-          git push origin ${{ env.NEW_VERSION }}
+          git push origin ${{ env.TAG_VERSION }}
           git log -1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -69,6 +69,6 @@ jobs:
           context: .
           push: true
           tags: |
-              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.NEW_VERSION }}
+              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.LATEST_IMAGE_VERSION }}
               ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
