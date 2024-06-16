@@ -4,15 +4,6 @@ on:
     branches:
       - dashboard
   workflow_dispatch:
-    inputs:
-      releaseType:
-        description: 'What kind of dashboard release is this?'
-        required: true
-        type: choice
-        options:
-          - 'major'
-          - 'minor'
-          - 'patch'
 
 env:
   REGISTRY: ghcr.io
@@ -43,7 +34,7 @@ jobs:
       - name: Bump poetry version and add git tag
         uses: ./.github/actions/bump-version-and-git-tag
         with:
-          releaseType: ${{ inputs.releaseType }}
+          releaseType: 'minor'
       
       - name: Push tag changes
         run: |
