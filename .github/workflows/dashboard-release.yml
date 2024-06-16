@@ -44,7 +44,7 @@ jobs:
       
       - name: Push tag changes
         run: |
-          git push -u origin main
+          git push -u origin dashboard
           git push origin ${{ env.TAG_VERSION }}
           git log -1
         env:
