@@ -145,6 +145,10 @@ class ArgsParse:
                             help = 'List of comma separated aws profiles for Route53',
                             )
         
+        onboard_parser.add_argument('--sub', 
+                                 dest = 'subdomain',
+                                 help='Subdomain to onboard and scan',
+                                 action = 'store_true')
         
         
         scan_parser = subparser.add_parser("scan", help="Scan an org", usage=ArgsParse.scan_msg())
@@ -278,7 +282,10 @@ class ArgsParse:
         if args.subcommand == "scan":
             if args.subdomain:
                 parsed_args["subdomain"] = args.subdomain
-            
+
+        if args.subcommand == "onboard":
+            if args.subdomain:
+                parsed_args["subdomain"] = args.host
 
         args_pydantic_obj = ArgsModel.parse_obj(parsed_args)
         logging.info(f'parsed args - {args_pydantic_obj}')
