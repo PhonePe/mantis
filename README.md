@@ -181,6 +181,7 @@ options:
   -v, --verbose         print debug logs
   -aws AWS_PROFILES, --aws_profiles AWS_PROFILES
                         List of comma separated aws profiles for Route53
+  --sub                 Subdomain to onboard and scan
 
 ```
 
@@ -216,6 +217,11 @@ mantis onboard -o org_name -t 203.0.113.0/24
 mantis onboard -o org_name -f input.txt
 ```
 
+### Add a new subdomain to existing org
+```shell
+mantis onboard -o org_name -t subdomain.example.in --sub
+```
+
 ### Scan on all assets belonging to an organisation
 
 Now that you have onboarded, you just need to run scheduled scans for an org, you can just use the scan mode
@@ -230,6 +236,11 @@ mantis scan -o org_name
  mantis scan -o org_name -a app_name
 ```
 
+### Scan an existing subdomain for an org
+
+```shell
+mantis scan -o org_name --sub subdomain.example.in
+```
 
 ## How to contribute ?
 
