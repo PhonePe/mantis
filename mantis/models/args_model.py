@@ -19,4 +19,6 @@ class ArgsModel(BaseModel):
     verbose: bool = False
     thread_count: int = 3
     subdomain: str = Field(None)
+    list_: bool = False
+    list_orgs: bool = False
     

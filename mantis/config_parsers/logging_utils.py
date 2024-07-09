@@ -36,10 +36,10 @@ class LoggingConfig(object):
             log_config = ConfigProvider.get_config().logging_debug
             logging.config.dictConfig(log_config)
             logging.StreamHandler().setFormatter(CustomFormatter())
-            logging.info('MANTIS ASSET DISCOVERY - STARTED') 
+            logging.info('MANTIS Workflow - STARTED') 
             logging.info("Debug mode enabled")
         else:
             log_config = ConfigProvider.get_config().logging
             logging.config.dictConfig(log_config)
             logging.StreamHandler().setFormatter(CustomFormatter())
-            logging.info('MANTIS ASSET DISCOVERY - STARTED') 
+            logging.info('MANTIS Workflow - STARTED') 

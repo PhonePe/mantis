@@ -44,7 +44,14 @@ class ArgsParse:
         \033[0;32mmantis scan -o example_org -a example_app\033[0m
             '''
     
+    @staticmethod
+    def list_msg(name=None):                                                            
+        return '''
+        \033[1;34mList:\033[0m
 
+        \033[0;32mmantis list {subcommand}\033[0m
+            '''
+    
     @staticmethod
     def args_parse() -> ArgsModel:
         parsed_args = {}
@@ -56,7 +63,7 @@ class ArgsParse:
                                 usage=ArgsParse.msg()
                               )
         
-        subparser = parser.add_subparsers(title="subparser", dest="subcommand")
+        subparser = parser.add_subparsers(title="TYPE", dest="subcommand")
         
         onboard_parser = subparser.add_parser("onboard", help="Onboard a target", usage=ArgsParse.onboard_msg())
 
@@ -224,6 +231,12 @@ class ArgsParse:
                                  help='Subdomain to scan')
         
         
+        list_parser = subparser.add_parser("list", help="List entities present in db", usage=ArgsParse.list_msg())
+        
+        list_sub_parser = list_parser.add_subparsers(title="List Subcommands", dest="list_sub_command")
+
+        list_sub_parser.add_parser("orgs", help="List orgs present in DB")
+
         # display help, if no arguments are passed
         args = parser.parse_args(args=None if argv[1:] else ['--help'])
         logging.info(f"Arguments Passed - {args}")
@@ -240,44 +253,46 @@ class ArgsParse:
                 parsed_args['input_type'] = "file"
                 parsed_args['input'] = str(args.file_name)
 
-        if args.aws_profiles:
-            parsed_args["aws_profiles"] = args.aws_profiles.split(',')
-        else:
-            parsed_args["aws_profiles"] = ['default']
+        if args.subcommand != "list":
 
-        if args.workflow:
-            parsed_args['workflow'] = args.workflow
-        else:
-            parsed_args['workflow'] = 'default'
+            if args.aws_profiles:
+                parsed_args["aws_profiles"] = args.aws_profiles.split(',')
+            else:
+                parsed_args["aws_profiles"] = ['default']
 
-        parsed_args['org'] = args.org
+            if args.workflow:
+                parsed_args['workflow'] = args.workflow
+            else:
+                parsed_args['workflow'] = 'default'
 
-        if args.app:
-            parsed_args["app"] = args.app
-        
-        if args.passive:
-            parsed_args["passive"] = True
-        
-        if args.stale:
-            parsed_args["stale"] = True
+            parsed_args['org'] = args.org
 
-        if args.ignore_stale:
-            parsed_args["ignore_stale"] = True 
-        
-        if args.use_ray:
-            parsed_args["use_ray"] = True
-        
-        if args.num_actors:
-            parsed_args["num_actors"] = args.num_actors
-        
-        if args.delete_logs:
-            parsed_args["delete_logs"] = args.delete_logs
+            if args.app:
+                parsed_args["app"] = args.app
+            
+            if args.passive:
+                parsed_args["passive"] = True
+            
+            if args.stale:
+                parsed_args["stale"] = True
 
-        if args.verbose:
-            parsed_args["verbose"] = True
+            if args.ignore_stale:
+                parsed_args["ignore_stale"] = True 
+            
+            if args.use_ray:
+                parsed_args["use_ray"] = True
+            
+            if args.num_actors:
+                parsed_args["num_actors"] = args.num_actors
+            
+            if args.delete_logs:
+                parsed_args["delete_logs"] = args.delete_logs
 
-        if args.thread_count:
-            parsed_args["thread_count"] = args.thread_count
+            if args.verbose:
+                parsed_args["verbose"] = True
+
+            if args.thread_count:
+                parsed_args["thread_count"] = args.thread_count
         
         if args.subcommand == "scan":
             if args.subdomain:
@@ -286,6 +301,12 @@ class ArgsParse:
         if args.subcommand == "onboard":
             if args.subdomain:
                 parsed_args["subdomain"] = args.host
+
+        if args.subcommand == "list":
+            parsed_args["list_"] = True
+
+            if args.list_sub_command == "orgs":
+                parsed_args["list_orgs"] = True
 
         args_pydantic_obj = ArgsModel.parse_obj(parsed_args)
         logging.info(f'parsed args - {args_pydantic_obj}')
