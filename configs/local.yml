@@ -101,6 +101,8 @@ notify:
     channel:
       slack:
         - None
+      mattermost:
+        - "https://mattermost.tld/hooks/my-personal-hook"
     app: []
     assets:
       - subdomain
