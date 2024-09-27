@@ -23,13 +23,6 @@ RUN unzip subfinder_2.6.6_linux_amd64.zip
 RUN mv subfinder /usr/bin
 RUN rm -rf *
 
-# Install Puredns
-RUN echo "Installing Puredns"
-RUN wget https://github.com/d3mondev/puredns/releases/download/v2.1.1/puredns-Linux-amd64.tgz
-RUN tar -xvf puredns-Linux-amd64.tgz
-RUN mv puredns /usr/bin
-RUN rm -rf *
-
 # Install HTTPX
 RUN echo "Installing HTTPX"
 RUN wget https://github.com/projectdiscovery/httpx/releases/download/v1.3.7/httpx_1.3.7_linux_amd64.zip
