@@ -36,9 +36,9 @@ RUN pip install git+https://github.com/cisagov/findcdn.git
 
 # Install Ipinfo
 RUN echo "Installing Ipinfo"
-RUN wget https://github.com/ipinfo/cli/releases/download/ipinfo-3.1.2/ipinfo_3.1.2_linux_amd64.tar.gz
-RUN tar -xvf ipinfo_3.1.2_linux_amd64.tar.gz
-RUN mv ipinfo_3.1.2_linux_amd64 ipinfo
+RUN wget https://github.com/ipinfo/cli/releases/download/ipinfo-3.3.1/ipinfo_3.3.1_linux_amd64.tar.gz
+RUN tar -xvf ipinfo_3.3.1_linux_amd64.tar.gz
+RUN mv ipinfo_3.3.1_linux_amd64 ipinfo
 RUN mv ipinfo /usr/bin
 RUN rm -rf *
 
