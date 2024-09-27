@@ -8,6 +8,7 @@ RUN apt-get update --fix-missing && apt install git -y
 
 # Setup work directory
 WORKDIR /home/mantis
+
 # Install amass
 RUN echo "Installing Amass"
 RUN wget https://github.com/owasp-amass/amass/releases/download/v4.1.0/amass_Linux_amd64.zip
@@ -15,10 +16,10 @@ RUN unzip amass_Linux_amd64.zip
 RUN mv amass_Linux_amd64/amass /usr/bin
 RUN rm -rf *
 
-# Install subfinder
+# Install subfinder 
 RUN echo "Installing subfinder"
-RUN wget https://github.com/projectdiscovery/subfinder/releases/download/v2.6.3/subfinder_2.6.3_linux_amd64.zip
-RUN unzip subfinder_2.6.3_linux_amd64.zip
+RUN wget https://github.com/projectdiscovery/subfinder/releases/download/v2.6.6/subfinder_2.6.6_linux_amd64.zip
+RUN unzip subfinder_2.6.6_linux_amd64.zip
 RUN mv subfinder /usr/bin
 RUN rm -rf *
 
