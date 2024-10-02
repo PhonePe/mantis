@@ -1,0 +1,186 @@
+---
+- name: Install Amass
+  block:
+    - name: Download Amass
+      get_url:
+        url: https://github.com/owasp-amass/amass/releases/download/v4.1.0/amass_Linux_amd64.zip
+        dest: /tmp/amass.zip
+
+    - name: Unzip Amass
+      unarchive:
+        src: /tmp/amass.zip
+        dest: /tmp/
+        remote_src: yes
+        extra_opts: ["-j"]
+
+    - name: Move Amass to /usr/bin
+      command: mv /tmp/amass /usr/bin/amass
+
+    - name: Ensure /usr/bin/amass is executable
+      file:
+        path: /usr/bin/amass
+        mode: "0755"
+        state: file
+
+- name: Install Subfinder
+  block:
+    - name: Download Subfinder
+      get_url:
+        url: https://github.com/projectdiscovery/subfinder/releases/download/v2.6.3/subfinder_2.6.3_linux_amd64.zip
+        dest: /tmp/subfinder.zip
+
+    - name: Unzip Subfinder
+      unarchive:
+        src: /tmp/subfinder.zip
+        dest: /tmp/
+        remote_src: yes
+        extra_opts: ["-j"]
+
+    - name: Move Subfinder to /usr/bin
+      command: mv /tmp/subfinder /usr/bin/subfinder
+
+    - name: Ensure /usr/bin/subfinder is executable
+      file:
+        path: /usr/bin/subfinder
+        mode: "0755"
+        state: file
+
+- name: Install Httpx
+  block:
+    - name: Download Httpx
+      get_url:
+        url: https://github.com/projectdiscovery/httpx/releases/download/v1.3.7/httpx_1.3.7_linux_amd64.zip
+        dest: /tmp/httpx.zip
+
+    - name: Unzip Httpx
+      unarchive:
+        src: /tmp/httpx.zip
+        dest: /tmp/
+        remote_src: yes
+        extra_opts: ["-j"]
+
+    - name: Move Httpx to /usr/bin
+      command: mv /tmp/httpx /usr/bin/httpx
+
+    - name: Ensure /usr/bin/httpx is executable
+      file:
+        path: /usr/bin/httpx
+        mode: "0755"
+        state: file
+
+- name: Install Naabu
+  block:
+    - name: Download Naabu
+      get_url:
+        url: https://github.com/projectdiscovery/naabu/releases/download/v2.1.9/naabu_2.1.9_linux_amd64.zip
+        dest: /tmp/naabu.zip
+
+    - name: Unzip Naabu
+      unarchive:
+        src: /tmp/naabu.zip
+        dest: /tmp/
+        remote_src: yes
+        extra_opts: ["-j"]
+
+    - name: Move Naabu to /usr/bin
+      command: mv /tmp/naabu /usr/bin/naabu
+
+    - name: Ensure /usr/bin/naabu is executable
+      file:
+        path: /usr/bin/naabu
+        mode: "0755"
+        state: file
+
+- name: Install Nuclei
+  block:
+    - name: Download Nuclei
+      get_url:
+        url: https://github.com/projectdiscovery/nuclei/releases/download/v3.0.4/nuclei_3.0.4_linux_amd64.zip
+        dest: /tmp/nuclei.zip
+
+    - name: Unzip Nuclei
+      unarchive:
+        src: /tmp/nuclei.zip
+        dest: /tmp/
+        remote_src: yes
+        extra_opts: ["-j"]
+
+    - name: Move Nuclei to /usr/bin
+      command: mv /tmp/nuclei /usr/bin/nuclei
+
+    - name: Ensure /usr/bin/nuclei is executable
+      file:
+        path: /usr/bin/nuclei
+        mode: "0755"
+        state: file
+
+- name: Install Gitleaks
+  block:
+    - name: Download Gitleaks
+      get_url:
+        url: https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz
+        dest: /tmp/gitleaks.tar.gz
+
+    - name: Extract Gitleaks
+      unarchive:
+        src: /tmp/gitleaks.tar.gz
+        dest: /tmp/
+        remote_src: yes
+
+    - name: Move Gitleaks to /usr/bin
+      command: mv /tmp/gitleaks /usr/bin/gitleaks
+
+    - name: Ensure /usr/bin/gitleaks is executable
+      file:
+        path: /usr/bin/gitleaks
+        mode: "0755"
+        state: file
+
+- name: Install gau
+  block:
+    - name: Download gau tarball
+      get_url:
+        url: https://github.com/lc/gau/releases/download/v2.2.1/gau_2.2.1_linux_amd64.tar.gz
+        dest: /tmp/gau.tar.gz
+
+    - name: Extract gau tarball
+      unarchive:
+        src: /tmp/gau.tar.gz
+        dest: /tmp/
+        remote_src: yes
+
+    - name: Move gau to /usr/bin
+      command: mv /tmp/gau /usr/bin/gau
+
+    - name: Ensure /usr/bin/gau is executable
+      file:
+        path: /usr/bin/gau
+        mode: "0755"
+        state: file
+
+- name: Install Corsy
+  block:
+    - name: Download Corsy zip
+      get_url:
+        url: https://github.com/s0md3v/Corsy/archive/refs/tags/1.0-rc.zip
+        dest: /tmp/1.0-rc.zip
+
+    - name: Unzip Corsy
+      unarchive:
+        src: /tmp/1.0-rc.zip
+        dest: /tmp
+        remote_src: yes
+
+    - name: Move Corsy to /usr/bin
+      command: mv /tmp/Corsy-1.0-rc /usr/bin/Corsy
+
+- name: Install IPinfo
+  block:
+    - name: Download IPinfo deb package
+      get_url:
+        url: https://github.com/ipinfo/cli/releases/download/ipinfo-3.2.0/ipinfo_3.2.0.deb
+        dest: /tmp/ipinfo_3.2.0.deb
+
+    - name: Install IPinfo deb package
+      apt:
+        deb: /tmp/ipinfo_3.2.0.deb
