@@ -18,8 +18,8 @@ RUN rm -rf *
 
 # Install HTTPX
 RUN echo "Installing HTTPX"
-RUN wget https://github.com/projectdiscovery/httpx/releases/download/v1.3.7/httpx_1.3.7_linux_amd64.zip
-RUN unzip httpx_1.3.7_linux_amd64.zip
+RUN wget https://github.com/projectdiscovery/httpx/releases/download/v1.6.8/httpx_1.6.8_linux_amd64.zip
+RUN unzip httpx_1.6.8_linux_amd64.zip
 RUN mv httpx /usr/bin
 RUN rm -rf *
 
