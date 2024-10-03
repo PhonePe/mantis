@@ -44,8 +44,8 @@ RUN rm -rf *
 
 # Install nuclei
 RUN echo "Installing nuclei"
-RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v3.0.4/nuclei_3.0.4_linux_amd64.zip
-RUN unzip nuclei_3.0.4_linux_amd64.zip
+RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v3.3.4/nuclei_3.3.4_linux_amd64.zip
+RUN unzip nuclei_3.3.4_linux_amd64.zip
 RUN mv nuclei /usr/bin
 RUN rm -rf *
 
