@@ -24,4 +24,7 @@ class ArgsModel(BaseModel):
     list_domains: bool = False
     orgs_list: list[str] = False
     asset_types_list: list[str] = False
+    after_datetime_filter: str = None
+    before_datetime_filter: str = None
+
     

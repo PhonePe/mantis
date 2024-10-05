@@ -19,8 +19,10 @@ class ListWorkflow:
 
         if args.list_domains:
             logging.info("Getting subdomains from database")
-            domains = await get_domains(args.orgs_list, args.asset_types_list)
+            domains = await get_domains(args.orgs_list, args.asset_types_list, args.after_datetime_filter, args.before_datetime_filter)
             if domains:
                 print(f"\nOrgs Filter: {','.join(args.orgs_list)}")
                 print(f"Total Domains Found based on provided filters: {len(domains)}\n")
                 print('\n'.join(domains))
+            else:
+                logging.info("No domains found")

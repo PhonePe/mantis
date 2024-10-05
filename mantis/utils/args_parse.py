@@ -239,7 +239,8 @@ class ArgsParse:
         list_parser.add_argument("-o","--org", help="select org by name", dest="list_sub_command_orgs_list", type=list[str], action="append")
         list_parser.add_argument("-t", "--tlds", help="list tlds for selected orgs", action="store_true", dest="list_sub_command_ls_subs_tlds")
         list_parser.add_argument("-s", "--subs", help="list subdomains for selected orgs", action="store_true", dest="list_sub_command_ls_subs_domains")
-
+        list_parser.add_argument("-a","--after", type=str, help="Start date in YYYY-MM-DD format", dest="list_sub_command_ls_subs_after_filter")
+        list_parser.add_argument("-b","--before", type=str, help="End date in YYYY-MM-DD format", dest="list_sub_command_ls_subs_before_filter")
 
         # list_sub_parser = list_parser.add_subparsers(title="List Subcommands", dest="list_sub_command")
         # list_org_sub_parser = list_sub_parser.add_parser("orgs", help="List orgs present in DB")
@@ -310,7 +311,6 @@ class ArgsParse:
             if args.subdomain:
                 parsed_args["subdomain"] = args.host
 
-        # TODO: update command 
         if args.subcommand == "list":
             parsed_args["list_"] = True
 
@@ -318,7 +318,7 @@ class ArgsParse:
             if args.list_sub_command_ls_orgs:
                 parsed_args["list_orgs"] = True
 
-            # python launch.py list -d -s -t -o <org>
+            # python launch.py list -d -s -t -o <org> -a 2024-10-04 -b 2024-10-05
             if args.list_sub_command_ls_domains:
                 asset_types = []
                 if args.list_sub_command_ls_subs_tlds:
@@ -330,6 +330,11 @@ class ArgsParse:
                 parsed_args["orgs_list"] = [ ''.join(org) for org in args.list_sub_command_orgs_list]
                 parsed_args["list_domains"] = True
 
+                if args.list_sub_command_ls_subs_after_filter:
+                    parsed_args["after_datetime_filter"] = f"{args.list_sub_command_ls_subs_after_filter}T00:00:00Z"
+
+                if args.list_sub_command_ls_subs_before_filter:
+                    parsed_args["before_datetime_filter"] = f"{args.list_sub_command_ls_subs_before_filter}T23:59:59Z"
 
         args_pydantic_obj = ArgsModel.parse_obj(parsed_args)
         logging.info(f'parsed args - {args_pydantic_obj}')

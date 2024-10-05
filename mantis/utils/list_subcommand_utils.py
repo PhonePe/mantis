@@ -15,7 +15,7 @@ async def get_orgs():
         return None
 
 
-async def get_domains(orgs:list[str], asset_types:list[str]):
+async def get_domains(orgs:list[str], asset_types:list[str], after_filter:str, before_filter:str):
     if len(orgs) == 0:
         logging.warning('No orgs selected')
         return []
@@ -23,13 +23,23 @@ async def get_domains(orgs:list[str], asset_types:list[str]):
     if len(asset_types) == 0:
         logging.warning('no asset type was selected')
         return []
+    
+    match_filter = {
+        "org": {"$in": orgs},
+        "asset_type": {"$in": asset_types},
+    }
+
+    if after_filter:
+        match_filter.setdefault("created_timestamp", {})
+        match_filter["created_timestamp"]["$gte"] = after_filter
+
+    if before_filter:
+        match_filter.setdefault("created_timestamp", {})
+        match_filter["created_timestamp"]["$lte"] = before_filter
 
     pipeline = [
         {
-            "$match": {
-                "org": {"$in": orgs},
-                "asset_type": {"$in": asset_types},
-            }
+            "$match": match_filter
         },
         {
             "$group": {
