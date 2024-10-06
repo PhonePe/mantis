@@ -32,17 +32,23 @@ class Cloudflare(BaseScanner):
         Prerequisite for this script - A CLoudflare DNS Zone Read only API key \n
         
         """
-        token = None
-
-        cf = CloudFlare.CloudFlare(token, raw=True)
+        token = None      
         per_page = 100
-
-        zones = cf.zones.get(params={'per_page': per_page, 'page': 0})
         output_dict_list = []
         results = {}
         results["success"] = 0
         results["failure"] = 0
         try:
+            try:
+                logging.info("[+] Using Cloudflare token - {}".format(token))
+                cf = CloudFlare.CloudFlare(token, raw=True)
+                zones = cf.zones.get(params={'per_page': per_page, 'page': 0})
+                results["success"] += 1
+            except Exception as e:
+                results["failure"] += 1
+                results["exception"] = str(e)
+                logging.error("[!] Error in accessing Cloudflare token - {}".format(token))
+
             for zone_page in range(zones['result_info']['total_pages']):
                 zones = cf.zones.get(params={'per_page': per_page, 'page': zone_page})
                 for zone in zones['result']:
