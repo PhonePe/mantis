@@ -32,7 +32,7 @@ class Cloudflare(BaseScanner):
         Prerequisite for this script - A CLoudflare DNS Zone Read only API key \n
         
         """
-        token = None      
+        token = None    #Edit the value with actual token
         per_page = 100
         output_dict_list = []
         results = {}
@@ -41,13 +41,13 @@ class Cloudflare(BaseScanner):
         try:
             try:
                 logging.info("[+] Using Cloudflare token - {}".format(token))
-                cf = CloudFlare.CloudFlare(token, raw=True)
+                cf = CloudFlare.CloudFlare("", token, raw=True)
                 zones = cf.zones.get(params={'per_page': per_page, 'page': 0})
                 results["success"] += 1
             except Exception as e:
                 results["failure"] += 1
                 results["exception"] = str(e)
-                logging.error("[!] Error in accessing Cloudflare token - {}".format(token))
+                logging.error("[!] Error - {}".format(str(e)))
 
             for zone_page in range(zones['result_info']['total_pages']):
                 zones = cf.zones.get(params={'per_page': per_page, 'page': zone_page})
