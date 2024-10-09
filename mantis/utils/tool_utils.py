@@ -173,7 +173,7 @@ async def get_findings_by_asset(asset, finding_type):
         return []
 
 
-async def get_passives_by_asset(asset: str, asset_type: str = None):
+async def get_extended_by_asset(asset: str, asset_type: str = None):
     pipeline = []
 
     # Match the asset in the Passive collection
