@@ -8,3 +8,4 @@ database = client.mantis
 
 assets_collection = database.get_collection("assets_collection")
 findings_collection = database.get_collection("findings_collection")
+extended_assets_collection = database.get_collection("extended_assets_collection")
