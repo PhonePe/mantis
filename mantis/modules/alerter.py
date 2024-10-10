@@ -32,6 +32,15 @@ class Alerter:
                                 Notifications.send_slack_notifications(slack_blocks, webhook)
                         else:
                             logging.error("Slack must provide list of webhooks, check local.yml")
+                    if channel_type == 'mattermost':
+                        if isinstance(team.channel[channel_type], list):
+                            for webhook in team.channel[channel_type];
+                                if team.scanEfficiency == True:
+                                    Notifications.send_mattermost_notifications(scan_efficiency_blocks, webhook)
+                                Notifications.send_mattermost_notifications(slack_blocks, webhook)
+                        else:
+                            logging.error("Mattermost must provide a list of webhooks, check local.yml")
+                            
         except Exception as e:
             logging.debug(f"Slack alerts not configured: {e}")
         return scan_stats, module_scan_stats
