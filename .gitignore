@@ -5,3 +5,4 @@ book
 src
 stacks
 docker/configs
+.venv
