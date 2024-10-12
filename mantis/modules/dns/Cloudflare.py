@@ -1,5 +1,6 @@
 import os
 import logging
+from mantis.utils.tool_utils import get_assets_grouped_by_type
 from mantis.config_parsers.config_client import ConfigProvider
 from mantis.tool_base_classes.baseScanner import BaseScanner
 from mantis.models.args_model import ArgsModel
@@ -19,6 +20,7 @@ class Cloudflare(BaseScanner):
 
     async def init(self, args: ArgsModel):
         self.args = args
+        self.db_assets = await get_assets_grouped_by_type(self, args, ASSET_TYPE_TLD)
         return [(self, "Cloudflare")]
     
     async def execute(self, tooltuple):
@@ -40,7 +42,6 @@ class Cloudflare(BaseScanner):
         results["failure"] = 0
         try:
             try:
-                logging.info("[+] Using Cloudflare token - {}".format(token))
                 cf = CloudFlare.CloudFlare("", token, raw=True)
                 zones = cf.zones.get(params={'per_page': per_page, 'page': 0})
                 results["success"] += 1
@@ -59,14 +60,28 @@ class Cloudflare(BaseScanner):
                     records = cf.zones.dns_records.get(zone['id'], params={'per_page': per_page, 'page': record_page})['result']
                     for record in records:
                         domain_dict = {}
-                        domain_dict['_id'] = record['name']
-                        domain_dict['asset'] = record['name']
-                        if AssetType.check_tld(record['name']):
-                            domain_dict['asset_type'] = ASSET_TYPE_TLD
+                        if(self.args.ignore_stale == True):
+                            print(self.db_assets)
+                            for asset in self.db_assets:
+                                if(asset in record['name']):
+                                    domain_dict['_id'] = record['name']
+                                    domain_dict['asset'] = record['name']
+                                    if AssetType.check_tld(record['name']):
+                                        domain_dict['asset_type'] = ASSET_TYPE_TLD
+                                    else:
+                                        domain_dict['asset_type'] = ASSET_TYPE_SUBDOMAIN
+                                    domain_dict['org'] = self.args.org
+                                    output_dict_list.append(domain_dict)
+                                    break
                         else:
-                            domain_dict['asset_type'] = ASSET_TYPE_SUBDOMAIN
-                        domain_dict['org'] = self.args.org
-                        output_dict_list.append(domain_dict)
+                            domain_dict['_id'] = record['name']
+                            domain_dict['asset'] = record['name']
+                            if AssetType.check_tld(record['name']):
+                                domain_dict['asset_type'] = ASSET_TYPE_TLD
+                            else:
+                                domain_dict['asset_type'] = ASSET_TYPE_SUBDOMAIN
+                            domain_dict['org'] = self.args.org
+                            output_dict_list.append(domain_dict)
             await CrudUtils.insert_assets(output_dict_list, source='internal')
             results["success"] = 1
             return results
