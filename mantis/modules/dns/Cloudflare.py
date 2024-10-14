@@ -60,7 +60,7 @@ class Cloudflare(BaseScanner):
                     records = cf.zones.dns_records.get(zone['id'], params={'per_page': per_page, 'page': record_page})['result']
                     for record in records:
                         domain_dict = {}
-                        if(self.args.ignore_stale == True):
+                        if(self.args.in_scope == True):
                             print(self.db_assets)
                             for asset in self.db_assets:
                                 if(asset in record['name']):

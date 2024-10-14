@@ -21,4 +21,5 @@ class ArgsModel(BaseModel):
     subdomain: str = Field(None)
     list_: bool = False
     list_orgs: bool = False
+    in_scope: bool = False
     
