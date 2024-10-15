@@ -6,6 +6,9 @@ RUN apt-get update && apt-get install -y wget unzip tar gcc libpcap-dev dnsutils
 # Install git
 RUN apt-get update --fix-missing && apt install git -y
 
+# Install golang
+RUN apt-get install golang-go
+
 # Setup work directory
 WORKDIR /home/mantis
 
