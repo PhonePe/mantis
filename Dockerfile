@@ -74,6 +74,14 @@ RUN mv Corsy-1.0-rc Corsy
 RUN mv Corsy /usr/bin
 RUN rm -rf *
 
+# Installing Misconfig Mapper
+RUN echo "Installing Misconfig Mapper"
+RUN wget https://github.com/intigriti/misconfig-mapper/archive/refs/tags/v1.10.0.zip
+RUN unzip v1.10.0.zip
+RUN mv misconfig-mapper-1.10.0 misconfig-mapper
+RUN mv misconfig-mapper /usr/bin
+RUN rm -rf *
+
 # Install Poetry
 RUN pip install poetry==1.4.2
 
