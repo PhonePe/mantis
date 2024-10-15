@@ -79,6 +79,9 @@ RUN echo "Installing Misconfig Mapper"
 RUN wget https://github.com/intigriti/misconfig-mapper/archive/refs/tags/v1.10.0.zip
 RUN unzip v1.10.0.zip
 RUN mv misconfig-mapper-1.10.0 misconfig-mapper
+RUN cd misconfig-mapper
+RUN go build -o misconfig-mapper
+RUN cd ..
 RUN mv misconfig-mapper /usr/bin
 RUN rm -rf *
 
