@@ -40,4 +40,5 @@
     - [New API Scanner](./new-scanner-integrations/new-scanner-integration-api.md)
     - [Add scanner to config file](./new-scanner-integrations/command-config-file.md)
     - [Install instructions in DockerFile](./new-scanner-integrations/command-docker-file.md)
-    
+- [🔎 Testing new changes](./testing-new-changes/testing.md)
+    - [Building containers locally](./testing-new-changes/building-containers-locally.md)
