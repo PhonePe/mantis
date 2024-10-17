@@ -1,5 +1,13 @@
 # Do not store sensitive information and check-in code to gitlab
 
+report:
+  title: "Attack Surface Management Report"
+  author: "John Doe"
+  date: "2024-09-30"
+  header: "Confidential - For Internal Use Only"
+  footer: "Company XYZ - All Rights Reserved"
+  format: "pdf"
+
 workflow:
   - workflowName: 'default'
     schedule: 'daily between 00:00 and 04:00'

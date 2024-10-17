@@ -6,9 +6,6 @@ RUN apt-get update && apt-get install -y wget unzip tar gcc libpcap-dev dnsutils
 # Install git
 RUN apt-get update --fix-missing && apt install git -y
 
-# Install golang
-RUN apt-get install golang-go
-
 # Setup work directory
 WORKDIR /home/mantis
 
@@ -75,17 +72,6 @@ RUN wget https://github.com/s0md3v/Corsy/archive/refs/tags/1.0-rc.zip
 RUN unzip 1.0-rc.zip
 RUN mv Corsy-1.0-rc Corsy
 RUN mv Corsy /usr/bin
-RUN rm -rf *
-
-# Installing Misconfig Mapper
-RUN echo "Installing Misconfig Mapper"
-RUN wget https://github.com/intigriti/misconfig-mapper/archive/refs/tags/v1.10.0.zip
-RUN unzip v1.10.0.zip
-RUN mv misconfig-mapper-1.10.0 misconfig-mapper
-RUN cd misconfig-mapper
-RUN go build -o misconfig-mapper
-RUN cd ..
-RUN mv misconfig-mapper /usr/bin
 RUN rm -rf *
 
 # Install Poetry
