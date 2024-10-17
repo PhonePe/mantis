@@ -21,5 +21,10 @@ class ArgsModel(BaseModel):
     subdomain: str = Field(None)
     list_: bool = False
     list_orgs: bool = False
+    list_domains: bool = False
+    orgs_list: list[str] = False
+    asset_types_list: list[str] = False
+    after_datetime_filter: str = None
+    before_datetime_filter: str = None
     in_scope: bool = False
     
