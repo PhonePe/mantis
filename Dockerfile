@@ -8,31 +8,18 @@ RUN apt-get update --fix-missing && apt install git -y
 
 # Setup work directory
 WORKDIR /home/mantis
-# Install amass
-RUN echo "Installing Amass"
-RUN wget https://github.com/owasp-amass/amass/releases/download/v4.1.0/amass_Linux_amd64.zip
-RUN unzip amass_Linux_amd64.zip
-RUN mv amass_Linux_amd64/amass /usr/bin
-RUN rm -rf *
 
-# Install subfinder
+# Install subfinder 
 RUN echo "Installing subfinder"
-RUN wget https://github.com/projectdiscovery/subfinder/releases/download/v2.6.3/subfinder_2.6.3_linux_amd64.zip
-RUN unzip subfinder_2.6.3_linux_amd64.zip
+RUN wget https://github.com/projectdiscovery/subfinder/releases/download/v2.6.6/subfinder_2.6.6_linux_amd64.zip
+RUN unzip subfinder_2.6.6_linux_amd64.zip
 RUN mv subfinder /usr/bin
-RUN rm -rf *
-
-# Install Puredns
-RUN echo "Installing Puredns"
-RUN wget https://github.com/d3mondev/puredns/releases/download/v2.1.1/puredns-Linux-amd64.tgz
-RUN tar -xvf puredns-Linux-amd64.tgz
-RUN mv puredns /usr/bin
 RUN rm -rf *
 
 # Install HTTPX
 RUN echo "Installing HTTPX"
-RUN wget https://github.com/projectdiscovery/httpx/releases/download/v1.3.7/httpx_1.3.7_linux_amd64.zip
-RUN unzip httpx_1.3.7_linux_amd64.zip
+RUN wget https://github.com/projectdiscovery/httpx/releases/download/v1.6.8/httpx_1.6.8_linux_amd64.zip
+RUN unzip httpx_1.6.8_linux_amd64.zip
 RUN mv httpx /usr/bin
 RUN rm -rf *
 
@@ -42,9 +29,9 @@ RUN pip install git+https://github.com/cisagov/findcdn.git
 
 # Install Ipinfo
 RUN echo "Installing Ipinfo"
-RUN wget https://github.com/ipinfo/cli/releases/download/ipinfo-3.1.2/ipinfo_3.1.2_linux_amd64.tar.gz
-RUN tar -xvf ipinfo_3.1.2_linux_amd64.tar.gz
-RUN mv ipinfo_3.1.2_linux_amd64 ipinfo
+RUN wget https://github.com/ipinfo/cli/releases/download/ipinfo-3.3.1/ipinfo_3.3.1_linux_amd64.tar.gz
+RUN tar -xvf ipinfo_3.3.1_linux_amd64.tar.gz
+RUN mv ipinfo_3.3.1_linux_amd64 ipinfo
 RUN mv ipinfo /usr/bin
 RUN rm -rf *
 
@@ -57,8 +44,8 @@ RUN rm -rf *
 
 # Install nuclei
 RUN echo "Installing nuclei"
-RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v3.0.4/nuclei_3.0.4_linux_amd64.zip
-RUN unzip nuclei_3.0.4_linux_amd64.zip
+RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v3.3.4/nuclei_3.3.4_linux_amd64.zip
+RUN unzip nuclei_3.3.4_linux_amd64.zip
 RUN mv nuclei /usr/bin
 RUN rm -rf *
 

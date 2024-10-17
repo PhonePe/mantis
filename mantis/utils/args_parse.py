@@ -229,6 +229,12 @@ class ArgsParse:
         scan_parser.add_argument('--sub', 
                                  dest = 'subdomain',
                                  help='Subdomain to scan')
+
+        scan_parser.add_argument('-is', '--in_scope', 
+                            dest = 'in_scope',
+                            help = 'List only the records from nameserver that are in scope',
+                            action = 'store_true' 
+                            )
         
         
         list_parser = subparser.add_parser("list", help="List entities present in db", usage=ArgsParse.list_msg())

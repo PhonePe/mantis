@@ -6,7 +6,7 @@ workflow:
     cmd: []
     workflowConfig:
       - moduleName : discovery
-        tools: ['Subfinder', 'Amass'] 
+        tools: ['Subfinder']
         order: 1
       - moduleName: prerecon
         tools: ['FindCDN', 'Naabu'] 
@@ -34,7 +34,7 @@ workflow:
         tools: ['Route53', 'Cloudflare'] 
         order: 1
       - moduleName : discovery
-        tools: ['Subfinder', 'SSLMate', 'Amass'] 
+        tools: ['Subfinder', 'SSLMate'] 
         order: 1
       - moduleName: prerecon
         tools: ['FindCDN', 'Naabu', 'IPinfo'] 
@@ -58,7 +58,7 @@ workflow:
     cmd: []
     workflowConfig:
       - moduleName : discovery
-        tools: ['Subfinder', 'Amass'] 
+        tools: ['Subfinder'] 
         order: 1
       - moduleName: prerecon
         tools: ['FindCDN', 'Naabu'] 
