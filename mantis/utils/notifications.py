@@ -1,4 +1,6 @@
 import logging
+import requests
+import json
 from slack_sdk.webhook import WebhookClient
 from mantis.config_parsers.config_client import ConfigProvider
 
@@ -16,6 +18,24 @@ class Notifications:
         
         logging.debug(response.status_code)
 
+    def send_mattermost_notifications(blocks, webhook):
+        if webhook == "None":
+            raise Exception("Mattermost URL not provided")
+        if blocks:
+            # Extract markdown data to submit it directly to Mattermost
+            markdown_elements = []
+            for item in blocks:
+                if item.get("type") == "section" and item.get("text", {}).get("type") == "mrkdwn":
+                    markdown_elements.append(item["text"]["text"])
+            data = {
+                "text": markdown_elements
+            }
+            headers = {
+                "Content-Type": "application/json"
+            }   
+            response = requests.post(webhook, headers=headers, data=json.dumps(data))
+            logging.debug(response.status_code)
+        
 class NotificationsUtils:
 
     @staticmethod
