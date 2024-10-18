@@ -51,6 +51,13 @@ class ArgsParse:
 
         \033[0;32mmantis list {subcommand}\033[0m
             '''
+
+    @staticmethod
+    def report_msg(name=None):
+        return '''
+        \033[1;34mREPORT:\033[0m
+        \033[0;32mmantis report -o example_org\033[0m
+            '''
     
     @staticmethod
     def args_parse() -> ArgsModel:
@@ -243,6 +250,13 @@ class ArgsParse:
 
         list_sub_parser.add_parser("orgs", help="List orgs present in DB")
 
+        report_parser = subparser.add_parser("report", help="Generate report", usage=ArgsParse.report_msg())
+
+        report_parser.add_argument('-o', '--org',
+                            dest = 'org',
+                            required = True,
+                            help = "name of the organisation")
+
         # display help, if no arguments are passed
         args = parser.parse_args(args=None if argv[1:] else ['--help'])
         logging.info(f"Arguments Passed - {args}")
@@ -259,7 +273,7 @@ class ArgsParse:
                 parsed_args['input_type'] = "file"
                 parsed_args['input'] = str(args.file_name)
 
-        if args.subcommand != "list":
+        if args.subcommand != "list" and args.subcommand != "report":
 
             if args.aws_profiles:
                 parsed_args["aws_profiles"] = args.aws_profiles.split(',')
@@ -313,6 +327,9 @@ class ArgsParse:
 
             if args.list_sub_command == "orgs":
                 parsed_args["list_orgs"] = True
+
+        if args.subcommand == "report":
+            parsed_args["report_"] = True
 
         args_pydantic_obj = ArgsModel.parse_obj(parsed_args)
         logging.info(f'parsed args - {args_pydantic_obj}')
