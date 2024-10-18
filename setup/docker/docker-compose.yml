@@ -1,6 +1,9 @@
 services:
   mantis:
-    image: ghcr.io/phonepe/mantis:latest
+    #image: ghcr.io/phonepe/mantis:latest
+    build:
+      dockerfile: Dockerfile
+      context: ../../
     container_name: mantis
     restart: on-failure
     command: sleep infinity
