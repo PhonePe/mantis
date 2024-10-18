@@ -2,14 +2,14 @@ import logging
 import requests
 import json
 from lxml import etree
-from mantis.tool_base_classes.baseScanner import BaseScanner
+from mantis.constants import ASSET_TYPE_TLD, ASSET_TYPE_SUBDOMAIN
 from mantis.models.args_model import ArgsModel
 from mantis.utils.asset_type import AssetType
-from mantis.constants import ASSET_TYPE_TLD, ASSET_TYPE_SUBDOMAIN
 from mantis.utils.crud_utils import CrudUtils
 from mantis.utils.base_request import BaseRequestExecutor
 from mantis.utils.tool_utils import get_assets_grouped_by_type
 from mantis.utils.list_assets import ListAssets
+from mantis.tool_base_classes.baseScanner import BaseScanner
 
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -26,6 +26,7 @@ class Namecheap(BaseScanner):
 
     async def init(self, args: ArgsModel):
         self.args = args
+        self.db_assets = await get_assets_grouped_by_type(self, args, ASSET_TYPE_TLD)
         return [(self, "Namecheap")]
 
     async def execute(self, tooltuple):
@@ -109,8 +110,16 @@ class Namecheap(BaseScanner):
             namespaces={'x': 'http://api.namecheap.com/xml.response'}
         )
 
+        logging.info("Current Domains in scope: ", self.db_assets)
+
         for domain in domains:
             (sld, tld) = domain.split('.', 1)
+
+            # If using the --in_scope/-is arguments, list only domains from nameserver that are in scope
+            if self.args.in_scope == True and domain not in self.db_assets:
+                logging.info(f"Asset {domain} in scope. Skipping...")
+                continue
+
             logging.info(f'Enumerating domain: {domain}')
 
             try:
@@ -130,7 +139,7 @@ class Namecheap(BaseScanner):
                     output_dict_list.append(domain_dict)
             
             except Exception as e:
-                logging.info("Failed")
+                logging.info(f"Failed: {e}")
                 results["failure"] = 1
                 results['exception'] = str(e)
                 return results
