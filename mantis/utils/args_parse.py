@@ -119,9 +119,11 @@ class ArgsParse:
                             action = 'store_true' 
                             )
         
-        onboard_parser.add_argument('-tc', '--thread_count', 
+        onboard_parser.add_argument('-tc', '--thread_count',
+                            type = int, 
                             dest = 'thread_count',
                             help = 'thread count, default 3',
+                            default = 3
                             )
         
         onboard_parser.add_argument('-r', '--use_ray', 
@@ -193,9 +195,11 @@ class ArgsParse:
                             action = 'store_true' 
                             )
         
-        scan_parser.add_argument('-tc', '--thread_count', 
+        scan_parser.add_argument('-tc', '--thread_count',
+                            type = int, 
                             dest = 'thread_count',
                             help = 'thread count, default 3',
+                            default = 3
                             )
         
         scan_parser.add_argument('-r', '--use_ray', 
@@ -303,6 +307,8 @@ class ArgsParse:
         if args.subcommand == "scan":
             if args.subdomain:
                 parsed_args["subdomain"] = args.subdomain
+            if args.in_scope:
+                parsed_args["in_scope"] = True
 
         if args.subcommand == "onboard":
             if args.subdomain:
