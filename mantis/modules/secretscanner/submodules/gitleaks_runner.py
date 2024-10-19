@@ -15,12 +15,21 @@ class GitleaksRunner:
 
     @staticmethod
     async def process_domains(args, path):
-
         domains = await get_assets_grouped_by_type(None, args, ASSET_TYPE_TLD)
-        commands = "gitleaks detect --source {path}/{DOMAIN}/ --no-git -f json -r {path}/{DOMAIN}/report.json -l trace -v"
+        commands = "gitleaks detect --source {path}/{DOMAIN}/ -f json -r {path}/{DOMAIN}/report.json -l trace -v"
         logging.debug("Running GitLeaks...")
         with ThreadPoolExecutor() as executor:
             futures = [executor.submit(GitleaksRunner.run_command, domain, commands, path) for domain in domains ]
+            # Wait for all tasks to complete
+            for future in futures:
+                future.result()
+
+    @staticmethod
+    def process_repos(domain,path):
+        commands = "/opt/homebrew/bin/gitleaks detect --source {path}{DOMAIN}/ -f json -r {path}{DOMAIN}/report.json -l trace -v"
+        logging.debug("Running GitLeaks...")
+        with ThreadPoolExecutor() as executor:
+            futures = [executor.submit(GitleaksRunner.run_command, domain, commands, path) ]
             # Wait for all tasks to complete
             for future in futures:
                 future.result()

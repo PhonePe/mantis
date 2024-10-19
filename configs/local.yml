@@ -5,23 +5,26 @@ workflow:
     schedule: 'daily between 00:00 and 04:00'
     cmd: []
     workflowConfig:
-      - moduleName : discovery
-        tools: ['Subfinder', 'Amass'] 
-        order: 1
-      - moduleName: prerecon
-        tools: ['FindCDN', 'Naabu'] 
-        order: 2
-      - moduleName: activehostscan
-        tools: ['HTTPX_Active', 'HTTPX']
-        order: 3
-      - moduleName: activerecon
-        tools: ['Wafw00f']
-        order: 4
-      - moduleName: scan
-        tools: [ 'DNSTwister', 'Nuclei', 'Corsy']
-        order: 5
+#      - moduleName : discovery
+#        tools: ['Subfinder']
+#        order: 1
+#      - moduleName: prerecon
+#        tools: ['FindCDN', 'Naabu']
+#        order: 2
+#      - moduleName: activehostscan
+#        tools: ['HTTPX_Active', 'HTTPX']
+#        order: 3
+#      - moduleName: activerecon
+#        tools: ['Wafw00f']
+#        order: 4
+#      - moduleName: scan
+#        tools: [ 'DNSTwister', 'Nuclei', 'Corsy']
+#        order: 5
+#      - moduleName: secretscanner
+#        tools: ['SecretScanner']
+#        order: 6
       - moduleName: secretscanner
-        tools: ['SecretScanner']
+        tools: ['GithubScanner']
         order: 6
 
 # This workflow is for product security teams. It includes tools like dns and Ipinfo. Please provide the key for IPinfo     
@@ -58,10 +61,10 @@ workflow:
     cmd: []
     workflowConfig:
       - moduleName : discovery
-        tools: ['Subfinder', 'Amass'] 
+        tools: ['Subfinder', 'Amass']
         order: 1
       - moduleName: prerecon
-        tools: ['FindCDN', 'Naabu'] 
+        tools: ['FindCDN', 'Naabu']
         order: 2
       - moduleName: activehostscan
         tools: ['HTTPX_Active', 'HTTPX']
@@ -75,6 +78,7 @@ workflow:
       - moduleName: secretscanner
         tools: ['SecretScanner']
         order: 6
+
 
   - workflowName: 'test'
     schedule: 'daily between 00:00 and 04:00'
@@ -92,27 +96,42 @@ aws:
   config_path: 
   credentials_path:
 
+secretscanner:
+  # org       : This will perform scan at the org level (https://api.github.com/orgs/{org}/repos?page=)
+  # pattern   : This will perform scan across the publicly available repos based on the github_config in GitHub
+  # public    : This will perform scan based on the Assets/Domain across public repos in the GitHub
+#  github_method: ['org','pattern','public']
+  github_method: ['public']
+
+
+github_config:
+  host: "https://api.github.com"
+  tokens : [ "Z2l0aHViX3BhdF8xMUFLRk1LNFEwYTRKRVhDQkcxNDFjX29lS2tBSkJ6dnU3a0lmaGdFcTg0VVZrUUhSNWIybFViaElhckk2Z0JzaDcyVFYzRVJNT211TlJWSXpv",
+            "Z2l0aHViX3BhdF8xMUFGU1pJSFEwY1pCOGZROFl1U1FLXzV2TTBkMk16N2pubHJxVkZrVDFMeTFMNjQwcXZQcUl1a1ptdnhIVk1VZEJKRUJDN1Y1SmlzbVZIY1lR"]
+  download_location: '/tmp/repos/'
+
 app:
   default: ["None"]
   
 notify:
-  - teamName: appsec
+  - teamName: hitesh
     scanEfficiency: true 
     channel:
       slack:
-        - None
+        - REDACTED
     app: []
     assets:
-      - subdomain
-      - certificate
+#      - subdomain
+#      - certificate
     findings: 
-      - vulnerability
+#      - vulnerability
       - secret
 
 
 dbConfig:
-  mongoConnectionString: 'mongodb://mantis.db:27017'
-  
+  mongoConnectionString: "mongodb://root:pass123@localhost:27017/?authMechanism=DEFAULT"
+
+
 logging:
   version: 1
   disable_existing_loggers: True

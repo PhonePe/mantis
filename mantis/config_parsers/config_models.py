@@ -40,13 +40,26 @@ class Notify(BaseModel):
                 raise ValueError("Invalid channel Name specified. Please only select amongst following options: ", valid_channels)
         return v
 
+
 class AWSConfig(BaseModel):
     config_path: str = Field(None)
     credentials_path: str = Field(None)
 
+
 class NucleiTemplate(BaseModel):
     whitelist: str = Field(None)
     blacklist: str = Field(None)
+
+
+class GithubConfig(BaseModel):
+    host: str
+    tokens: list
+    download_location: str
+
+
+class SecretScanner(BaseModel):
+    github_method: list
+
 
 class AppConfig(BaseModel):
     workflow: List[Workflow]
@@ -57,4 +70,7 @@ class AppConfig(BaseModel):
     app: dict
     nuclei_template_path: NucleiTemplate
     aws: AWSConfig
+    github_config: GithubConfig
+    secretscanner: SecretScanner
+
  
