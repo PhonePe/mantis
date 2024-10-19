@@ -111,7 +111,7 @@ notify:
 
 
 dbConfig:
-  mongoConnectionString: 'mongodb://localhost:27000'
+  mongoConnectionString: 'mongodb://mantis.db:27017'
   
 logging:
   version: 1
