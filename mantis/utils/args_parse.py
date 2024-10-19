@@ -248,10 +248,6 @@ class ArgsParse:
         list_parser.add_argument("-a","--after", type=str, help="Start date in YYYY-MM-DD format", dest="list_sub_command_ls_subs_after_filter")
         list_parser.add_argument("-b","--before", type=str, help="End date in YYYY-MM-DD format", dest="list_sub_command_ls_subs_before_filter")
 
-        # list_sub_parser = list_parser.add_subparsers(title="List Subcommands", dest="list_sub_command")
-        # list_org_sub_parser = list_sub_parser.add_parser("orgs", help="List orgs present in DB")
-        # list_org_sub_parser.add_argument()
-
         # display help, if no arguments are passed
         args = parser.parse_args(args=None if argv[1:] else ['--help'])
         logging.info(f"Arguments Passed - {args}")
