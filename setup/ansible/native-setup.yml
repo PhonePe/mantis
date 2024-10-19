@@ -1,6 +1,0 @@
----
-
-- hosts: mantisnodes
-  become: true
-  roles:
-    - { role : "native-setup" }
