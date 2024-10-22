@@ -1,5 +1,10 @@
 services:
   mantis:
+    # When testing local changes, uncomment the following commented lines and comment out "image"
+    # This will build the mantis container locally instead of pulling from GHRC
+    #build:
+    #  dockerfile: Dockerfile
+    #  context: ../../
     image: ghcr.io/phonepe/mantis:latest
     container_name: mantis
     restart: on-failure
