@@ -37,5 +37,5 @@ class ConfigUtils:
 
     @staticmethod
     def get_report_dict():
-        report = ConfigProvider.get_report()
+        report = ConfigProvider.get_config().report
         return report
