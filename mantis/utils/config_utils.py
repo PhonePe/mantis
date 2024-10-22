@@ -34,8 +34,3 @@ class ConfigUtils:
                 return False
             else:
                 return True
-
-    @staticmethod
-    def get_report_dict():
-        report = ConfigProvider.get_config().report
-        return report

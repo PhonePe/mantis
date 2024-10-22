@@ -1,11 +1,9 @@
 import logging
-from mantis.utils.config_utils import ConfigUtils
+from mantis.config_parsers.config_client import ConfigProvider
 
 class ReportWorkflow:
 
     @staticmethod
     async def executor():
-
-        report = ConfigUtils.get_report_dict()
-
+        report = ConfigProvider.get_config().report
         print(f"Report: {report}")
