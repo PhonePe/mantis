@@ -39,7 +39,7 @@ workflow:
     scanNewOnly: true
     workflowConfig:
       - moduleName : dns
-        tools: ['Route53', 'Cloudflare'] 
+        tools: ['Route53', 'Cloudflare', 'Namecheap'] 
         order: 1
       - moduleName : discovery
         tools: ['Subfinder', 'SSLMate'] 
@@ -89,7 +89,7 @@ workflow:
     cmd: []
     workflowConfig:
       - moduleName : dns
-        tools: ['Cloudflare'] 
+        tools: ['Namecheap'] 
         order: 1
 
   - workflowName: 'testreport'
