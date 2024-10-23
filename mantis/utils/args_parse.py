@@ -51,6 +51,13 @@ class ArgsParse:
 
         \033[0;32mmantis list {subcommand}\033[0m
             '''
+
+    @staticmethod
+    def report_msg(name=None):
+        return '''
+        \033[1;34mREPORT:\033[0m
+        \033[0;32mmantis report -o example_org\033[0m
+            '''
     
     @staticmethod
     def args_parse() -> ArgsModel:
@@ -248,6 +255,13 @@ class ArgsParse:
         list_parser.add_argument("-a","--after", type=str, help="Start date in YYYY-MM-DD format", dest="list_sub_command_ls_subs_after_filter")
         list_parser.add_argument("-b","--before", type=str, help="End date in YYYY-MM-DD format", dest="list_sub_command_ls_subs_before_filter")
 
+        report_parser = subparser.add_parser("report", help="Generate report", usage=ArgsParse.report_msg())
+
+        report_parser.add_argument('-o', '--org',
+                            dest = 'org',
+                            required = True,
+                            help = "name of the organisation")
+
         # display help, if no arguments are passed
         args = parser.parse_args(args=None if argv[1:] else ['--help'])
         logging.info(f"Arguments Passed - {args}")
@@ -264,7 +278,7 @@ class ArgsParse:
                 parsed_args['input_type'] = "file"
                 parsed_args['input'] = str(args.file_name)
 
-        if args.subcommand != "list":
+        if args.subcommand != "list" and args.subcommand != "report":
 
             if args.aws_profiles:
                 parsed_args["aws_profiles"] = args.aws_profiles.split(',')
@@ -320,6 +334,8 @@ class ArgsParse:
             if args.list_sub_command_ls_orgs:
                 parsed_args["list_orgs"] = True
 
+        if args.subcommand == "report":
+            parsed_args["report_"] = True
             # python launch.py list -d -s -t -o <org> -a 2024-10-04 -b 2024-10-05
             if args.list_sub_command_ls_domains:
                 asset_types = []

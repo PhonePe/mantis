@@ -49,6 +49,7 @@ class NucleiTemplate(BaseModel):
     blacklist: str = Field(None)
 
 class AppConfig(BaseModel):
+    report: dict
     workflow: List[Workflow]
     dbConfig: DBConfig
     logging: dict
