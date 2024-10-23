@@ -40,4 +40,3 @@ class ConfigProvider(object):
         else:
             ConfigProvider.get_local_config()
             return ConfigProvider.yml_config
-
