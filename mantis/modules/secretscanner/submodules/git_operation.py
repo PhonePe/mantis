@@ -32,7 +32,7 @@ class GitOperation:
         self.tokens = ConfigProvider.get_config().github_config.tokens
         self.token_index = 0
         self.token = self.tokens[self.token_index]
-        self.headers = {'User-Agent': 'curl/7.64.1', 'Authorization': f'Basic {self.token}'}
+        # self.headers = {'User-Agent': 'curl/7.64.1', 'Authorization': f'Basic {self.token}'}
         self.download_path = ConfigProvider.get_config().github_config.download_location
         self.extended_assets = "Extended Assets"
 
@@ -64,8 +64,7 @@ class GitOperation:
             try:
                 logging.info(f"Using GitHub token index: {self.token_index}")
                 github_url = f"{self.github_api_host}/orgs/{org}/repos?page={page}"
-                headers = self.headers
-                request_tuple = (github_url, headers, None, None)
+                request_tuple = (github_url, self.get_headers(), None, None)
 
                 _, response = BaseRequestExecutor.sendRequest("GET", request_tuple)
                 if response.status_code == 403:
@@ -103,7 +102,7 @@ class GitOperation:
                 try:
                     logging.info(f"Crawling page {page} with token index {self.token_index}")
                     github_url = f"{self.github_api_host}/search/code?q={domain}&page={page}"
-                    request_tuple = (github_url, self.headers, None, None)
+                    request_tuple = (github_url,{'User-Agent': 'curl/7.64.1', 'Authorization': f'Basic {self.token}'}, None, None)
 
                     _, response = BaseRequestExecutor.sendRequest("GET", request_tuple)
 
@@ -122,7 +121,6 @@ class GitOperation:
 
                     logging.info(f"Found {len(code_results['items'])} results for domain {domain}")
                     await self.process_repositories(code_results['items'], domain, results)
-                    await URLDownloader.process_urls()
                     page += 1  # Move to the next page
                     time.sleep(5)  # Respect GitHub's rate limits
 
@@ -141,12 +139,14 @@ class GitOperation:
             repo_url = repo.get('repository', {}).get('html_url', repo.get('html_url'))
             repo_name = repo.get('repository', {}).get('name', repo.get('name'))
             raw_url = repo.get('url')
+            github_url = repo.get('html_url')
             profile_url = repo.get('repository', {}).get('owner', {}).get('html_url', '')
 
             github_info = {
+                "Github Url": github_url,
                 "Repo Url": repo_url,
                 "Repo Name": repo_name,
-                "Raw Url": raw_url,
+                "Raw Github Url": raw_url,
                 "Profile Url": profile_url
             }
 
@@ -177,14 +177,14 @@ class GitOperation:
 
 
                 if "public" in self.methods:
-                    extended_assets_dict["_id"] = repo_url
-                    extended_assets_dict["url"] = repo_url
+                    extended_assets_dict["_id"] = github_url
+                    extended_assets_dict["url"] = github_url
                     extended_assets_dict["asset"] = domain
                     extended_assets_dict["asset_type"] = f"Github Repo - Public Scan"
                     extended_assets_dict["org"] = self.args.org
 
                     # process the github URL
-                    repo_path = await GitOperation.process_github_urls(raw_url, domain, repo_name)
+                    repo_path = await self.process_github_urls(raw_url, domain, repo_name)
 
                 # Process the repository with gitleaks
                 GitleaksRunner.process_repos(repo_name, self.download_path)
@@ -195,7 +195,10 @@ class GitOperation:
 
                 # Run the secret finding process
                 secret_finder = SecretFinder(repo_name, self.args, self.download_path)
-                await secret_finder.find_secrets_in_repos(github_info)
+                await secret_finder.find_secrets_in_repos(github_info,domain)
+
+                logging.info(f"Sleeping for 10 sec to avoid Rate limit")
+                time.sleep(10)
 
                 results["success"] += 1
 
@@ -211,9 +214,11 @@ class GitOperation:
         """Switches to the next token when rate limit is hit."""
         self.token_index = (self.token_index + 1) % len(self.tokens)
         self.token = self.tokens[self.token_index]
-        logging.info(f"Switched to GitHub token index: {self.token_index}")
-        time.sleep(5)
+        logging.info(f"Switched to GitHub token index: {self.token_index} with token: {self.token}")
 
+    def get_headers(self):
+        """Return updated headers with the current token."""
+        return {'User-Agent': 'curl/7.64.1', 'Authorization': f'Basic {self.token}'}
 
     @staticmethod
     def clone_repo(repo_url):
@@ -241,15 +246,18 @@ class GitOperation:
             return None
 
 
-    @staticmethod
-    async def process_github_urls(url,domain,name):
+    async def process_github_urls(self,url,domain,name):
         path = Path(ConfigProvider.get_config().github_config.download_location) / name  # Create a folder based on 'name'
         path.mkdir(parents=True, exist_ok=True)  # Create the folder if it doesn't exist
 
         logging.info(f"Starting download for {url} into folder: {name}")
 
-        request_tuple = url, None, None, None
+        request_tuple = url, self.get_headers(), None, None
         _, response = BaseRequestExecutor.sendRequest("GET", request_tuple)
+
+        if response.status_code == 403:
+            logging.info(f"Rate Limit Triggered, Sleeping for 10 Sec")
+            time.sleep(10)
 
         if response.status_code == 200:  # Ensure response is successful
             _response = json.loads(response.text)
@@ -270,6 +278,10 @@ class GitOperation:
                     with open(file_path, 'wb') as file:
                         file.write(download_url_response.content)  # Write the content to the file
                     logging.info(f"{file_name} download finished and saved at {file_path}")
+
+                    logging.info(f"Sleeping to avoid Rate Limit")
+                    time.sleep(5)
+
                     return path
                 except Exception as e:
                     logging.error(f"Error writing file {file_name}: {e}")

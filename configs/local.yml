@@ -5,26 +5,23 @@ workflow:
     schedule: 'daily between 00:00 and 04:00'
     cmd: []
     workflowConfig:
-#      - moduleName : discovery
-#        tools: ['Subfinder']
-#        order: 1
-#      - moduleName: prerecon
-#        tools: ['FindCDN', 'Naabu']
-#        order: 2
-#      - moduleName: activehostscan
-#        tools: ['HTTPX_Active', 'HTTPX']
-#        order: 3
-#      - moduleName: activerecon
-#        tools: ['Wafw00f']
-#        order: 4
-#      - moduleName: scan
-#        tools: [ 'DNSTwister', 'Nuclei', 'Corsy']
-#        order: 5
-#      - moduleName: secretscanner
-#        tools: ['SecretScanner']
-#        order: 6
+      - moduleName : discovery
+        tools: ['Subfinder']
+        order: 1
+      - moduleName: prerecon
+        tools: ['FindCDN', 'Naabu']
+        order: 2
+      - moduleName: activehostscan
+        tools: ['HTTPX_Active', 'HTTPX']
+        order: 3
+      - moduleName: activerecon
+        tools: ['Wafw00f']
+        order: 4
+      - moduleName: scan
+        tools: [ 'DNSTwister', 'Nuclei', 'Corsy']
+        order: 5
       - moduleName: secretscanner
-        tools: ['GithubScanner']
+        tools: ['SecretScanner','GithubScanner']
         order: 6
 
 # This workflow is for product security teams. It includes tools like dns and Ipinfo. Please provide the key for IPinfo     
@@ -52,7 +49,7 @@ workflow:
         tools: [ 'DNSTwister', 'Nuclei', 'NucleiInfo', 'Corsy']
         order: 5
       - moduleName: secretscanner
-        tools: ['SecretScanner']
+        tools: ['SecretScanner','GithubScanner']
         order: 6
 
   # This workflow excludes some tools viz SSLMate, IPinfo, DNSTwister, Csper
@@ -76,7 +73,7 @@ workflow:
         tools: [ 'Nuclei', 'NucleiInfo']
         order: 5
       - moduleName: secretscanner
-        tools: ['SecretScanner']
+        tools: ['SecretScanner','GithubScanner']
         order: 6
 
 
@@ -98,16 +95,13 @@ aws:
 
 secretscanner:
   # org       : This will perform scan at the org level (https://api.github.com/orgs/{org}/repos?page=)
-  # pattern   : This will perform scan across the publicly available repos based on the github_config in GitHub
   # public    : This will perform scan based on the Assets/Domain across public repos in the GitHub
-#  github_method: ['org','pattern','public']
   github_method: ['public']
 
 
 github_config:
   host: "https://api.github.com"
-  tokens : [ "Z2l0aHViX3BhdF8xMUFLRk1LNFEwYTRKRVhDQkcxNDFjX29lS2tBSkJ6dnU3a0lmaGdFcTg0VVZrUUhSNWIybFViaElhckk2Z0JzaDcyVFYzRVJNT211TlJWSXpv",
-            "Z2l0aHViX3BhdF8xMUFGU1pJSFEwY1pCOGZROFl1U1FLXzV2TTBkMk16N2pubHJxVkZrVDFMeTFMNjQwcXZQcUl1a1ptdnhIVk1VZEJKRUJDN1Y1SmlzbVZIY1lR"]
+  tokens : []
   download_location: '/tmp/repos/'
 
 app:
@@ -129,7 +123,8 @@ notify:
 
 
 dbConfig:
-  mongoConnectionString: "mongodb://root:pass123@localhost:27017/?authMechanism=DEFAULT"
+#  mongoConnectionString: "mongodb://localhost:27000/mantis"
+  mongoConnectionString: "mongodb://localhost:27017/"
 
 
 logging:

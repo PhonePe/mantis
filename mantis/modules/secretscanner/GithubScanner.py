@@ -32,20 +32,20 @@ class GithubScanner(BaseScanner):
         return [(self, "GithubScanner")]
 
     async def execute(self, tool_tuple):
-        results = {}
+        results = {"success": 0, "failure": 0}
         try:
-            results["success"] = 0
-            results["failure"] = 0
-            scanner = GitOperation(self.args,self.methods)
-            if "org" in self.methods:
-                await scanner.org_scan()
-            if "public" in self.methods:
-                await scanner.public_scan(self.domains)
-            results["success"] = 1
-            results["failure"] = 0
-            return results
+            scanner = GitOperation(self.args, self.methods)
+
+            # Run each method in self.methods
+            for method in self.methods:
+                if method == "org":
+                    await scanner.org_scan()
+                elif method == "public":
+                    await scanner.public_scan(self.domains)
+
+            results["success"] = 1  # Set success if all scans complete without errors
         except Exception as e:
             results["exception"] = str(e)
             results["failure"] = 1
-            results["success"] = 0
-            return  results
+
+        return results
