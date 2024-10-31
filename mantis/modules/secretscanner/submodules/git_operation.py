@@ -108,6 +108,7 @@ class GitOperation:
 
                     if response.status_code == 403:  # Rate limit hit, switch token
                         self.switch_token()
+                        time.sleep(5)
                         continue
 
                     if response.status_code != 200:
@@ -117,6 +118,7 @@ class GitOperation:
                     code_results = json.loads(response.text)
                     if not code_results.get('items'):  # Break if no more results
                         logging.info(f"No more results for domain {domain} on page {page}")
+                        time.sleep(5)
                         break
 
                     logging.info(f"Found {len(code_results['items'])} results for domain {domain}")
