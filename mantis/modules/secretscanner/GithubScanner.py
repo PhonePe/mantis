@@ -34,10 +34,10 @@ class GithubScanner(BaseScanner):
     async def execute(self, tool_tuple):
         results = {"success": 0, "failure": 0}
         try:
-            scanner = GitOperation(self.args, self.methods)
 
             # Run each method in self.methods
             for method in self.methods:
+                scanner = GitOperation(self.args, method)
                 if method == "org":
                     await scanner.org_scan()
                 elif method == "public":

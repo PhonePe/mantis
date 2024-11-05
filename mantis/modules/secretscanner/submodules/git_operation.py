@@ -25,9 +25,9 @@ import subprocess
 
 class GitOperation:
 
-    def __init__(self,args,methods):
+    def __init__(self,args,method):
         self.args = args
-        self.methods = methods
+        self.method = method
         self.github_api_host = ConfigProvider.get_config().github_config.host
         self.tokens = ConfigProvider.get_config().github_config.tokens
         self.token_index = 0
@@ -54,7 +54,7 @@ class GitOperation:
     async def org_scan(self):
         self.create_dir()
         org = self.args.org
-        method = self.methods
+        method = self.method
         page = 1
         results = {"success": 0, "failure": 0}
 
@@ -169,7 +169,7 @@ class GitOperation:
                 extended_dict_list = []
                 extended_assets_dict = {}
 
-                if "org" in self.methods:
+                if "org" == self.method:
                     extended_assets_dict["_id"] = repo_url
                     extended_assets_dict["url"] = repo_url
                     extended_assets_dict["asset"] = repo_url
@@ -180,7 +180,7 @@ class GitOperation:
                     repo_path = GitOperation.clone_repo(repo_url)
 
 
-                if "public" in self.methods:
+                if "public" in self.method:
                     extended_assets_dict["_id"] = github_url
                     extended_assets_dict["url"] = github_url
                     extended_assets_dict["asset"] = domain
