@@ -53,3 +53,16 @@ class Findings(BaseModel):
     falsepositive: bool = Field(None)
     status: str = "Open"
     modified_by: str = Field(None)
+
+
+class Extended(BaseModel):
+    _id: str = Field(..., alias="_id")
+    asset: str = Field(...)
+    url: str = Field(...)
+    asset_type: str = Field(...)
+    org: str = Field(...)
+    is_verified: Optional[Literal['verified', 'not_verified']] = Field(None)
+    availability_status: Optional[Literal['Exists', 'Not Exists']] = Field(None)
+    created_timestamp: str = Field(None)
+    updated_timestamp: Optional[str] = Field(None)
+    others: Optional[dict] = dict()
