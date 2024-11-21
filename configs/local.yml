@@ -116,7 +116,7 @@ secretscanner:
 
 github_config:
   host: "https://api.github.com"
-  tokens : [] #encode the github PAT into Base64 and use it . ['Z2l0aHViX3BhdF94eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4','Z2l0aHViX3BhdF94eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4']
+  tokens : [] #encode the github PAT into Base64 and use it . ['Base64(github_PAT1)','Base64(github_PAT2)']
   download_location: '/tmp/repos/'
 
 app:

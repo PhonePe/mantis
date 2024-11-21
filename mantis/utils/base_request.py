@@ -10,13 +10,6 @@ class BaseRequestExecutor:
     @staticmethod
     @retry((ConnectionError, Timeout), delay=5, tries=5)
     def sendRequest(method, api_tuple):
-        # Burp Proxy
-        http_proxy = "http://127.0.0.1:8083"
-        https_proxy = "http://127.0.0.1:8083"
-        proxyDict = {
-            "http": http_proxy,
-            "https": https_proxy,
-        }
         url, headers, body, asset = api_tuple
         session = requests.session()
         try:
@@ -37,10 +30,9 @@ class BaseRequestExecutor:
 
             elif method == "GET":
                 if headers is not None:
-                    response = session.get(url, headers=headers, verify=False, proxies=proxyDict,
-                                           timeout=BaseRequestExecutor.TIMEOUT)
+                    response = session.get(url, headers=headers, verify=True, timeout=BaseRequestExecutor.TIMEOUT)
                 else:
-                    response = session.get(url, verify=False, proxies=proxyDict, timeout=BaseRequestExecutor.TIMEOUT)
+                    response = session.get(url, verify=True, timeout=BaseRequestExecutor.TIMEOUT)
 
                 logging.debug(f"Response code for {url} : {response.status_code}, {response.request}")
 

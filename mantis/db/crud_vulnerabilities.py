@@ -31,11 +31,6 @@ async def findings_bulk_mixed_query(bulk_write_query):
     except Exception as e:
         logging.debug(f'Findings Bulk write error while update: {e}')
 
-
-import logging
-from mantis.db.database import findings_collection
-
-
 async def check_field_exists(field_name: str, value: str) -> bool:
     try:
         query = {field_name: value}

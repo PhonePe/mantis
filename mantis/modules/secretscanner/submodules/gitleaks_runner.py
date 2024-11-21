@@ -26,7 +26,7 @@ class GitleaksRunner:
 
     @staticmethod
     def process_repos(domain,path):
-        commands = "/opt/homebrew/bin/gitleaks detect --source {path}{DOMAIN}/ --no-git -f json -r {path}{DOMAIN}/report.json -l trace -v"
+        commands = "gitleaks detect --source {path}{DOMAIN}/ --no-git -f json -r {path}{DOMAIN}/report.json -l trace -v"
         logging.debug("Running GitLeaks...")
         with ThreadPoolExecutor() as executor:
             futures = [executor.submit(GitleaksRunner.run_command, domain, commands, path) ]
