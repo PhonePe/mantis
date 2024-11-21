@@ -17,13 +17,6 @@ Information inserted
 
 
 class GithubScanner(BaseScanner):
-    # Burp Proxy
-    http_proxy = "http://127.0.0.1:8083"
-    https_proxy = "http://127.0.0.1:8083"
-    proxyDict = {
-        "http": http_proxy,
-        "https": https_proxy,
-    }
 
     async def init(self, args: ArgsModel):
         self.args = args
