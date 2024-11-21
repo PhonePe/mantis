@@ -108,24 +108,23 @@ app:
   default: ["None"]
   
 notify:
-  - teamName: hitesh
-    scanEfficiency: true 
+  - teamName: appsec
+    scanEfficiency: true
     channel:
       slack:
-        - REDACTED
+        - None
+      mattermost:
+        - "https://mattermost.tld/hooks/my-personal-hook"
     app: []
     assets:
-#      - subdomain
-#      - certificate
-    findings: 
-#      - vulnerability
+      - subdomain
+      - certificate
+    findings:
+      - vulnerability
       - secret
 
-
 dbConfig:
-#  mongoConnectionString: "mongodb://localhost:27000/mantis"
-  mongoConnectionString: "mongodb://localhost:27017/"
-
+  mongoConnectionString: 'mongodb://mantis.db:27017'
 
 logging:
   version: 1
