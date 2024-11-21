@@ -1,5 +1,13 @@
 # Do not store sensitive information and check-in code to gitlab
 
+report:
+  title: "Attack Surface Management Report"
+  author: "John Doe"
+  date: "2024-09-30"
+  header: "Confidential - For Internal Use Only"
+  footer: "Company XYZ - All Rights Reserved"
+  format: "pdf"
+
 workflow:
   - workflowName: 'default'
     schedule: 'daily between 00:00 and 04:00'
@@ -24,20 +32,20 @@ workflow:
         tools: ['SecretScanner','GithubScanner']
         order: 6
 
-# This workflow is for product security teams. It includes tools like dns and Ipinfo. Please provide the key for IPinfo     
+# This workflow is for product security teams. It includes tools like dns and Ipinfo. Please provide the key for IPinfo
   - workflowName: 'productsecurity'
     schedule: 'daily between 00:00 and 04:00'
     cmd: []
     scanNewOnly: true
     workflowConfig:
       - moduleName : dns
-        tools: ['Route53', 'Cloudflare'] 
+        tools: ['Route53', 'Cloudflare']
         order: 1
       - moduleName : discovery
-        tools: ['Subfinder', 'SSLMate', 'Amass'] 
+        tools: ['Subfinder', 'SSLMate']
         order: 1
       - moduleName: prerecon
-        tools: ['FindCDN', 'Naabu', 'IPinfo'] 
+        tools: ['FindCDN', 'Naabu', 'IPinfo']
         order: 2
       - moduleName: activehostscan
         tools: ['HTTPX_Active', 'HTTPX']
@@ -49,7 +57,7 @@ workflow:
         tools: [ 'DNSTwister', 'Nuclei', 'NucleiInfo', 'Corsy']
         order: 5
       - moduleName: secretscanner
-        tools: ['SecretScanner','GithubScanner']
+        tools: ['SecretScanner']
         order: 6
 
   # This workflow excludes some tools viz SSLMate, IPinfo, DNSTwister, Csper
@@ -58,7 +66,7 @@ workflow:
     cmd: []
     workflowConfig:
       - moduleName : discovery
-        tools: ['Subfinder', 'Amass']
+        tools: ['Subfinder']
         order: 1
       - moduleName: prerecon
         tools: ['FindCDN', 'Naabu']
@@ -73,40 +81,47 @@ workflow:
         tools: [ 'Nuclei', 'NucleiInfo']
         order: 5
       - moduleName: secretscanner
-        tools: ['SecretScanner','GithubScanner']
+        tools: ['SecretScanner']
         order: 6
-
 
   - workflowName: 'test'
     schedule: 'daily between 00:00 and 04:00'
     cmd: []
     workflowConfig:
       - moduleName : dns
-        tools: ['Cloudflare'] 
+        tools: ['Cloudflare']
+        order: 1
+
+  - workflowName: 'testreport'
+    schedule: 'daily between 00:00 and 04:00'
+    cmd: []
+    workflowConfig:
+      - moduleName : discovery
+        tools: ['Subfinder']
         order: 1
 
 nuclei_template_path:
-  whitelist: 
-  blacklist: 
+  whitelist:
+  blacklist:
 
 aws:
-  config_path: 
+  config_path:
   credentials_path:
 
 secretscanner:
   # org       : This will perform scan at the org level (https://api.github.com/orgs/{org}/repos?page=)
   # public    : This will perform scan based on the Assets/Domain across public repos in the GitHub
-  github_method: ['public']
+  github_method: ['org','public']
 
 
 github_config:
   host: "https://api.github.com"
-  tokens : []
+  tokens : [] #encode the github PAT into Base64 and use it . ['Z2l0aHViX3BhdF94eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4','Z2l0aHViX3BhdF94eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4']
   download_location: '/tmp/repos/'
 
 app:
   default: ["None"]
-  
+
 notify:
   - teamName: appsec
     scanEfficiency: true
@@ -122,6 +137,7 @@ notify:
     findings:
       - vulnerability
       - secret
+
 
 dbConfig:
   mongoConnectionString: 'mongodb://mantis.db:27017'
