@@ -92,9 +92,6 @@ COPY pyproject.toml poetry.lock* /home/mantis/
 # Install dependencies using Poetry
 RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
 
-# Install lxml
-RUN pip install lxml==5.3.0
-
 # Creating Mantis alias
 RUN echo 'export PS1="🦗 Mantis > " && \
 alias mantis="python /home/mantis/launch.py" && \
