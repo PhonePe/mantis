@@ -34,7 +34,7 @@ class Alerter:
                             logging.error("Slack must provide list of webhooks, check local.yml")
                     if channel_type == 'mattermost':
                         if isinstance(team.channel[channel_type], list):
-                            for webhook in team.channel[channel_type];
+                            for webhook in team.channel[channel_type]:
                                 if team.scanEfficiency == True:
                                     Notifications.send_mattermost_notifications(scan_efficiency_blocks, webhook)
                                 Notifications.send_mattermost_notifications(slack_blocks, webhook)
