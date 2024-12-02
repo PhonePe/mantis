@@ -25,8 +25,8 @@ class Subfinder(ToolScanner):
     
     def parse_report(self,outfile):
         output_dict_list = []
-        amass_output = open(outfile).readlines()
-        for domain in amass_output:
+        subfinder_output = open(outfile).readlines()
+        for domain in subfinder_output:
             domain_dict = {}
             domain_dict['_id'] = domain.rstrip('\n')
             domain_dict['asset'] = domain.rstrip('\n')
