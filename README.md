@@ -87,6 +87,8 @@ Run the respective docker setup file based on your OS
 ./docker-setup-macos.sh
 
 ./docker-setup-ubuntu.sh
+
+./docker-setup-windows.ps1
 ```
 
 For uninstalling Mantis (remove all the resources created by installation), run the following command in the same directory
