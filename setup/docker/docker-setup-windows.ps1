@@ -44,7 +44,7 @@ if (!(Get-Command docker-compose -ErrorAction SilentlyContinue)) {
 
 # Check if any Docker Compose services are "Up"
 if (docker compose ps | Select-String -Pattern "Up") {
-    Write-Host "[?] Looks like this script was run previously to set up Mantis." -ForegroundColor Yellow
+    Write-Host "[?] Looks like this script was run previously to set up Mantis." -ForegroundColor "Yellow"
 
     # Display the services and their states in a formatted way
     $services = docker compose ps --format json | ConvertFrom-Json
@@ -57,19 +57,19 @@ if (docker compose ps | Select-String -Pattern "Up") {
     } | Format-Table -Property Service, State -AutoSize
 
     # Display options for cleanup
-    Write-Host "`n[!] Previously created resources need to be cleaned up before proceeding with installation`n" -ForegroundColor Yellow
+    Write-Host "`n[!] Previously created resources need to be cleaned up before proceeding with installation`n" -ForegroundColor "Yellow"
     Write-Host "Following are your options:`n" -ForegroundColor "Cyan"
 }
 
-Write-Host "1. Delete all the previously created containers" -ForegroundColor Cyan
-Write-Host "    - Recommended to export the dashboard before deleting Appsmith" -ForegroundColor Yellow
-Write-Host "    - Recommended to backup the database before deleting MongoDB" -ForegroundColor Yellow
-Write-Host "2. Delete Mantis, Appsmith and don't delete MongoDB" -ForegroundColor Cyan
-Write-Host "    - Recommended to export the dashboard before deleting Appsmith" -ForegroundColor Yellow
-Write-Host "3. Delete Mantis, MongoDB and don't delete Appsmith" -ForegroundColor Cyan
-Write-Host "    - Recommended to backup the database before deleting MongoDB" -ForegroundColor Yellow
-Write-Host "      https://www.mongodb.com/docs/manual/tutorial/backup-and-restore-tools/" -ForegroundColor Cyan
-Write-Host "4. Delete Mantis and don't delete Appsmith, MongoDB `n" -ForegroundColor Cyan
+Write-Host "1. Delete all the previously created containers" -ForegroundColor "Cyan"
+Write-Host "    - Recommended to export the dashboard before deleting Appsmith" -ForegroundColor "Yellow"
+Write-Host "    - Recommended to backup the database before deleting MongoDB" -ForegroundColor "Yellow"
+Write-Host "2. Delete Mantis, Appsmith and don't delete MongoDB" -ForegroundColor "Cyan"
+Write-Host "    - Recommended to export the dashboard before deleting Appsmith" -ForegroundColor "Yellow"
+Write-Host "3. Delete Mantis, MongoDB and don't delete Appsmith" -ForegroundColor "Cyan"
+Write-Host "    - Recommended to backup the database before deleting MongoDB" -ForegroundColor "Yellow"
+Write-Host "      https://www.mongodb.com/docs/manual/tutorial/backup-and-restore-tools/" -ForegroundColor "Cyan"
+Write-Host "4. Delete Mantis and don't delete Appsmith, MongoDB `n" -ForegroundColor "Cyan"
 
 
 # Cleanup options for previous setup
