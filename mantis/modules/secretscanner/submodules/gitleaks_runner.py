@@ -24,3 +24,12 @@ class GitleaksRunner:
             # Wait for all tasks to complete
             for future in futures:
                 future.result()
+    @staticmethod
+    def process_repos(domain,path):
+        commands = "gitleaks detect --source {path}{DOMAIN}/ --no-git -f json -r {path}{DOMAIN}/report.json -l trace -v"
+        logging.debug("Running GitLeaks...")
+        with ThreadPoolExecutor() as executor:
+            futures = [executor.submit(GitleaksRunner.run_command, domain, commands, path) ]
+            # Wait for all tasks to complete
+            for future in futures:
+                future.result()

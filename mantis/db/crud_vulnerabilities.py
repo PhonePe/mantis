@@ -31,4 +31,19 @@ async def findings_bulk_mixed_query(bulk_write_query):
     except Exception as e:
         logging.debug(f'Findings Bulk write error while update: {e}')
 
-    
+async def check_field_exists(field_name: str, value: str) -> bool:
+    try:
+        query = {field_name: value}
+
+        result = await findings_collection.find_one(query)
+
+        if result:
+            logging.debug(f'Document with {field_name} = {value} exists in the database.')
+            return True
+        else:
+            logging.debug(f'Document with {field_name} = {value} does not exist in the database.')
+            return False
+
+    except Exception as e:
+        logging.debug(f"Error checking field {field_name} in the database: {e}")
+        return False
