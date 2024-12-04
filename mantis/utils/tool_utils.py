@@ -193,7 +193,7 @@ async def get_extended_by_asset(asset: str, asset_type: str = None):
         }
     })
 
-    passives = await read_passives(pipeline)
+    passives = await read_extended_assets(pipeline)
 
     return passives if passives else []
 

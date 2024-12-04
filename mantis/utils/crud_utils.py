@@ -7,7 +7,7 @@ from mantis.db.crud_vulnerabilities import add_findings_query, findings_bulk_mix
 from mantis.utils.common_utils import CommonUtils
 from mantis.config_parsers.config_client import ConfigProvider
 from mantis.constants import ASSET_TYPE_SUBDOMAIN
-from mantis.utils.tool_utils import get_findings_by_asset , get_passives_by_asset
+from mantis.utils.tool_utils import get_findings_by_asset
 from pymongo import UpdateOne, InsertOne
 from pydantic import ValidationError
 from datetime import datetime
