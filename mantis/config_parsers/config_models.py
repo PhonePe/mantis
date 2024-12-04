@@ -48,6 +48,15 @@ class NucleiTemplate(BaseModel):
     whitelist: str = Field(None)
     blacklist: str = Field(None)
 
+class GithubConfig(BaseModel):
+    host: str
+    tokens: list
+    download_location: str
+
+
+class SecretScanner(BaseModel):
+    github_method: list
+
 class AppConfig(BaseModel):
     report: dict
     workflow: List[Workflow]
@@ -58,4 +67,6 @@ class AppConfig(BaseModel):
     app: dict
     nuclei_template_path: NucleiTemplate
     aws: AWSConfig
+    github_config: GithubConfig
+    secretscanner: SecretScanner
  
