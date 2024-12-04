@@ -34,7 +34,7 @@ class Notify(BaseModel):
     # This function will check for the channel types that are integrated in Mantis. 
     @validator('channel')
     def check_channel(cls, v):
-        valid_channels = ['slack']
+        valid_channels = ['slack', 'mattermost']
         for key in v.keys():
             if key not in valid_channels:
                 raise ValueError("Invalid channel Name specified. Please only select amongst following options: ", valid_channels)
