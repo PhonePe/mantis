@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mantis"
-version = "1.4.0"
+version = "1.5.0"
 description = "Mantis is a security framework that automates the workflow of discovery, reconnaissance, and vulnerability scanning."
 authors = ["Prateek Thakare <pratikthakare65@gmail.com>",
            "Bharath Kumar <bharath.isecure@protonmail.com>", 
