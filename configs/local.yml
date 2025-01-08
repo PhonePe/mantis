@@ -139,7 +139,7 @@ secretscanner:
 
 github_config:
   host: "https://api.github.com"
-  tokens : ['',''] #encode the github PAT into Base64 and use it . ['Base64(github_PAT1)','Base64(github_PAT2)']
+  tokens : [] #encode the github PAT into Base64 and use it . ['Base64(github_PAT1)','Base64(github_PAT2)']
   download_location: 'logs/'
 
 logging:

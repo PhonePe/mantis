@@ -31,6 +31,10 @@ class GithubScanner(BaseScanner):
             # Run each method in self.methods
             for method in self.methods:
                 scanner = GitOperation(self.args, method)
+
+                if len(scanner.tokens) == 0:
+                    logging.exception("Github tokens not present in local.yml")
+                    raise Exception("Github token absent")
                 if method == "org":
                     await scanner.org_scan()
                 elif method == "public":
