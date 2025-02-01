@@ -14,7 +14,7 @@ workflow:
     cmd: []
     workflowConfig:
       - moduleName : discovery
-        tools: ['Subfinder']
+        tools: ['Subfinder','Go_Virustotal']
         order: 1
       - moduleName: prerecon
         tools: ['FindCDN', 'Naabu'] 

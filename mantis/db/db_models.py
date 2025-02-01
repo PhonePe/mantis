@@ -25,7 +25,8 @@ class Assets(BaseModel):
     updated_timestamp: Optional[str] = Field(None)
     active_hosts: Optional[list] = list()
     stale: Optional[bool] = False
-    repositories: Optional[str] = Field(None) ## if 
+    repositories: Optional[str] = Field(None)
+    tools_source: Optional[str] = Field(None)
     others: Optional[dict] = dict()
 
 
