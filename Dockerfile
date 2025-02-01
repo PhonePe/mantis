@@ -22,7 +22,6 @@ RUN wget https://github.com/Abhinandan-Khurana/go_virustotal/releases/download/v
 RUN mv go_virustotal-linux-v1.0.1 go_virustotal
 RUN mv go_virustotal /usr/bin
 
-
 # Install HTTPX
 RUN echo "Installing HTTPX"
 RUN wget https://github.com/projectdiscovery/httpx/releases/download/v1.6.8/httpx_1.6.8_linux_amd64.zip
