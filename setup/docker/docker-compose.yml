@@ -1,4 +1,13 @@
 services:
+  emulator:
+    # Cross-Platform support
+    # https://github.com/tonistiigi/binfmt
+    image: tonistiigi/binfmt
+    container_name: emulator
+    privileged: true
+    command: --install amd64
+    network_mode: bridge
+    restart: "no"
   mantis:
     # When testing local changes, uncomment the following commented lines and comment out "image"
     # This will build the mantis container locally instead of pulling from GHRC
@@ -16,6 +25,8 @@ services:
       - "mantis.db:10.10.0.3"
     environment:
       - "PS1='Mantis > '"
+    depends_on:
+      - emulator
   mongodb:
     container_name: mongodb
     image: mongo:latest
