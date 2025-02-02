@@ -1,0 +1,58 @@
+class_name: ListWorkflow
+description: A workflow class for listing organizations and domains from the database
+parent_class: None
+imports:
+  - logging
+  - mantis.models.args_model.ArgsModel
+  - mantis.utils.list_subcommand_utils.get_orgs
+  - mantis.utils.list_subcommand_utils.get_domains
+
+methods:
+  executor:
+    decorator: '@staticmethod'
+    signature: 'async def executor(args: ArgsModel)'
+    docstring: |
+      Execute the list workflow based on provided arguments to display organizations 
+      and domains from the database.
+      
+      Args:
+          args (ArgsModel): Command line arguments containing list operation parameters
+      
+      Returns:
+          None: Prints results to stdout
+    parameters:
+      args:
+        type: ArgsModel
+        description: Command line arguments model containing filtering and listing options
+    
+    natural_language_logic: |
+      The executor method handles two main listing operations:
+      
+      1. List Organizations (when args.list_orgs is True):
+         - Logs an info message about retrieving organizations
+         - Calls get_orgs() asynchronously to fetch all organizations
+         - If organizations are found:
+           * Prints the total count of organizations
+           * Prints each organization name on a new line
+         - If no organizations are found:
+           * Logs an info message indicating no organizations were found
+      
+      2. List Domains (when args.list_domains is True):
+         - Logs an info message about retrieving subdomains
+         - Calls get_domains() with filtering parameters:
+           * Organizations list
+           * Asset types list
+           * Date range filters (before and after)
+         - If domains are found:
+           * Prints the organizations filter being used
+           * Prints total count of domains found
+           * Prints each domain on a new line
+         - If no domains are found:
+           * Logs an info message indicating no domains were found
+      
+      Edge Cases:
+      - Handles empty results for both organizations and domains
+      - Can process multiple organizations in the filter
+      - Handles date range filtering for domains
+      - Both list operations can be requested in the same execution
+      - Filters can be empty or contain multiple values

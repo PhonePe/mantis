@@ -1,0 +1,56 @@
+class_name: MantisWorkflow
+description: Main workflow selector class that directs execution to appropriate workflow based on command line arguments
+parent_class: None
+imports:
+  - mantis.models.args_model.ArgsModel
+  - mantis.modules.workflow.Workflow
+  - mantis.workflows.list_workflow.ListWorkflow
+  - mantis.workflows.report_workflow.ReportWorkflow
+  - asyncio
+
+methods:
+  select_workflow:
+    decorator: '@staticmethod'
+    signature: 'def select_workflow(args: ArgsModel) -> None'
+    docstring: |
+      Select and execute the appropriate workflow based on the command line arguments.
+      
+      Args:
+          args (ArgsModel): Command line arguments containing workflow selection flags
+      
+      Returns:
+          None
+    parameters:
+      args:
+        type: ArgsModel
+        description: Command line arguments model containing workflow selection flags
+    
+    natural_language_logic: |
+      The select_workflow method serves as the main routing mechanism for different workflows:
+      
+      1. Decision Flow:
+         - Examines the input arguments to determine which workflow to execute
+         - Uses a priority-based selection where list and report commands take precedence
+         - Falls back to the default workflow if no specific workflow is requested
+      
+      2. Workflow Selection Logic:
+         - If args.list_ is True:
+           * Executes the ListWorkflow.executor asynchronously
+           * Used for listing organizations and domains
+         - Else if args.report_ is True:
+           * Executes the ReportWorkflow.executor asynchronously
+           * Used for generating reports
+         - Otherwise (default case):
+           * Executes the main Workflow.workflow_executor asynchronously
+           * Handles the primary scanning and processing functionality
+      
+      3. Execution Handling:
+         - All workflows are executed asynchronously using asyncio.run
+         - Ensures proper async/await pattern usage
+         - Maintains isolation between different workflow types
+      
+      Edge Cases:
+      - Handles case when multiple workflow flags are set (uses priority order)
+      - Ensures async execution for all workflow types
+      - Gracefully handles workflow selection when no specific workflow is requested
+      - Maintains separation of concerns between different workflow types

@@ -1,0 +1,63 @@
+class_name: ExecuteScanThreadPool
+description: A ThreadPool-based scanning executor class for concurrent tool execution
+parent_class: None
+imports:
+  - time
+  - logging
+  - asyncio
+  - datetime.timedelta
+  - mantis.utils.common_utils.CommonUtils
+  - mantis.models.tool_logs_model.AssetLogs
+
+methods:
+  execute_and_store:
+    signature: 'async def execute_and_store(self, tool_tuple)'
+    docstring: |
+      Execute a scanning tool and store its results using thread pool execution.
+      
+      Args:
+          tool_tuple: A tuple containing the scanner object and associated parameters
+      
+      Returns:
+          AssetLogs: Asset logging information including scan results and metrics
+    parameters:
+      tool_tuple:
+        type: tuple
+        description: Tuple containing scanner object and associated scan parameters
+    
+    natural_language_logic: |
+      The execute_and_store method handles concurrent scanning execution:
+      
+      1. Execution Flow:
+         - Records start time using high-precision performance counter
+         - Extracts scanner object from the input tuple
+         - Logs debug message indicating execution start
+         - Asynchronously executes the scanner with provided parameters
+      
+      2. Results Processing:
+         - Validates scan results
+         - If results are None:
+           * Logs a warning about missing efficiency matrix
+           * Indicates potential impact on scan efficiency
+         - If results are present:
+           * Adds tool name to results dictionary (using scanner class name)
+           * Calculates execution time
+           * Formats time taken as human-readable duration
+           * Adds execution time to results
+      
+      3. Data Storage:
+         - Creates AssetLogs object from results dictionary
+         - Returns the asset log for further processing
+      
+      Performance Tracking:
+         - Uses high-precision performance counter for accurate timing
+         - Calculates exact execution duration
+         - Formats duration as HH:MM:SS string
+      
+      Edge Cases:
+      - Handles None results from scanner execution
+      - Processes timing even for very quick scans
+      - Maintains thread safety in pool execution
+      - Handles async execution in threaded environment
+      - Proper error logging for scan failures
+      - Maintains scanner isolation in thread pool

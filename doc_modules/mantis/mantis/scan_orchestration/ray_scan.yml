@@ -1,0 +1,63 @@
+class_name: ExecuteRayScan
+description: A Ray-based distributed scanning executor class for parallel tool execution
+parent_class: None
+decorator: '@ray.remote'
+imports:
+  - ray
+  - time
+  - logging
+  - datetime.timedelta
+  - mantis.models.tool_logs_model.AssetLogs
+
+methods:
+  execute_and_store:
+    signature: 'async def execute_and_store(self, tool_tuple)'
+    docstring: |
+      Execute a scanning tool and store its results using Ray distributed computing framework.
+      
+      Args:
+          tool_tuple: A tuple containing the scanner object and associated parameters
+      
+      Returns:
+          AssetLogs: Asset logging information including scan results and metrics
+    parameters:
+      tool_tuple:
+        type: tuple
+        description: Tuple containing scanner object and associated scan parameters
+    
+    natural_language_logic: |
+      The execute_and_store method handles distributed scanning execution:
+      
+      1. Execution Flow:
+         - Records start time for performance measurement
+         - Extracts scanner object from the input tuple
+         - Logs the execution start with scanner class name
+         - Asynchronously executes the scanner with provided parameters
+      
+      2. Results Processing:
+         - Validates scan results
+         - If results are None:
+           * Logs a warning about missing efficiency matrix
+           * Indicates potential performance impact
+         - If results are present:
+           * Adds tool name to results (using scanner class name)
+           * Calculates execution time
+           * Formats time taken as human-readable duration
+           * Adds time taken to results
+      
+      3. Data Storage:
+         - Creates AssetLogs object from results
+         - Returns the asset log for further processing
+      
+      Performance Tracking:
+         - Uses high-precision performance counter
+         - Calculates exact execution duration
+         - Formats duration as HH:MM:SS
+      
+      Edge Cases:
+      - Handles None results from scanner execution
+      - Processes timing even for very quick scans
+      - Maintains distributed execution context with Ray
+      - Handles async execution in distributed environment
+      - Proper error logging for scan failures
+      - Maintains scanner isolation in distributed setup

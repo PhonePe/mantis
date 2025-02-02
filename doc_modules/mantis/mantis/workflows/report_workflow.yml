@@ -1,0 +1,42 @@
+class_name: ReportWorkflow
+description: A workflow class for handling report generation and display
+parent_class: None
+imports:
+  - logging
+  - mantis.config_parsers.config_client.ConfigProvider
+
+methods:
+  executor:
+    decorator: '@staticmethod'
+    signature: 'async def executor()'
+    docstring: |
+      Execute the report workflow to retrieve and display the report configuration.
+      
+      Args:
+          None
+      
+      Returns:
+          None: Prints report configuration to stdout
+    parameters: {}
+    
+    natural_language_logic: |
+      The executor method handles the report generation process:
+      
+      1. Configuration Retrieval:
+         - Accesses the global configuration using ConfigProvider
+         - Retrieves the report-specific configuration section
+      
+      2. Report Display:
+         - Prints the report configuration to stdout
+         - Uses a simple format: "Report: {configuration}"
+      
+      Process Flow:
+      - Gets configuration instance from ConfigProvider
+      - Accesses the 'report' section of the configuration
+      - Displays the report information
+      
+      Edge Cases:
+      - Handles missing report configuration
+      - Configuration access errors should be handled by ConfigProvider
+      - Asynchronous execution support for potential future enhancements
+      - No input parameters required, making it simple to execute
