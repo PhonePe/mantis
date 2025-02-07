@@ -9,6 +9,10 @@ import os
 import logging
 
 '''
+Tool Author: Abhinandan Khurana
+Github: github.com/abhinandan-khurana
+Tool Link: github.com/abhinandan-khurana/go_virustotal
+
 Go_Virustotal module enumerates subdomain of the TLDs which are fetched from database. 
 Output file: .json 
 ------------------
@@ -68,7 +72,6 @@ class Go_Virustotal(ToolScanner):
                     'tool_source': 'Go_Virustotal'
                 }
                 output_dict_list.append(domain_dict)
-        print(output_dict_list)
         return output_dict_list
     
     async def db_operations(self, tool_output_dict, asset=None):
