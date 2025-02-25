@@ -17,7 +17,7 @@ workflow:
         tools: ['Subfinder','Go_Virustotal','Go_Wayback']
         order: 1
       - moduleName: prerecon
-        tools: ['FindCDN', 'Naabu'] 
+        tools: ['FindCDN', 'Naabu']
         order: 2
       - moduleName: activehostscan
         tools: ['HTTPX_Active', 'HTTPX']
@@ -29,8 +29,9 @@ workflow:
         tools: [ 'DNSTwister', 'Nuclei', 'Corsy']
         order: 5
       - moduleName: secretscanner
-        tools: ['SecretScanner']
+        tools: ['SecretScanner','GithubScanner']
         order: 6
+
 
 # This workflow is for product security teams. It includes tools like dns and Ipinfo. Please provide the key for IPinfo     
   - workflowName: 'productsecurity'
@@ -57,7 +58,7 @@ workflow:
         tools: [ 'DNSTwister', 'Nuclei', 'NucleiInfo', 'Corsy']
         order: 5
       - moduleName: secretscanner
-        tools: ['SecretScanner']
+        tools: ['SecretScanner','GithubScanner']
         order: 6
 
   # This workflow excludes some tools viz SSLMate, IPinfo, DNSTwister, Csper
@@ -81,7 +82,7 @@ workflow:
         tools: [ 'Nuclei', 'NucleiInfo']
         order: 5
       - moduleName: secretscanner
-        tools: ['SecretScanner']
+        tools: ['SecretScanner','GithubScanner']
         order: 6
 
   - workflowName: 'test'
@@ -130,7 +131,17 @@ notify:
 
 dbConfig:
   mongoConnectionString: 'mongodb://mantis.db:27017'
-  
+
+secretscanner:
+  # org       : This will perform scan at the org level (https://api.github.com/orgs/{org}/repos?page=)
+  # public    : This will perform scan based on the Assets/Domain across public repos in the GitHub
+  github_method: ['org','public']
+
+github_config:
+  host: "https://api.github.com"
+  tokens : [] #encode the github PAT into Base64 and use it . ['Base64(github_PAT1)','Base64(github_PAT2)']
+  download_location: 'logs/'
+
 logging:
   version: 1
   disable_existing_loggers: True
