@@ -66,4 +66,5 @@ class Extended(BaseModel):
     availability_status: Optional[Literal['Exists', 'Not Exists']] = Field(None)
     created_timestamp: str = Field(None)
     updated_timestamp: Optional[str] = Field(None)
+    tools_source: Optional[str] = Field(None)
     others: Optional[dict] = dict()
