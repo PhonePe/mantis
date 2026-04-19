@@ -252,6 +252,7 @@ If you want to contribute to this project:
 ## Need Help ? 🙋‍♂️
     
 * Take a look at our [documentation](https://phonepe.github.io/mantis/)
+* Quick-reference: [Common MongoDB Queries](./docs/common-db-queries.md)
 * Please use [Mantis Discussions](https://github.com/PhonePe/mantis/discussions) forum for all your queries
 * Please join our [discord channel](https://discord.gg/uJV8Y3uSGu)
 
