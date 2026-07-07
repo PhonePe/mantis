@@ -28,4 +28,5 @@ class ArgsModel(BaseModel):
     after_datetime_filter: str = None
     before_datetime_filter: str = None
     in_scope: bool = False
-    
+    deboard_: bool = False
+    collections: list[str] = False

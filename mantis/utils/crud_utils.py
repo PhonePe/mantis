@@ -1,9 +1,9 @@
 import hashlib
 import logging
 from mantis.db.db_models import Assets, Findings, Extended
-from mantis.db.crud_assets import add_assets_query, update_asset_query
-from mantis.db.crud_extended_assets import add_extended_assets_query
-from mantis.db.crud_vulnerabilities import add_findings_query, findings_bulk_mixed_query
+from mantis.db.crud_assets import add_assets_query, delete_assets_query, update_asset_query
+from mantis.db.crud_extended_assets import add_extended_assets_query, delete_extended_assets_query
+from mantis.db.crud_vulnerabilities import add_findings_query, delete_findings_query, findings_bulk_mixed_query
 from mantis.utils.common_utils import CommonUtils
 from mantis.config_parsers.config_client import ConfigProvider
 from mantis.constants import ASSET_TYPE_SUBDOMAIN
@@ -241,3 +241,4 @@ class CrudUtils:
                 if value in domain:
                     return key
         return default[0]
+    

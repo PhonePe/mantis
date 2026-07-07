@@ -33,3 +33,19 @@ async def update_asset_query(asset: str, org: str, mongodb_query):
         return False
     else:
         logging.error(f'Asset {asset} does not exists in DB, Update failed')
+
+async def delete_assets_query(query: dict) -> bool:
+    try:
+        if not query:
+            return False 
+        
+        logging.debug(f"Executing delete_assets_query: {query}")
+        result = await assets_collection.delete_many(query)
+        logging.info(f"Deleted {result.deleted_count} asset{'s' if result.deleted_count != 1 else ''} from the database")
+
+        return result.deleted_count > 0
+
+    except Exception as e:
+        logging.error(f"Error deleting assets: {e}")
+        return False
+    
