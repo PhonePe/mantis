@@ -1,0 +1,147 @@
+# Mantis external-tool manifest — single source of truth for recon tool versions.
+#
+# Consumed by setup/install_tools.sh (used by both the Dockerfile and native-setup.sh).
+# The installer detects the host platform ({linux|darwin}/{amd64|arm64}) and resolves
+# each tool's download using the per-tool os_tokens / arch_tokens maps below, because
+# every project names its release assets differently (amd64 vs x64, linux vs macOS, etc.).
+#
+# Fields per tool:
+#   name          final command name placed in install_dir (must match how mantis invokes it)
+#   method        binary | pip | source
+#   version       tool version (also substituted into url/bin_in_archive templates)
+#   targets        which install paths include this tool: [docker, native] (default both)
+#   archive        binary only: zip | tar.gz | none
+#   url            binary only: download template; {version}/{os}/{arch} are substituted
+#   os_tokens      binary only: map host OS (linux/darwin) -> the token this project uses
+#   arch_tokens    binary only: map host arch (amd64/arm64) -> the token this project uses
+#   bin_in_archive binary only: file name inside the archive (templatable); default = name
+#   sha256         binary only: optional per-platform checksum (see checksums: below). Empty = skip verify.
+#   go_module      binary only: optional `go install` fallback used when no prebuilt asset exists
+#                  and the Go toolchain is available (mainly for unusual arches / native installs)
+#   pip_spec       pip only: pip requirement (package name or VCS URL)
+#   extracted_dir  source only: directory name inside the archive after extraction
+#   dest           source only: absolute destination path
+#   runtime_deps   informational: OS packages the tool needs at runtime (used by `mantis doctor`)
+#
+# Checksums are intentionally left empty for now (filled in later by the upgrade-PR action).
+
+install_dir: /usr/bin
+
+tools:
+  # ---- ProjectDiscovery tools (linux/darwin x amd64/arm64 prebuilt binaries) ----
+  - name: subfinder
+    method: binary
+    version: "2.14.0"
+    archive: zip
+    bin_in_archive: subfinder
+    os_tokens: { linux: linux, darwin: macOS }
+    arch_tokens: { amd64: amd64, arm64: arm64 }
+    url: "https://github.com/projectdiscovery/subfinder/releases/download/v{version}/subfinder_{version}_{os}_{arch}.zip"
+    go_module: "github.com/projectdiscovery/subfinder/v2/cmd/subfinder@v{version}"
+    runtime_deps: []
+
+  - name: httpx
+    method: binary
+    version: "1.10.0"
+    archive: zip
+    bin_in_archive: httpx
+    os_tokens: { linux: linux, darwin: macOS }
+    arch_tokens: { amd64: amd64, arm64: arm64 }
+    url: "https://github.com/projectdiscovery/httpx/releases/download/v{version}/httpx_{version}_{os}_{arch}.zip"
+    go_module: "github.com/projectdiscovery/httpx/cmd/httpx@v{version}"
+    runtime_deps: []
+
+  - name: naabu
+    method: binary
+    version: "2.6.1"
+    archive: zip
+    bin_in_archive: naabu
+    os_tokens: { linux: linux, darwin: macOS }
+    arch_tokens: { amd64: amd64, arm64: arm64 }
+    url: "https://github.com/projectdiscovery/naabu/releases/download/v{version}/naabu_{version}_{os}_{arch}.zip"
+    go_module: "github.com/projectdiscovery/naabu/v2/cmd/naabu@v{version}"
+    runtime_deps: [libpcap]
+
+  - name: nuclei
+    method: binary
+    version: "3.11.0"
+    archive: zip
+    bin_in_archive: nuclei
+    os_tokens: { linux: linux, darwin: macOS }
+    arch_tokens: { amd64: amd64, arm64: arm64 }
+    url: "https://github.com/projectdiscovery/nuclei/releases/download/v{version}/nuclei_{version}_{os}_{arch}.zip"
+    go_module: "github.com/projectdiscovery/nuclei/v3/cmd/nuclei@v{version}"
+    runtime_deps: []
+
+  # ---- gitleaks: note arch token is x64 (not amd64) ----
+  - name: gitleaks
+    method: binary
+    version: "8.30.1"
+    archive: tar.gz
+    bin_in_archive: gitleaks
+    os_tokens: { linux: linux, darwin: darwin }
+    arch_tokens: { amd64: x64, arm64: arm64 }
+    url: "https://github.com/gitleaks/gitleaks/releases/download/v{version}/gitleaks_{version}_{os}_{arch}.tar.gz"
+    go_module: "github.com/gitleaks/gitleaks/v8@v{version}"
+    runtime_deps: []
+
+  - name: gau
+    method: binary
+    version: "2.2.4"
+    archive: tar.gz
+    bin_in_archive: gau
+    os_tokens: { linux: linux, darwin: darwin }
+    arch_tokens: { amd64: amd64, arm64: arm64 }
+    url: "https://github.com/lc/gau/releases/download/v{version}/gau_{version}_{os}_{arch}.tar.gz"
+    go_module: "github.com/lc/gau/v2/cmd/gau@v{version}"
+    runtime_deps: []
+
+  # ---- ipinfo: extracted binary is named ipinfo_{version}_{os}_{arch} ----
+  - name: ipinfo
+    method: binary
+    version: "3.3.2"
+    archive: tar.gz
+    bin_in_archive: "ipinfo_{version}_{os}_{arch}"
+    os_tokens: { linux: linux, darwin: darwin }
+    arch_tokens: { amd64: amd64, arm64: arm64 }
+    url: "https://github.com/ipinfo/cli/releases/download/ipinfo-{version}/ipinfo_{version}_{os}_{arch}.tar.gz"
+    runtime_deps: []
+
+  # ---- amass: native path only (not currently shipped in the Docker image) ----
+  - name: amass
+    method: binary
+    version: "4.1.0"
+    targets: [native]
+    archive: zip
+    bin_in_archive: amass
+    os_tokens: { linux: Linux, darwin: Darwin }
+    arch_tokens: { amd64: amd64, arm64: arm64 }
+    url: "https://github.com/owasp-amass/amass/releases/download/v{version}/amass_{os}_{arch}.zip"
+    go_module: "github.com/owasp-amass/amass/v4/...@v{version}"
+    runtime_deps: []
+
+  # ---- Python tools (architecture-independent) ----
+  - name: findcdn
+    method: pip
+    pip_spec: "git+https://github.com/cisagov/findcdn.git"
+    runtime_deps: []
+
+  - name: wafw00f
+    method: pip
+    pip_spec: "wafw00f"
+    runtime_deps: []
+
+  - name: dnstwist
+    method: pip
+    pip_spec: "dnstwist[full]"
+    runtime_deps: []
+
+  # ---- Corsy: cloned to a directory; mantis calls python3 /usr/bin/Corsy/corsy.py ----
+  - name: Corsy
+    method: source
+    version: "1.0-rc"
+    archive: zip
+    extracted_dir: "Corsy-{version}"
+    dest: "/usr/bin/Corsy"
+    url: "https://github.com/s0md3v/Corsy/archive/refs/tags/{version}.zip"
+    runtime_deps: []

@@ -55,73 +55,22 @@ sudo apt-get install -y wget unzip -qq tar gcc libpcap-dev dnsutils git python3.
 echo "export PATH='$HOME/.local/bin:$PATH'" | tee -a ~/.bashrc
 source ~/.bashrc
 
-# Install amass
-echo -e "[+]${Green} Installing AMass${NC}"
-wget -q -O amass.zip https://github.com/owasp-amass/amass/releases/download/v4.1.0/amass_Linux_amd64.zip
-unzip -qq -d amass -j amass.zip
-sudo mv amass/amass /usr/bin
+# Install yq (required by the platform-aware tool installer)
+if ! command -v yq >/dev/null 2>&1; then
+  echo -e "[+]${Green} Installing yq${NC}"
+  case "$(uname -m)" in x86_64|amd64) YQ_ARCH=amd64;; aarch64|arm64) YQ_ARCH=arm64;; *) YQ_ARCH=amd64;; esac
+  sudo wget -q -O /usr/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_${YQ_ARCH}"
+  sudo chmod +x /usr/bin/yq
+fi
 
-## Install subfinder
-echo -e "[+]${Green} Installing Subfinder${NC}"
-wget -q -O subfinder.zip https://github.com/projectdiscovery/subfinder/releases/download/v2.6.3/subfinder_2.6.3_linux_amd64.zip
-unzip -qq -d subfinder -j subfinder.zip
-sudo mv subfinder/subfinder /usr/bin/
+# findcdn native compatibility shim (kept for the Ubuntu/python3.9 path)
+python3.9 -m pip install "dnspython<=2.0.0" ipwhois
 
-## Install httpx
-echo -e "[+]${Green} Installing httpx${NC}"
-wget -q -O httpx.zip https://github.com/projectdiscovery/httpx/releases/download/v1.3.7/httpx_1.3.7_linux_amd64.zip
-unzip -qq -d httpx -j httpx.zip
-sudo mv httpx/httpx /usr/bin/
-
-## Install naabu
-echo -e "[+]${Green} Installing naabu${NC}"
-wget -q -O naabu.zip https://github.com/projectdiscovery/naabu/releases/download/v2.1.9/naabu_2.1.9_linux_amd64.zip
-unzip -qq -d naabu -j naabu.zip
-sudo mv naabu/naabu /usr/bin/
-
-# Install nuclei
-echo -e "[+]${Green} Installing Nuclei${NC}"
-wget -q -O nuclei.zip https://github.com/projectdiscovery/nuclei/releases/download/v3.0.4/nuclei_3.0.4_linux_amd64.zip
-unzip -qq -d nuclei -j nuclei.zip
-sudo mv nuclei/nuclei /usr/bin/
-
-# Install gitleaks
-echo -e "[+]${Green} Installing gitleaks${NC}"
-wget -q -O gitleaks.tar.gz https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz
-tar -xf gitleaks.tar.gz
-sudo mv gitleaks /usr/bin/
-
-# Install Findcdn
-echo -e "[+]${Green} Installing findcdn ${NC}"
-
-pip install "dnspython<=2.0.0" ipwhois
-python3.9 -m pip install "git+https://github.com/cisagov/findcdn.git"
-
-echo -e "[+]${Green} Installing dnstwist ${NC}"
-python3.9 -m pip install dnstwist[full]
-
-# Install IPinfo
-echo -e "[+]${Green} Installing IPinfo ${NC}"
-curl -sLO https://github.com/ipinfo/cli/releases/download/ipinfo-3.2.0/ipinfo_3.2.0.deb
-sudo dpkg -i ipinfo_3.2.0.deb
-
-# Install wafw00f
-
-echo -e "[+]${Green} Installing wafw00f ${NC}"
-python3.9 -m pip install wafw00f --quiet
-
-#Install gau
-echo -e "[+]${Green} Installing gau${NC}"
-wget -O gau.tar.gz https://github.com/lc/gau/releases/download/v2.2.1/gau_2.2.1_linux_amd64.tar.gz
-tar -xvf gau.tar.gz
-sudo mv gau /usr/bin
-
-# Installing Corsy
-echo -e "[+]${Green} Installing Corsy${NC}"
-wget https://github.com/s0md3v/Corsy/archive/refs/tags/1.0-rc.zip
-unzip -qq 1.0-rc.zip
-mv Corsy-1.0-rc Corsy
-sudo mv Corsy /usr/bin
+# Install all external recon tools from the platform-aware manifest (configs/tools.yml).
+# Single source of truth for versions; resolves the correct binary per OS/arch.
+echo -e "[+]${Green} Installing recon tools via manifest${NC}"
+SCRIPT_DIR="$( cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 ; pwd -P )"
+MANTIS_PIP="python3.9 -m pip" bash "${SCRIPT_DIR}/install_tools.sh" native "${SCRIPT_DIR}/../configs/tools.yml"
 
 # Install Python dependencies
 
