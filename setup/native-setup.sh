@@ -55,39 +55,89 @@ sudo apt-get install -y wget unzip -qq tar gcc libpcap-dev dnsutils git python3.
 echo "export PATH='$HOME/.local/bin:$PATH'" | tee -a ~/.bashrc
 source ~/.bashrc
 
+# Get system info
+echo -e "[*] ${BCyan}Getting system information${NC}"
+os="$(uname -o)"
+arch="$(uname -m)"
+
+# Map OS for Go downloads
+kernel="$(uname -s)"
+case "$kernel" in
+    Linux*)  go_os="linux" ;;
+    Darwin*) go_os="darwin" ;;
+    *)       go_os="linux" ;;
+esac
+
+# Map arch for Go downloads
+case "$arch" in
+    x86_64)  go_arch="amd64"  ;;
+    aarch64) go_arch="arm64"  ;;
+    arm64)   go_arch="arm64"  ;;
+    i386)    go_arch="386"    ;;
+    *)       go_arch="amd64"  ;;
+esac
+
+# Install Go
+echo -e "[+]${Green} Installing Go${NC}"
+wget -q -O go.tar.gz "https://go.dev/dl/go1.22.0.${go_os}-${go_arch}.tar.gz"
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go.tar.gz
+rm go.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+echo "export PATH=\$PATH:/usr/local/go/bin" | tee -a ~/.bashrc
+
+# Install go-wayback
+echo -e "[+]${Green} Installing go-wayback${NC}"
+git clone https://github.com/Abhinandan-Khurana/go-wayback.git
+cd go-wayback
+go build -o go-wayback v2/main.go
+chmod +x go-wayback
+sudo mv go-wayback /usr/bin/
+cd ..
+rm -rf go-wayback
+
+# Install go_virustotal
+echo -e "[+]${Green} Installing go_virustotal${NC}"
+git clone https://github.com/Abhinandan-Khurana/go_virustotal.git
+cd go_virustotal
+go build -o go_virustotal .
+chmod +x go_virustotal
+sudo mv go_virustotal /usr/bin/
+cd ..
+rm -rf go_virustotal
+
 # Install amass
 echo -e "[+]${Green} Installing AMass${NC}"
-wget -q -O amass.zip https://github.com/owasp-amass/amass/releases/download/v4.1.0/amass_Linux_amd64.zip
+wget -q -O amass.zip "https://github.com/owasp-amass/amass/releases/download/v4.1.0/amass_${os}_${arch}.zip"
 unzip -qq -d amass -j amass.zip
 sudo mv amass/amass /usr/bin
 
 ## Install subfinder
 echo -e "[+]${Green} Installing Subfinder${NC}"
-wget -q -O subfinder.zip https://github.com/projectdiscovery/subfinder/releases/download/v2.6.3/subfinder_2.6.3_linux_amd64.zip
+wget -q -O subfinder.zip "https://github.com/projectdiscovery/subfinder/releases/download/v2.6.3/subfinder_2.6.3_${os}_${arch}.zip"
 unzip -qq -d subfinder -j subfinder.zip
 sudo mv subfinder/subfinder /usr/bin/
 
 ## Install httpx
 echo -e "[+]${Green} Installing httpx${NC}"
-wget -q -O httpx.zip https://github.com/projectdiscovery/httpx/releases/download/v1.3.7/httpx_1.3.7_linux_amd64.zip
+wget -q -O httpx.zip "https://github.com/projectdiscovery/httpx/releases/download/v1.3.7/httpx_1.3.7_${os}_${arch}.zip"
 unzip -qq -d httpx -j httpx.zip
 sudo mv httpx/httpx /usr/bin/
 
 ## Install naabu
 echo -e "[+]${Green} Installing naabu${NC}"
-wget -q -O naabu.zip https://github.com/projectdiscovery/naabu/releases/download/v2.1.9/naabu_2.1.9_linux_amd64.zip
+wget -q -O naabu.zip "https://github.com/projectdiscovery/naabu/releases/download/v2.1.9/naabu_2.1.9_${os}_${arch}.zip"
 unzip -qq -d naabu -j naabu.zip
 sudo mv naabu/naabu /usr/bin/
 
 # Install nuclei
 echo -e "[+]${Green} Installing Nuclei${NC}"
-wget -q -O nuclei.zip https://github.com/projectdiscovery/nuclei/releases/download/v3.0.4/nuclei_3.0.4_linux_amd64.zip
+wget -q -O nuclei.zip "https://github.com/projectdiscovery/nuclei/releases/download/v3.0.4/nuclei_3.0.4_${os}_${arch}.zip"
 unzip -qq -d nuclei -j nuclei.zip
 sudo mv nuclei/nuclei /usr/bin/
 
 # Install gitleaks
 echo -e "[+]${Green} Installing gitleaks${NC}"
-wget -q -O gitleaks.tar.gz https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz
+wget -q -O gitleaks.tar.gz "https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_${os}_${arch}.tar.gz"
 tar -xf gitleaks.tar.gz
 sudo mv gitleaks /usr/bin/
 
@@ -102,17 +152,18 @@ python3.9 -m pip install dnstwist[full]
 
 # Install IPinfo
 echo -e "[+]${Green} Installing IPinfo ${NC}"
-curl -sLO https://github.com/ipinfo/cli/releases/download/ipinfo-3.2.0/ipinfo_3.2.0.deb
-sudo dpkg -i ipinfo_3.2.0.deb
+wget -q -O ipinfo.tar.gz "https://github.com/ipinfo/cli/releases/download/ipinfo-3.2.0/ipinfo_3.2.0_${os}_${arch}.tar.gz"
+tar -xf ipinfo.tar.gz
+rm ipinfo.tar.gz
+sudo mv "ipinfo*" /usr/bin/ipinfo
 
 # Install wafw00f
-
 echo -e "[+]${Green} Installing wafw00f ${NC}"
 python3.9 -m pip install wafw00f --quiet
 
 #Install gau
 echo -e "[+]${Green} Installing gau${NC}"
-wget -O gau.tar.gz https://github.com/lc/gau/releases/download/v2.2.1/gau_2.2.1_linux_amd64.tar.gz
+wget -O gau.tar.gz "https://github.com/lc/gau/releases/download/v2.2.1/gau_2.2.1_${os}_${arch}.tar.gz"
 tar -xvf gau.tar.gz
 sudo mv gau /usr/bin
 

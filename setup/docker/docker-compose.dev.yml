@@ -1,0 +1,64 @@
+services:
+  mantis:
+    build:
+     dockerfile: Dockerfile
+     context: ../../
+    container_name: mantis
+    restart: on-failure
+    command: sleep infinity
+    networks:
+      network:
+        ipv4_address: 10.10.0.2
+    extra_hosts:
+      - "mantis.db:10.10.0.3"
+    environment:
+      - "PS1='Mantis > '"
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
+    ports:
+      - "127.0.0.1:27000:27017"
+    networks:
+      network:
+        ipv4_address: 10.10.0.3
+    command: mongod --bind_ip 10.10.0.3
+    environment:
+      MONGO_INITDB_ROOT_DATABASE: mantis
+    volumes:
+      - ./configs/mongo-config.js:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+  appsmith:
+    image: index.docker.io/appsmith/appsmith-ce
+    container_name: appsmith
+    ports:
+      - "1337:80"
+      - "1338:443"
+    networks:
+      network:
+        ipv4_address: 10.10.0.4
+    extra_hosts:
+      - "mantis.db:10.10.0.3"
+    volumes:
+      - ./stacks:/appsmith-stacks
+    restart: unless-stopped
+  dashboard:
+    image: ghcr.io/phonepe/mantis-dashboard:latest
+    container_name: mantis-dashboard
+    ports:
+      - "8000:8000"
+    restart: on-failure
+    networks:
+      network:
+        ipv4_address: 10.10.0.5
+    extra_hosts:
+      - "mantis.db:10.10.0.3"
+networks:
+  network:
+    name: mantis-network
+    external: false
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.0.0/16
+          gateway: 10.10.0.1

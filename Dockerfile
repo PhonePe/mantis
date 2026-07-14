@@ -1,11 +1,20 @@
-FROM golang:1.22 as go-wayback-builder
+FROM --platform=$BUILDPLATFORM golang:1.22 as go-wayback-builder
+ARG TARGETOS TARGETARCH
 RUN git clone https://github.com/Abhinandan-Khurana/go-wayback.git
 WORKDIR go-wayback
-RUN GOOS=linux GOARCH=amd64 go build -o go-wayback v2/main.go
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o go-wayback v2/main.go
 RUN chmod +x go-wayback
 RUN cp go-wayback /usr/bin/
 
-FROM --platform=linux/amd64 python:3.9-slim
+FROM --platform=$BUILDPLATFORM golang:1.22 as go-virustotal-builder
+ARG TARGETOS TARGETARCH
+RUN git clone https://github.com/Abhinandan-Khurana/go_virustotal.git
+WORKDIR go_virustotal
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o go_virustotal .
+RUN chmod +x go_virustotal
+RUN cp go_virustotal /usr/bin/
+
+FROM python:3.9-slim
 
 # Install wget
 RUN apt-get update && apt-get install -y wget unzip tar gcc libpcap-dev dnsutils git dnstwist
@@ -16,77 +25,76 @@ RUN apt-get update --fix-missing && apt install git -y
 # Setup work directory
 WORKDIR /home/mantis
 
-# Install subfinder 
-RUN echo "Installing subfinder"
-RUN wget https://github.com/projectdiscovery/subfinder/releases/download/v2.6.6/subfinder_2.6.6_linux_amd64.zip
-RUN unzip subfinder_2.6.6_linux_amd64.zip
-RUN mv subfinder /usr/bin
-RUN rm -rf *
-
 # Install Go_Virustotal
-RUN echo "Installing Go_Virustotal"
-RUN wget https://github.com/Abhinandan-Khurana/go_virustotal/releases/download/v1.0.1/go_virustotal-linux-v1.0.1
-RUN mv go_virustotal-linux-v1.0.1 go_virustotal
-RUN chmod +x go_virustotal
-RUN mv go_virustotal /usr/bin/
+COPY --from=go-virustotal-builder /usr/bin/go_virustotal /usr/bin
 
 # Install Go_Wayback
 COPY --from=go-wayback-builder /usr/bin/go-wayback /usr/bin
 
+ARG TARGETARCH
+# Map Docker arch names to tool-specific naming conventions
+# Saving it in the different formats to use for different tools as needed
+RUN echo "TARGETARCH=$TARGETARCH" && \
+    case "$TARGETARCH" in \
+        amd64|x86_64) \
+            echo "amd64" > /tmp/arch && echo "x64" > /tmp/arch_alt && echo "x86_64" > /tmp/arch_uname ;; \
+        arm64|aarch64) \
+            echo "arm64" > /tmp/arch && echo "aarch64" > /tmp/arch_alt ;; \
+    esac
+
+# Install amass
+RUN echo "Installing amass" && \
+    ARCH=$(cat /tmp/arch) && \
+    wget -O amass.zip https://github.com/owasp-amass/amass/releases/download/v4.1.0/amass_Linux_${ARCH}.zip && \
+    unzip amass.zip && \
+    mv amass_Linux_${ARCH}/amass /usr/bin && \
+    rm -rf *
+
+# Install subfinder
+RUN ARCH=$(cat /tmp/arch) && \
+    wget -O subfinder.zip https://github.com/projectdiscovery/subfinder/releases/download/v2.6.6/subfinder_2.6.6_linux_${ARCH}.zip && \
+    unzip subfinder.zip && mv subfinder /usr/bin && rm -rf *
+
 # Install HTTPX
-RUN echo "Installing HTTPX"
-RUN wget https://github.com/projectdiscovery/httpx/releases/download/v1.6.8/httpx_1.6.8_linux_amd64.zip
-RUN unzip httpx_1.6.8_linux_amd64.zip
-RUN mv httpx /usr/bin
-RUN rm -rf *
+RUN ARCH=$(cat /tmp/arch) && \
+    wget -O httpx.zip https://github.com/projectdiscovery/httpx/releases/download/v1.6.8/httpx_1.6.8_linux_${ARCH}.zip && \
+    unzip httpx.zip && mv httpx /usr/bin && rm -rf *
 
 # Install Findcdn
 RUN echo "Installing Findcdn"
 RUN pip install git+https://github.com/cisagov/findcdn.git
 
-# Install Ipinfo
-RUN echo "Installing Ipinfo"
-RUN wget https://github.com/ipinfo/cli/releases/download/ipinfo-3.3.1/ipinfo_3.3.1_linux_amd64.tar.gz
-RUN tar -xvf ipinfo_3.3.1_linux_amd64.tar.gz
-RUN mv ipinfo_3.3.1_linux_amd64 ipinfo
-RUN mv ipinfo /usr/bin
-RUN rm -rf *
+# Install ipinfo
+RUN ARCH=$(cat /tmp/arch) && \
+    wget -O ipinfo.tar.gz https://github.com/ipinfo/cli/releases/download/ipinfo-3.3.1/ipinfo_3.3.1_linux_${ARCH}.tar.gz && \
+    tar -xvf ipinfo.tar.gz && mv ipinfo_3.3.1_linux_${ARCH} ipinfo && mv ipinfo /usr/bin && rm -rf *
 
 # Install naabu
-RUN echo "Installing naabu"
-RUN wget https://github.com/projectdiscovery/naabu/releases/download/v2.1.9/naabu_2.1.9_linux_amd64.zip
-RUN unzip naabu_2.1.9_linux_amd64.zip
-RUN mv naabu /usr/bin
-RUN rm -rf *
+RUN ARCH=$(cat /tmp/arch) && \
+    wget -O naabu.zip https://github.com/projectdiscovery/naabu/releases/download/v2.5.0/naabu_2.5.0_linux_${ARCH}.zip && \
+    unzip naabu.zip && mv naabu /usr/bin && rm -rf *
 
 # Install nuclei
-RUN echo "Installing nuclei"
-RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v3.3.4/nuclei_3.3.4_linux_amd64.zip
-RUN unzip nuclei_3.3.4_linux_amd64.zip
-RUN mv nuclei /usr/bin
-RUN rm -rf *
+RUN ARCH=$(cat /tmp/arch) && \
+    wget -O nuclei.zip https://github.com/projectdiscovery/nuclei/releases/download/v3.3.4/nuclei_3.3.4_linux_${ARCH}.zip && \
+    unzip nuclei.zip && mv nuclei /usr/bin && rm -rf *
 
-# Install gitleaks 
-RUN echo "Installing gitleaks"
-RUN wget https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz
-RUN tar -xvf gitleaks_8.18.1_linux_x64.tar.gz
-RUN mv gitleaks /usr/bin
-RUN rm -rf *
+RUN ARCH=$(cat /tmp/arch) && \
+    wget -O gitleaks.tar.gz https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_${ARCH}.tar.gz && \
+    tar -xvf gitleaks.tar.gz && mv gitleaks /usr/bin && rm -rf *
 
 # Install wafw00f
 RUN pip install wafw00f
 
-#Install gau
-RUN echo "Installing GAU"
-RUN wget https://github.com/lc/gau/releases/download/v2.2.1/gau_2.2.1_linux_amd64.tar.gz
-RUN tar -xvf gau_2.2.1_linux_amd64.tar.gz
-RUN mv gau /usr/bin
-RUN rm -rf *
+# Install gau
+RUN ARCH=$(cat /tmp/arch) && \
+    wget -O gau.tar.gz https://github.com/lc/gau/releases/download/v2.2.1/gau_2.2.1_linux_${ARCH}.tar.gz && \
+    tar -xvf gau.tar.gz && mv gau /usr/bin && rm -rf *
 
 # Installing Corsy
 RUN echo "Installing Corsy"
-RUN wget https://github.com/s0md3v/Corsy/archive/refs/tags/1.0-rc.zip
-RUN unzip 1.0-rc.zip
+RUN wget -O corsy.zip https://github.com/s0md3v/Corsy/archive/refs/tags/1.0-rc.zip
+RUN unzip corsy.zip
 RUN mv Corsy-1.0-rc Corsy
 RUN mv Corsy /usr/bin
 RUN rm -rf *
