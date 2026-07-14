@@ -8,6 +8,7 @@ RECON_MODULE = "recon"
 SCAN_MODULE = "scan"
 ASSET_TYPE_TLD = 'TLD'
 ASSET_TYPE_THIRD_PARTY = "third_party_integration"
+ASSET_TYPE_CLOUD_BUCKET = "cloud_bucket"
 
 GET_METHOD = "GET"
 POST_METHOD = "POST"

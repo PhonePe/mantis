@@ -70,7 +70,7 @@ workflow:
         tools: ['Subfinder'] 
         order: 1
       - moduleName: prerecon
-        tools: ['FindCDN', 'Naabu'] 
+        tools: ['FindCDN', 'Naabu', 'InSp3ctor']
         order: 2
       - moduleName: activehostscan
         tools: ['HTTPX_Active', 'HTTPX']
