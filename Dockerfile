@@ -91,6 +91,22 @@ RUN mv Corsy-1.0-rc Corsy
 RUN mv Corsy /usr/bin
 RUN rm -rf *
 
+# Install massdns
+RUN echo "Installing massdns"
+RUN git clone https://github.com/blechschmidt/massdns.git /massdns
+WORKDIR /massdns
+RUN make
+RUN mv bin/massdns /usr/bin/massdns
+WORKDIR /
+RUN rm -rf /massdns
+
+# Install puredns
+RUN echo "Installing puredns"
+RUN wget https://github.com/d3mondev/puredns/releases/download/v2.1.1/puredns_2.0.1_linux_amd64.tar.gz
+RUN tar -xzf puredns_2.1.1_linux_amd64.tar.gz
+RUN mv puredns /usr/bin/puredns
+RUN rm -rf puredns_2.1.1_linux_amd64.tar.gz
+
 # Install Poetry
 RUN pip install poetry==1.4.2
 

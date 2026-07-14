@@ -26,7 +26,7 @@ class Assets(BaseModel):
     active_hosts: Optional[list] = list()
     stale: Optional[bool] = False
     repositories: Optional[str] = Field(None)
-    tools_source: Optional[str] = Field(None)
+    tool_source: Optional[str] = Field(None)
     others: Optional[dict] = dict()
 
 
