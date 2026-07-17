@@ -2,10 +2,10 @@ services:
   mantis:
     # When testing local changes, uncomment the following commented lines and comment out "image"
     # This will build the mantis container locally instead of pulling from GHRC
-    #build:
-    #  dockerfile: Dockerfile
-    #  context: ../../
-    image: ghcr.io/phonepe/mantis:latest
+    build:
+      dockerfile: Dockerfile
+      context: ../../
+    #image: ghcr.io/phonepe/mantis:latest
     container_name: mantis
     restart: on-failure
     command: sleep infinity
@@ -29,6 +29,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_DATABASE: mantis
     volumes:
+      - mongodb_data:/data/db
       - ./configs/mongo-config.js:/docker-entrypoint-initdb.d/mongo-init.sh:ro
   appsmith:
     image: index.docker.io/appsmith/appsmith-ce
@@ -55,6 +56,10 @@ services:
         ipv4_address: 10.10.0.5
     extra_hosts:
       - "mantis.db:10.10.0.3"
+volumes:
+  mongodb_data:
+    name: mantis-mongodb-data
+
 networks:
   network:
     name: mantis-network

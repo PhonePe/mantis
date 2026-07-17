@@ -1,113 +1,40 @@
-FROM golang:1.22 as go-wayback-builder
-RUN git clone https://github.com/Abhinandan-Khurana/go-wayback.git
-WORKDIR go-wayback
-RUN GOOS=linux GOARCH=amd64 go build -o go-wayback v2/main.go
-RUN chmod +x go-wayback
-RUN cp go-wayback /usr/bin/
+# syntax=docker/dockerfile:1
+#
+# Multi-arch image. Build with buildx to target amd64 + arm64:
+#   docker buildx build --platform linux/amd64,linux/arm64 -t <tag> --push .
+# A plain `docker build` still works and targets the host arch.
+#
+# NOTE: go-wayback and go_virustotal are intentionally NOT installed here (they lack
+# multi-arch prebuilt binaries and need a dedicated source-build; tracked separately).
+# Their modules will be unavailable until re-added.
 
-FROM --platform=linux/amd64 python:3.9-slim
+FROM python:3.9-slim
 
-# Install wget
-RUN apt-get update && apt-get install -y wget unzip tar gcc libpcap-dev dnsutils git dnstwist
+# System packages: build/runtime deps for the recon tools + installer prerequisites.
+# libpcap-dev -> naabu SYN scan; dnsutils -> dig; git/curl/unzip/tar -> installer.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        wget unzip tar gcc g++ libpcap-dev dnsutils git curl ca-certificates gnupg \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install git
-RUN apt-get update --fix-missing && apt install git -y
+# yq (mikefarah v4) — required by the tool manifest installer.
+# Detect arch at build time so this works on both amd64 and arm64.
+RUN ARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/') \
+    && curl -fsSL "https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_${ARCH}" \
+        -o /usr/bin/yq \
+    && chmod +x /usr/bin/yq
 
 # Setup work directory
 WORKDIR /home/mantis
 
-# Install subfinder 
-RUN echo "Installing subfinder"
-RUN wget https://github.com/projectdiscovery/subfinder/releases/download/v2.6.6/subfinder_2.6.6_linux_amd64.zip
-RUN unzip subfinder_2.6.6_linux_amd64.zip
-RUN mv subfinder /usr/bin
-RUN rm -rf *
+# Install external recon tools from the platform-aware manifest (single source of truth).
+COPY configs/tools.yml /home/mantis/configs/tools.yml
+COPY setup/install_tools.sh /home/mantis/setup/install_tools.sh
+RUN chmod +x /home/mantis/setup/install_tools.sh \
+    && /home/mantis/setup/install_tools.sh docker /home/mantis/configs/tools.yml
 
-# Install Go_Virustotal
-RUN echo "Installing Go_Virustotal"
-RUN wget https://github.com/Abhinandan-Khurana/go_virustotal/releases/download/v1.0.1/go_virustotal-linux-v1.0.1
-RUN mv go_virustotal-linux-v1.0.1 go_virustotal
-RUN chmod +x go_virustotal
-RUN mv go_virustotal /usr/bin/
-
-# Install Go_Wayback
-COPY --from=go-wayback-builder /usr/bin/go-wayback /usr/bin
-
-# Install HTTPX
-RUN echo "Installing HTTPX"
-RUN wget https://github.com/projectdiscovery/httpx/releases/download/v1.6.8/httpx_1.6.8_linux_amd64.zip
-RUN unzip httpx_1.6.8_linux_amd64.zip
-RUN mv httpx /usr/bin
-RUN rm -rf *
-
-# Install Findcdn
-RUN echo "Installing Findcdn"
-RUN pip install git+https://github.com/cisagov/findcdn.git
-
-# Install Ipinfo
-RUN echo "Installing Ipinfo"
-RUN wget https://github.com/ipinfo/cli/releases/download/ipinfo-3.3.1/ipinfo_3.3.1_linux_amd64.tar.gz
-RUN tar -xvf ipinfo_3.3.1_linux_amd64.tar.gz
-RUN mv ipinfo_3.3.1_linux_amd64 ipinfo
-RUN mv ipinfo /usr/bin
-RUN rm -rf *
-
-# Install naabu
-RUN echo "Installing naabu"
-RUN wget https://github.com/projectdiscovery/naabu/releases/download/v2.1.9/naabu_2.1.9_linux_amd64.zip
-RUN unzip naabu_2.1.9_linux_amd64.zip
-RUN mv naabu /usr/bin
-RUN rm -rf *
-
-# Install nuclei
-RUN echo "Installing nuclei"
-RUN wget https://github.com/projectdiscovery/nuclei/releases/download/v3.3.4/nuclei_3.3.4_linux_amd64.zip
-RUN unzip nuclei_3.3.4_linux_amd64.zip
-RUN mv nuclei /usr/bin
-RUN rm -rf *
-
-# Install gitleaks 
-RUN echo "Installing gitleaks"
-RUN wget https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz
-RUN tar -xvf gitleaks_8.18.1_linux_x64.tar.gz
-RUN mv gitleaks /usr/bin
-RUN rm -rf *
-
-# Install wafw00f
-RUN pip install wafw00f
-
-#Install gau
-RUN echo "Installing GAU"
-RUN wget https://github.com/lc/gau/releases/download/v2.2.1/gau_2.2.1_linux_amd64.tar.gz
-RUN tar -xvf gau_2.2.1_linux_amd64.tar.gz
-RUN mv gau /usr/bin
-RUN rm -rf *
-
-# Installing Corsy
-RUN echo "Installing Corsy"
-RUN wget https://github.com/s0md3v/Corsy/archive/refs/tags/1.0-rc.zip
-RUN unzip 1.0-rc.zip
-RUN mv Corsy-1.0-rc Corsy
-RUN mv Corsy /usr/bin
-RUN rm -rf *
-
-# Install Poetry
-RUN pip install poetry==1.4.2
-
-# Add Poetry to PATH
-ENV PATH="/root/.local/bin:$PATH"
-
-# Setup Poetry ENV variables
-ENV POETRY_NO_INTERACTION=1 \
-    POETRY_VIRTUALENVS_IN_PROJECT=0 \
-    POETRY_VIRTUALENVS_CREATE=0 \
-    POETRY_CACHE_DIR=/tmp/poetry_cache
-
-# Copy pyproject.toml and poetry.lock
-COPY pyproject.toml poetry.lock* /home/mantis/
-
-# Install dependencies using Poetry
-RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
+# Install Python dependencies
+COPY requirements.txt /home/mantis/
+RUN pip install --no-cache-dir -r /home/mantis/requirements.txt
 
 # Creating Mantis alias
 RUN echo 'export PS1="🦗 Mantis > " && \
