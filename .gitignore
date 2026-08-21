@@ -6,3 +6,5 @@ src
 stacks
 docker/configs
 .venv
+claude.md
+SECURITY.md

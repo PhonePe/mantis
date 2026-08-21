@@ -30,3 +30,10 @@ class ArgsModel(BaseModel):
     in_scope: bool = False
     deboard_: bool = False
     collections: list[str] = False
+    modules: list[str] = Field(None)
+    skip_modules: list[str] = Field(None)
+    list_cloud: bool = False
+    cloud_provider_filter: str = Field(None)
+    cloud_type_filter: str = Field(None)
+    cloud_public_only: bool = False
+    cloud_include_inactive: bool = False

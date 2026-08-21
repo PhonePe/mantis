@@ -13,6 +13,7 @@ class Module(BaseModel):
     moduleName: str
     tools: list
     order: int
+    enabled: bool = True
 
 
 class Workflow(BaseModel):
@@ -57,6 +58,30 @@ class GithubConfig(BaseModel):
 class SecretScanner(BaseModel):
     github_method: list
 
+
+class CloudflareInventoryConfig(BaseModel):
+    api_token: str = Field(None)
+    account_id: str = Field(None)
+
+
+class AzureInventoryConfig(BaseModel):
+    tenant_id: str = Field(None)
+    client_id: str = Field(None)
+    client_secret: str = Field(None)
+    subscription_ids: List[str] = []
+
+
+class AWSInventoryConfig(BaseModel):
+    profiles: List[str] = []
+    regions: List[str] = []
+
+
+class CloudConfig(BaseModel):
+    cloudflare: CloudflareInventoryConfig = CloudflareInventoryConfig()
+    azure: AzureInventoryConfig = AzureInventoryConfig()
+    aws: AWSInventoryConfig = AWSInventoryConfig()
+
+
 class AppConfig(BaseModel):
     report: dict
     workflow: List[Workflow]
@@ -69,4 +94,5 @@ class AppConfig(BaseModel):
     aws: AWSConfig
     github_config: GithubConfig
     secretscanner: SecretScanner
+    cloud: CloudConfig = CloudConfig()
  

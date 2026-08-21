@@ -1,6 +1,6 @@
 import logging
 from mantis.models.args_model import ArgsModel
-from mantis.utils.list_subcommand_utils import get_orgs, get_domains
+from mantis.utils.list_subcommand_utils import get_orgs, get_domains, get_cloud_assets
 
 
 class ListWorkflow:
@@ -26,3 +26,29 @@ class ListWorkflow:
                 print('\n'.join(domains))
             else:
                 logging.info("No domains found")
+
+        if args.list_cloud:
+            logging.info("Getting cloud resources from database")
+            orgs = args.orgs_list if args.orgs_list else None
+            resources = await get_cloud_assets(
+                orgs=orgs,
+                provider=args.cloud_provider_filter,
+                resource_type=args.cloud_type_filter,
+                public_only=args.cloud_public_only,
+                include_inactive=args.cloud_include_inactive,
+            )
+            if resources:
+                print(f"\n{'PROVIDER':<12}{'TYPE':<26}{'NAME':<34}{'PUBLIC':<8}{'ACTIVE':<8}{'REGION':<16}")
+                print("-" * 104)
+                for r in resources:
+                    print(
+                        f"{str(r.get('provider', '')):<12}"
+                        f"{str(r.get('resource_type', ''))[:24]:<26}"
+                        f"{str(r.get('name', ''))[:32]:<34}"
+                        f"{str(r.get('is_public', False)):<8}"
+                        f"{str(r.get('is_active', True)):<8}"
+                        f"{str(r.get('region', '')):<16}"
+                    )
+                print(f"\nTotal cloud resources found based on provided filters: {len(resources)}\n")
+            else:
+                logging.info("No cloud resources found")
