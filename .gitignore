@@ -8,3 +8,4 @@ docker/configs
 .venv
 claude.md
 SECURITY.md
+.venv312/

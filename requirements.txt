@@ -15,7 +15,7 @@ rocketry==2.5.1
 boto3==1.28.20
 tqdm==4.66.5
 lxml==5.3.0
-cloudflare
+cloudflare==2.19.2
 GitPython==3.1.43
 azure-identity==1.17.1
 azure-mgmt-resource==23.1.1
