@@ -38,16 +38,21 @@ class ListWorkflow:
                 include_inactive=args.cloud_include_inactive,
             )
             if resources:
-                print(f"\n{'PROVIDER':<12}{'TYPE':<26}{'NAME':<34}{'PUBLIC':<8}{'ACTIVE':<8}{'REGION':<16}")
-                print("-" * 104)
+                header = (f"{'PROVIDER':<11}{'TYPE':<22}{'NAME':<28}{'PUBLIC':<7}"
+                          f"{'ACTIVE':<7}{'REGION':<14}{'ACCOUNT':<26}ENDPOINTS (IPs / FQDNs)")
+                print(f"\n{header}")
+                print("-" * len(header))
                 for r in resources:
+                    endpoints = ", ".join((r.get('public_ips') or []) + (r.get('public_fqdns') or [])) or "-"
                     print(
-                        f"{str(r.get('provider', '')):<12}"
-                        f"{str(r.get('resource_type', ''))[:24]:<26}"
-                        f"{str(r.get('name', ''))[:32]:<34}"
-                        f"{str(r.get('is_public', False)):<8}"
-                        f"{str(r.get('is_active', True)):<8}"
-                        f"{str(r.get('region', '')):<16}"
+                        f"{str(r.get('provider', '')):<11}"
+                        f"{str(r.get('resource_type', ''))[:20]:<22}"
+                        f"{str(r.get('name', ''))[:26]:<28}"
+                        f"{str(r.get('is_public', False)):<7}"
+                        f"{str(r.get('is_active', True)):<7}"
+                        f"{str(r.get('region', '')):<14}"
+                        f"{str(r.get('account_id', ''))[:24]:<26}"
+                        f"{endpoints}"
                     )
                 print(f"\nTotal cloud resources found based on provided filters: {len(resources)}\n")
             else:
