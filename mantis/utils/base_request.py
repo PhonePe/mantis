@@ -1,7 +1,13 @@
 import requests
 import logging
 from requests import Timeout
-from retry import retry
+try:
+    from retry import retry
+except ImportError:
+    def retry(*args, **kwargs):
+        def decorator(func):
+            return func
+        return decorator
 
 
 class BaseRequestExecutor:
