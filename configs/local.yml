@@ -121,8 +121,8 @@ nuclei_template_path:
   blacklist: 
 
 aws:
-  config_path: 
-  credentials_path:
+  config_path: configs/aws_config
+  credentials_path: configs/aws_credentials
 
 # Cloud inventory provider credentials. Values fall back to environment
 # variables when left empty (CF_API_TOKEN, AZURE_*, AWS profiles).
@@ -130,13 +130,17 @@ cloud:
   cloudflare:
     api_token:            # or CF_API_TOKEN env var
     account_id:
+    email:                # or CF_API_EMAIL env var
+    api_key:              # or CF_API_KEY env var
   azure:
     tenant_id:            # or AZURE_TENANT_ID
     client_id:            # or AZURE_CLIENT_ID
     client_secret:        # or AZURE_CLIENT_SECRET
     subscription_ids: []  # empty = all accessible subscriptions
   aws:
-    profiles: []          # empty = use --aws_profiles / default
+    profiles:
+      - account-prod
+      - account-staging
     regions: []           # empty = all regions
 
 app:

@@ -14,8 +14,10 @@ them as cloud resources in the cloud_assets_collection. Each zone is emitted as
 its own command tuple so zones parallelize across Ray actors.
 
 Credentials resolution order:
-  1. cloud.cloudflare.api_token / account_id from local.yml
-  2. CF_API_TOKEN environment variable
+    1. cloud.cloudflare.api_token from local.yml
+    2. CF_API_TOKEN environment variable
+    3. cloud.cloudflare.email / api_key from local.yml
+    4. CF_API_EMAIL / CF_API_KEY environment variables
 
 A DNS record that is not proxied through Cloudflare is treated as publicly
 exposed (its origin is directly reachable).
@@ -24,13 +26,25 @@ exposed (its origin is directly reachable).
 
 class CloudflareInventory(BaseScanner):
 
-    async def init(self, args: ArgsModel):
-        self.args = args
+    @staticmethod
+    def _credentials():
         cf_config = ConfigProvider.get_config().cloud.cloudflare
         token = cf_config.api_token or os.environ.get("CF_API_TOKEN")
+        if token:
+            return {"email": "", "key": token}
 
-        if not token:
-            logging.warning("Cloudflare API token not provided (cloud.cloudflare.api_token or CF_API_TOKEN)")
+        email = cf_config.email or os.environ.get("CF_API_EMAIL")
+        api_key = cf_config.api_key or os.environ.get("CF_API_KEY")
+        if email and api_key:
+            return {"email": email, "key": api_key}
+        return None
+
+    async def init(self, args: ArgsModel):
+        self.args = args
+        credentials = self._credentials()
+
+        if not credentials:
+            logging.warning("Cloudflare credentials not provided (API token or email/API key)")
             return []
 
         try:
@@ -39,7 +53,7 @@ class CloudflareInventory(BaseScanner):
             logging.error("cloudflare package not installed")
             return []
 
-        zones = self._enumerate_zones(token)
+        zones = self._enumerate_zones(credentials)
 
         # One command tuple per zone (account) → parallelizes across Ray actors.
         tool_tuples = []
@@ -50,12 +64,12 @@ class CloudflareInventory(BaseScanner):
             tool_tuples.append((inst, zone['name']))
         return tool_tuples
 
-    def _enumerate_zones(self, token):
+    def _enumerate_zones(self, credentials):
         import CloudFlare
         per_page = 100
         zones = []
         try:
-            cf = CloudFlare.CloudFlare("", token, raw=True)
+            cf = CloudFlare.CloudFlare(credentials["email"], credentials["key"], raw=True)
             first_page = cf.zones.get(params={'per_page': per_page, 'page': 1})
             total_pages = first_page['result_info']['total_pages']
             for zone_page in range(1, total_pages + 1):
@@ -77,8 +91,7 @@ class CloudflareInventory(BaseScanner):
         zone_id = zone['id']
         logging.info(f"Collecting Cloudflare inventory for zone: {zone['name']}")
 
-        cf_config = ConfigProvider.get_config().cloud.cloudflare
-        token = cf_config.api_token or os.environ.get("CF_API_TOKEN")
+        credentials = self._credentials()
 
         try:
             import CloudFlare
@@ -91,7 +104,7 @@ class CloudflareInventory(BaseScanner):
 
         cloud_assets = []
         try:
-            cf = CloudFlare.CloudFlare("", token, raw=True)
+            cf = CloudFlare.CloudFlare(credentials["email"], credentials["key"], raw=True)
             self._collect_zone(cf, zone, cloud_assets)
 
             summary = await CrudUtils.sync_cloud_assets(

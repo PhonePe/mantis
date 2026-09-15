@@ -1,4 +1,5 @@
 import logging
+import os
 
 from mantis.tool_base_classes.baseScanner import BaseScanner
 from mantis.models.args_model import ArgsModel
@@ -24,6 +25,7 @@ class AWSInventory(BaseScanner):
 
     async def init(self, args: ArgsModel):
         self.args = args
+        self._configure_aws_files()
         aws_config = ConfigProvider.get_config().cloud.aws
         profiles = aws_config.profiles or getattr(args, 'aws_profiles', None) or ['default']
 
@@ -36,10 +38,21 @@ class AWSInventory(BaseScanner):
             tool_tuples.append((inst, profile))
         return tool_tuples
 
+    @staticmethod
+    def _configure_aws_files():
+        aws_files = ConfigProvider.get_config().aws
+        if aws_files.credentials_path:
+            os.environ['AWS_SHARED_CREDENTIALS_FILE'] = os.path.expanduser(
+                aws_files.credentials_path
+            )
+        if aws_files.config_path:
+            os.environ['AWS_CONFIG_FILE'] = os.path.expanduser(aws_files.config_path)
+
     async def execute(self, tooltuple):
         results = {"success": 0, "failure": 0}
         profile = self.account
         logging.info(f"Collecting AWS inventory for profile: {profile}")
+        self._configure_aws_files()
 
         try:
             import boto3

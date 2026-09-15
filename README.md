@@ -3,6 +3,7 @@
 <p align="center">
   <a href="#features-rocket">Features</a> •
   <a href="#modules-">Modules</a> •
+  <a href="cloud_readme.md">Cloud Inventory</a> •
   <a href="#installation-%EF%B8%8F">Installation</a> •
   <a href="#command-line-options-%EF%B8%8F">Command Line Options</a> •
   <a href="https://phonepe.github.io/mantis/">Documentation</a> •
@@ -49,6 +50,12 @@ Mantis is a command-line framework designed to automate the workflow of asset di
     - Domain Level Vulnerabilities and Misconfigurations
     - Secrets Scanning
     - Phishing Domains
+- Cloud Inventory
+  - AWS
+  - Azure
+  - Cloudflare
+
+See the [Cloud Inventory guide](cloud_readme.md) for setup, scans, and result listing.
 
 ## Installation ⚙️
 
@@ -242,6 +249,10 @@ mantis scan -o org_name
 mantis scan -o org_name --sub subdomain.example.in
 ```
 
+## Cloud Inventory
+
+See the [Cloud Inventory guide](cloud_readme.md) for provider setup, combined and provider-specific scans, and result listing.
+
 ## How to contribute ?
 
 If you want to contribute to this project:
@@ -260,6 +271,7 @@ If you want to contribute to this project:
 **Development** - Prateek Thakare  
 **Recon Tools Design/Launch scripts** - Bharath Kumar  
 **Secret Scanning** - Hitesh Kumar, Saddam Hussain  
+**Cloud Inventory** - Ishansh Ojha
 **Dashboard** - Saddam Hussain  
 **Design Suggestions** - Dhruv Shekhawat, Santanu Sinha  
 **Framework Design** - Praveen Kanniah  

@@ -62,6 +62,8 @@ class SecretScanner(BaseModel):
 class CloudflareInventoryConfig(BaseModel):
     api_token: str = Field(None)
     account_id: str = Field(None)
+    email: str = Field(None)
+    api_key: str = Field(None)
 
 
 class AzureInventoryConfig(BaseModel):
