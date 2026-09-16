@@ -72,6 +72,8 @@ class Workflow:
         
         
         ordered_modules = ConfigUtils.get_ordered_module_list(workflow=workflow)
+        ordered_modules = ConfigUtils.filter_modules(ordered_modules, workflow, args)
+        logging.info(f"Modules to execute for this run: {ordered_modules}")
         
         scan_stat = {}
         scan_stat['scan_start_time'] = CommonUtils.get_ikaros_std_timestamp()

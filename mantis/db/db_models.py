@@ -67,3 +67,23 @@ class Extended(BaseModel):
     created_timestamp: str = Field(None)
     updated_timestamp: Optional[str] = Field(None)
     others: Optional[dict] = dict()
+
+
+class CloudAsset(BaseModel):
+
+    _id: str = Field(..., alias="_id")
+    provider: Literal['cloudflare', 'azure', 'aws'] = Field(...)
+    resource_id: str = Field(...)
+    resource_type: str = Field(...)
+    name: Optional[str] = Field(None)
+    org: str = Field(...)
+    account_id: Optional[str] = Field(None)
+    region: Optional[str] = Field(None)
+    is_public: bool = False
+    public_ips: Optional[list] = list()
+    public_fqdns: Optional[list] = list()
+    risk_level: Optional[str] = Field(None)
+    properties: Optional[dict] = dict()
+    is_active: bool = True
+    created_timestamp: str = Field(None)
+    updated_timestamp: Optional[str] = Field(None)

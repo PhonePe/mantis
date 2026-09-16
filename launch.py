@@ -5,16 +5,19 @@ from mantis.config_parsers.logging_utils import LoggingConfig
 from mantis.workflows.mantis_workflow import MantisWorkflow
 
 def main():
-    print("""\u001B[32m
+    esc = "\x1b"
+    print(
+        esc + "[32m" + r"""
 
               __  __             _   _     
              |  \/  | __ _ _ __ | |_(_)___ 
              | |\/| |/ _` | '_ \| __| / __|
-             | |  | | (_| | | | | |_| \__ \\
+             | |  | | (_| | | | | |_| \__ \
              |_|  |_|\__,_|_| |_|\__|_|___/  
             
-                                \u001B[1m\u001B[34mRecon Automation Framework (v1.0) \u001B[34m\u001B[1m                                           
-          \u001B[0m""")
+                                """ + esc + "[1m" + esc + "[34mRecon Automation Framework (v1.0) " + esc + "[34m" + esc + "[1m" + r"""
+          """ + esc + "[0m"
+    )
     args = ArgsParse.args_parse()
     LoggingConfig.configure_logging(args)
     if args.use_ray:

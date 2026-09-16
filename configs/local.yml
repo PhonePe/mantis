@@ -31,9 +31,14 @@ workflow:
       - moduleName: secretscanner
         tools: ['SecretScanner','GithubScanner']
         order: 6
+      # Cloud inventory is opt-in. Enable via `mantis cloud enable <provider>`
+      # or run explicitly with `mantis scan -o org -m cloudinventory`.
+      - moduleName: cloudinventory
+        tools: ['CloudflareInventory', 'AzureInventory', 'AWSInventory']
+        order: 7
+        enabled: false
 
-
-# This workflow is for product security teams. It includes tools like dns and Ipinfo. Please provide the key for IPinfo     
+# This workflow is for product security teams. It includes tools like dns and Ipinfo. Please provide the key for IPinfo
   - workflowName: 'productsecurity'
     schedule: 'daily between 00:00 and 04:00'
     cmd: []
@@ -101,13 +106,42 @@ workflow:
         tools: ['Subfinder']
         order: 1
 
+  # Standalone cloud inventory workflow (Cloudflare + Azure + AWS)
+  - workflowName: 'cloudinventory'
+    schedule: 'daily between 00:00 and 04:00'
+    cmd: []
+    workflowConfig:
+      - moduleName: cloudinventory
+        tools: ['CloudflareInventory', 'AzureInventory', 'AWSInventory']
+        order: 1
+        enabled: true
+
 nuclei_template_path:
   whitelist: 
   blacklist: 
 
 aws:
-  config_path: 
-  credentials_path:
+  config_path: configs/aws_config
+  credentials_path: configs/aws_credentials
+
+# Cloud inventory provider credentials. Values fall back to environment
+# variables when left empty (CF_API_TOKEN, AZURE_*, AWS profiles).
+cloud:
+  cloudflare:
+    api_token:            # or CF_API_TOKEN env var
+    account_id:
+    email:                # or CF_API_EMAIL env var
+    api_key:              # or CF_API_KEY env var
+  azure:
+    tenant_id:            # or AZURE_TENANT_ID
+    client_id:            # or AZURE_CLIENT_ID
+    client_secret:        # or AZURE_CLIENT_SECRET
+    subscription_ids: []  # empty = all accessible subscriptions
+  aws:
+    profiles:
+      - account-prod
+      - account-staging
+    regions: []           # empty = all regions
 
 app:
   default: ["None"]

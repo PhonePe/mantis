@@ -1,13 +1,15 @@
 import hashlib
 import logging
-from mantis.db.db_models import Assets, Findings, Extended
+from mantis.db.db_models import Assets, Findings, Extended, CloudAsset
 from mantis.db.crud_assets import add_assets_query, delete_assets_query, update_asset_query
 from mantis.db.crud_extended_assets import add_extended_assets_query, delete_extended_assets_query
 from mantis.db.crud_vulnerabilities import add_findings_query, delete_findings_query, findings_bulk_mixed_query
+from mantis.db.crud_cloud_assets import upsert_cloud_assets_query, read_cloud_assets, deactivate_stale_cloud_assets_query
 from mantis.utils.common_utils import CommonUtils
 from mantis.config_parsers.config_client import ConfigProvider
 from mantis.constants import ASSET_TYPE_SUBDOMAIN
 from mantis.utils.tool_utils import get_findings_by_asset
+from mantis.utils.cloud_events import CloudEvents
 from pymongo import UpdateOne, InsertOne
 from pydantic import ValidationError
 from datetime import datetime
@@ -96,6 +98,54 @@ class CrudUtils:
         asset_list = CrudUtils.validate_assets(assets=assets, source=source)
         if asset_list:
             await add_assets_query(asset_data=asset_list)
+
+    ## Full per-account sync: validate -> diff (emit cloud.changed) -> upsert -> deactivate stale.
+    ## account_id scopes the diff/deactivation to one account/subscription/zone.
+    @staticmethod
+    async def sync_cloud_assets(provider: str, org: str, account_id: str, resources: list) -> dict:
+        validated = []
+        for resource in resources:
+            try:
+                resource.setdefault('created_timestamp', CommonUtils.get_ikaros_std_timestamp())
+                resource['updated_timestamp'] = CommonUtils.get_ikaros_std_timestamp()
+                validated_resource = CloudAsset(**resource).dict(by_alias=True)
+                validated_resource['_id'] = resource['_id']
+                validated.append(validated_resource)
+            except ValidationError as e:
+                logging.error(f"Error validating cloud resource {resource.get('_id')}: {e}")
+
+        # Snapshot the current active state for this account to compute diffs.
+        query = {'provider': provider, 'org': org, 'is_active': True}
+        if account_id:
+            query['account_id'] = account_id
+        existing = await read_cloud_assets(query)
+        existing_map = {doc['_id']: doc for doc in existing}
+        incoming_ids = [v['_id'] for v in validated]
+        incoming_set = set(incoming_ids)
+
+        for v in validated:
+            old = existing_map.get(v['_id'])
+            if old is None:
+                CloudEvents.emit('created', v, org)
+            elif bool(old.get('is_public')) != bool(v.get('is_public')):
+                CloudEvents.emit('modified', v, org,
+                                 changes={'is_public': [old.get('is_public'), v.get('is_public')]})
+
+        removed = [doc for _id, doc in existing_map.items() if _id not in incoming_set]
+        for doc in removed:
+            CloudEvents.emit('removed', doc, org)
+
+        written = await upsert_cloud_assets_query(cloud_assets=validated) if validated else 0
+        deactivated = 0
+        if validated:
+            timestamp = CommonUtils.get_ikaros_std_timestamp()
+            deactivated = await deactivate_stale_cloud_assets_query(
+                provider, org, incoming_ids, timestamp, account_id
+            )
+        return {"written": written, "deactivated": deactivated,
+                "created": sum(1 for v in validated if v['_id'] not in existing_map),
+                "removed": len(removed)}
+
 
     async def update_asset(asset: str, org: str, tool_output_dict: dict):
         logging.debug(f"Asset {asset} getting updated for org {org}")

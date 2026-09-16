@@ -67,7 +67,7 @@ class ListAssets:
     @staticmethod
     def basic_input_validation(assets: list) -> list:
         logging.debug(f"Basic Input Validation: Assets - {assets}")
-        args_regex = compile('[@_!#$%^&*()<>?\|}{~]')
+        args_regex = compile(r'[@_!#$%^&*()<>?\|}{~]')
         invalid_assets = []
 
         for asset in assets:

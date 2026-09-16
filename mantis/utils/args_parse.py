@@ -70,7 +70,6 @@ class ArgsParse:
         \033[0;32mmantis deboard -o example_org -a -f\033[0m
         \033[0;32mmantis deboard -o example_org -a -s example_domain\033[0m
             '''
-    
     @staticmethod
     def args_parse() -> ArgsModel:
         parsed_args = {}
@@ -178,6 +177,16 @@ class ArgsParse:
                                  help='Subdomain to onboard and scan',
                                  action = 'store_true')
         
+        onboard_parser.add_argument('-m', '--modules',
+                            dest = 'modules',
+                            help = 'comma separated list of modules to run (overrides enabled flag)',
+                            )
+        
+        onboard_parser.add_argument('-sm', '--skip_modules',
+                            dest = 'skip_modules',
+                            help = 'comma separated list of modules to skip',
+                            )
+        
         
         scan_parser = subparser.add_parser("scan", help="Scan an org", usage=ArgsParse.scan_msg())
 
@@ -259,6 +268,16 @@ class ArgsParse:
                             action = 'store_true' 
                             )
         
+        scan_parser.add_argument('-m', '--modules',
+                            dest = 'modules',
+                            help = 'comma separated list of modules to run (overrides enabled flag)',
+                            )
+        
+        scan_parser.add_argument('-sm', '--skip_modules',
+                            dest = 'skip_modules',
+                            help = 'comma separated list of modules to skip',
+                            )
+        
         
         list_parser = subparser.add_parser("list", help="List entities present in db", usage=ArgsParse.list_msg())
         
@@ -270,6 +289,11 @@ class ArgsParse:
         list_parser.add_argument("-s", "--subs", help="list subdomains for selected orgs", action="store_true", dest="list_sub_command_ls_subs_domains")
         list_parser.add_argument("-a","--after", type=str, help="Start date in YYYY-MM-DD format", dest="list_sub_command_ls_subs_after_filter")
         list_parser.add_argument("-b","--before", type=str, help="End date in YYYY-MM-DD format", dest="list_sub_command_ls_subs_before_filter")
+        list_parser.add_argument("-c","--cloud", help="list cloud resources from cloud inventory", dest="list_sub_command_ls_cloud", action="store_true")
+        list_parser.add_argument("-P","--provider", help="filter cloud resources by provider", dest="list_sub_command_cloud_provider", choices=['cloudflare', 'azure', 'aws'])
+        list_parser.add_argument("--type", help="filter cloud resources by resource type", dest="list_sub_command_cloud_type")
+        list_parser.add_argument("--public-only", help="list only publicly exposed cloud resources", dest="list_sub_command_cloud_public", action="store_true")
+        list_parser.add_argument("--all", help="include inactive cloud resources (default: active only)", dest="list_sub_command_cloud_all", action="store_true")
 
         report_parser = subparser.add_parser("report", help="Generate report", usage=ArgsParse.report_msg())
 
@@ -342,6 +366,12 @@ class ArgsParse:
 
             if args.thread_count:
                 parsed_args["thread_count"] = args.thread_count
+
+            if getattr(args, 'modules', None):
+                parsed_args["modules"] = [m.strip() for m in args.modules.split(',') if m.strip()]
+
+            if getattr(args, 'skip_modules', None):
+                parsed_args["skip_modules"] = [m.strip() for m in args.skip_modules.split(',') if m.strip()]
         
         if args.subcommand == "scan":
             if args.subdomain:
@@ -359,6 +389,20 @@ class ArgsParse:
             # python launch.py list -l
             if args.list_sub_command_ls_orgs:
                 parsed_args["list_orgs"] = True
+
+            # python launch.py list -c -P azure --public-only -o acme
+            if args.list_sub_command_ls_cloud:
+                parsed_args["list_cloud"] = True
+                if args.list_sub_command_cloud_provider:
+                    parsed_args["cloud_provider_filter"] = args.list_sub_command_cloud_provider
+                if args.list_sub_command_cloud_type:
+                    parsed_args["cloud_type_filter"] = args.list_sub_command_cloud_type
+                if args.list_sub_command_cloud_public:
+                    parsed_args["cloud_public_only"] = True
+                if args.list_sub_command_cloud_all:
+                    parsed_args["cloud_include_inactive"] = True
+                if args.list_sub_command_orgs_list:
+                    parsed_args["orgs_list"] = [''.join(org) for org in args.list_sub_command_orgs_list]
 
         if args.subcommand == "report":
             parsed_args["report_"] = True
@@ -403,7 +447,6 @@ class ArgsParse:
                 parsed_args["collections"] = ["assets", "findings", "extended_assets"]
 
             parsed_args["collections"] = list(set(parsed_args["collections"]))
-                
 
         args_pydantic_obj = ArgsModel.parse_obj(parsed_args)
         logging.info(f'parsed args - {args_pydantic_obj}')

@@ -1,5 +1,6 @@
 import logging
 from mantis.db.crud_assets import read_assets
+from mantis.db.crud_cloud_assets import read_cloud_assets
 
 
 async def get_orgs():
@@ -56,3 +57,19 @@ async def get_domains(orgs:list[str], asset_types:list[str], after_filter:str, b
     else:
         logging.warning('No match found')
     return domains
+
+
+async def get_cloud_assets(orgs: list = None, provider: str = None, resource_type: str = None, public_only: bool = False, include_inactive: bool = False):
+    query = {}
+    if not include_inactive:
+        query["is_active"] = True
+    if orgs:
+        query["org"] = {"$in": orgs}
+    if provider:
+        query["provider"] = provider
+    if resource_type:
+        query["resource_type"] = resource_type
+    if public_only:
+        query["is_public"] = True
+
+    return await read_cloud_assets(query)
