@@ -29,7 +29,7 @@ workflow:
         tools: [ 'DNSTwister', 'Nuclei', 'Corsy']
         order: 5
       - moduleName: secretscanner
-        tools: ['SecretScanner','GithubScanner']
+        tools: ['SecretScanner','GithubScanner','SwaggerSpyScanner']
         order: 6
 
 
@@ -58,7 +58,7 @@ workflow:
         tools: [ 'DNSTwister', 'Nuclei', 'NucleiInfo', 'Corsy']
         order: 5
       - moduleName: secretscanner
-        tools: ['SecretScanner','GithubScanner']
+        tools: ['SecretScanner','GithubScanner','SwaggerSpyScanner']
         order: 6
 
   # This workflow excludes some tools viz SSLMate, IPinfo, DNSTwister, Csper
@@ -82,7 +82,7 @@ workflow:
         tools: [ 'Nuclei', 'NucleiInfo']
         order: 5
       - moduleName: secretscanner
-        tools: ['SecretScanner','GithubScanner']
+        tools: ['SecretScanner','GithubScanner','SwaggerSpyScanner']
         order: 6
 
   - workflowName: 'test'
